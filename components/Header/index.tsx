@@ -3,10 +3,6 @@ import { FC } from "react";
 import { default as NextLink } from "next/link";
 import { Box, Flex, Spacer, Stack, Text } from "@/components";
 
-// interface Props {
-//   isExternal?: boolean;
-// }
-
 const Header: FC = () => {
   return (
     <>
@@ -22,10 +18,10 @@ const Header: FC = () => {
           <NextLink passHref href="/">
             <Box
               rounded="md"
-              bgColor="purple.600"
+              bgColor="purple.700"
               textColor="white"
               py={2}
-              px={[2, 4, 6, 10]}
+              px={[4, 6, 8, 10]}
               fontSize={{ base: "xs", sm: "md" }}
             >
               monoNFT Auction
