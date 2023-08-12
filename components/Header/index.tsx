@@ -7,6 +7,7 @@ const Header: FC = () => {
   return (
     <>
       <Box
+        background="white"
         w="100%"
         position="sticky"
         zIndex={1}

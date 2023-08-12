@@ -4,7 +4,7 @@ import AuctionSection from "@/components/AuctionSection";
 export default function Home() {
   return (
     <>
-      <Center>
+      <Center my="10">
         <AuctionSection />
       </Center>
     </>
