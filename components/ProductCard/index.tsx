@@ -7,20 +7,22 @@ import {
   Heading,
   Button,
   Center,
-  Box,
+  CardFooter,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import { default as NextLink } from "next/link";
 
 interface Props {
+  productId: number;
   imageUrl: string;
   productTitle: string;
 }
 
-const ProductCard: FC<Props> = ({ imageUrl, productTitle }) => {
+const ProductCard: FC<Props> = ({ productId, imageUrl, productTitle }) => {
   return (
     <>
-      <Box>
-        <Card maxW="sm">
+      <Card maxW="sm">
+        <NextLink href={`/product-detail/${productId}`}>
           <CardBody>
             <Center>
               <Image
@@ -30,16 +32,15 @@ const ProductCard: FC<Props> = ({ imageUrl, productTitle }) => {
                 height={300}
               />
             </Center>
-
             <Stack mt="6" spacing="3">
               <Heading size="md">{productTitle}</Heading>
             </Stack>
           </CardBody>
-        </Card>
-        <Center mt="6">
-          <Button>購入</Button>
-        </Center>
-      </Box>
+          <CardFooter>
+            <Button>購入</Button>
+          </CardFooter>
+        </NextLink>
+      </Card>
     </>
   );
 };
