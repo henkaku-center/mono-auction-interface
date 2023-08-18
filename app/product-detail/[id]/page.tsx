@@ -6,7 +6,7 @@ export default function ProductDetail({ params }: { params: { id: number } }) {
   return (
     <>
       <Center my="10">
-        <ProductDetailSection id={productId} />
+        <ProductDetailSection productId={productId} />
       </Center>
     </>
   );
