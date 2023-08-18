@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import Image from "next/image";
 import { Box, Card, Text, HStack, VStack, Center, Button, CardBody, Stack } from "@chakra-ui/react";
-import ProductTxHistoryTable from "../ProductTxHistoryTable";
+import ProductTxHistoryTable from "@/components/ProductTxHistoryTable";
 
 interface ProductDetailSectionProps {
   productId: number;
