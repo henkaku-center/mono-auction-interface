@@ -1,6 +1,6 @@
 "use client";
 import { TableContainer, Table, Td, Tbody, Tr } from "@chakra-ui/react";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import { Transaction } from "@/types";
 
@@ -11,7 +11,7 @@ interface Props {
 const ProductTxHistoryTable: FC<Props> = ({ productId }) => {
   const transactionArray: Transaction[] = [
     {
-      transaction: "⇔Transfer",
+      transaction: "⇔ Transfer",
       amount: 200,
       from: "from",
       to: "to",
@@ -20,15 +20,24 @@ const ProductTxHistoryTable: FC<Props> = ({ productId }) => {
   ];
 
   const TableContents: FC<{ transactions: Transaction[] }> = ({ transactions }) => {
+
+    const TdCustom = ({ children }: { children: React.ReactNode }) => {
+      return (
+        <Td pl="0">
+          {children}
+        </Td>
+      );
+    };
+
     return (
       <>
         {transactions.map((transaction, index) => (
           <Tr key={index}>
-            <Td>{transaction.transaction}</Td>
-            <Td>{transaction.amount}henkaku</Td>
-            <Td>{transaction.from}</Td>
-            <Td>{transaction.to}</Td>
-            <Td>{transaction.date}</Td>
+            <TdCustom>{transaction.transaction}</TdCustom>
+            <TdCustom>{transaction.amount}henkaku</TdCustom>
+            <TdCustom>{transaction.from}</TdCustom>
+            <TdCustom>{transaction.to}</TdCustom>
+            <TdCustom>{transaction.date}</TdCustom>
           </Tr>
         ))}
       </>

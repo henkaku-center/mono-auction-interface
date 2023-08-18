@@ -1,7 +1,7 @@
 "use client";
 import React, { FC } from "react";
 import Image from "next/image";
-import { Box, Card, Text, HStack, VStack, Center, Button, CardBody } from "@chakra-ui/react";
+import { Box, Card, Text, HStack, VStack, Center, Button, CardBody, Stack } from "@chakra-ui/react";
 import ProductTxHistoryTable from "../ProductTxHistoryTable";
 
 interface ProductDetailSectionProps {
@@ -20,7 +20,7 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
     return (
       <>
         <Card mb={mb} borderRadius="1">
-          <CardBody>
+          <CardBody m="0">
             {children}
           </CardBody>
         </Card>
@@ -30,12 +30,10 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
 
   return (
     <>
-      <Box w="80%" >
-        <HStack w="100%" spacing="5%" >
-          <VStack
-            w="45%"
+      <HStack w="82%" spacing="5%" mt="40px" align="start">
+        <Box w="45%">
+          <Stack
             spacing="0"
-            align="stretch"
           >
             <ProductDetailCard mb={0}>
               <Center>
@@ -56,25 +54,26 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
             <ProductDetailCard mb={0}>
               <ProductTxHistoryTable productId={productId} />
             </ProductDetailCard>
-          </VStack>
-          <VStack
-            w="50%"
+          </Stack>
+        </Box>
+        <Box w="50%">
+          <Stack
             spacing="7"
-            align="stretch"
+            mt="3%"
           >
             <Text fontSize="3xl">商品名：{productName}</Text>
             <Text fontSize="lg">donated by {productDonator}</Text>
             <Center>
-              <Box w="80%" fontSize="lg">
+              <Box w="75%" fontSize="lg">
                 かならずオークションで落札できたことを確認してからクリックしてください。
               </Box>
             </Center>
             <Center>
               <Button colorScheme="purple" bg="purple.700" size="lg">落札</Button>
             </Center>
-          </VStack>
-        </HStack>
-      </Box >
+          </Stack>
+        </Box>
+      </HStack>
     </>
   );
 };
