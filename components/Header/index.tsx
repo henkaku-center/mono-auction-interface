@@ -3,6 +3,8 @@ import { FC } from "react";
 import { default as NextLink } from "next/link";
 import { Box, Flex, Spacer, Stack, Text } from "@/components";
 
+import { Web3Button } from "@web3modal/react"
+
 const Header: FC = () => {
   return (
     <>
@@ -45,6 +47,7 @@ const Header: FC = () => {
                 商品を出品
               </Text>
             </NextLink>
+            <Web3Button />
           </Stack>
         </Flex>
       </Box>

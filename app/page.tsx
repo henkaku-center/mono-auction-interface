@@ -1,7 +1,7 @@
 import { Center } from "@/components";
 import AuctionSection from "@/components/AuctionSection";
 
-export default function Home() {
+export default function () {
   return (
     <>
       <Center my="10">
