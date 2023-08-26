@@ -1,12 +1,12 @@
-import { Center } from "@/components";
-import AuctionSection from "@/components/AuctionSection";
+import { Center } from '@/components'
+import AuctionSection from '@/components/AuctionSection'
 
-export default function () {
+export default function Home() {
   return (
     <>
-      <Center my="10">
+      <Center my='10'>
         <AuctionSection />
       </Center>
     </>
-  );
+  )
 }
