@@ -3,7 +3,7 @@ import { FC } from "react";
 import { default as NextLink } from "next/link";
 import { Box, Flex, Spacer, Stack, Text } from "@/components";
 
-import { Web3Button } from "@web3modal/react"
+import { Web3Button } from "@web3modal/react";
 
 const Header: FC = () => {
   return (
@@ -42,7 +42,7 @@ const Header: FC = () => {
                 購入した商品
               </Text>
             </NextLink>
-            <NextLink passHref href="/">
+            <NextLink passHref href="/sell">
               <Text fontWeight="bold" fontSize={{ base: "xs", sm: "md" }}>
                 商品を出品
               </Text>
