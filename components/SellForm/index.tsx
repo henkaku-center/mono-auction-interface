@@ -1,13 +1,23 @@
 "use client";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Box, Button, Center, Heading, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Grid,
+  GridItem,
+  Heading,
+  VStack,
+} from "@chakra-ui/react";
+import { useUploadImageFile, useUploadMetadataJson } from "@/hooks/usePinata";
 import { SellInput, SellTextarea } from "../Inputs";
 import { FormData } from "@/types";
 
 const SellForm: FC = () => {
+  const [imageIPFSHash, setImageIPFSHash] = useState<string>("");
   const {
     control,
     watch,
@@ -17,8 +27,10 @@ const SellForm: FC = () => {
   } = useForm<FormData>();
 
   const watchedStartDate: Date | undefined = watch("startDate");
+  const uploadFile = useUploadImageFile();
+  // const uploadMetadata = useUploadMetadataJson();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const {
         productName,
@@ -42,6 +54,13 @@ const SellForm: FC = () => {
         startDate,
         endDate
       );
+      if (image) {
+        const newImageIPFSHash = await uploadFile(image);
+        setImageIPFSHash(newImageIPFSHash);
+        console.log(newImageIPFSHash);
+      } else {
+        console.warn("No image to upload");
+      }
     } catch (e) {
       console.error(e);
     }
@@ -68,18 +87,14 @@ const SellForm: FC = () => {
               width={["240px", "360px"]}
             />
 
-            <SellInput
-              id="image"
-              label="商品画像"
-              type="text"
-              control={control}
-              rules={{ required: "This field is required" }}
-              placeholder="商品名"
-              register={register}
-              registerName="image"
-              error={errors.image}
-              width={["240px", "360px"]}
-            />
+            <Grid templateColumns="repeat(5, 1fr)" mb={5}>
+              <GridItem colSpan={1.5}>
+                <div>商品画像</div>
+              </GridItem>
+              <GridItem colSpan={3}>
+                <Button>ファイルを選択</Button>
+              </GridItem>
+            </Grid>
 
             <SellTextarea
               id="description"

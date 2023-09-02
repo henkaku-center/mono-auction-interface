@@ -15,7 +15,8 @@ export interface Transaction {
 
 export interface FormData {
   productName?: string;
-  image?: string;
+  image?: File;
+  imageIPFSHash?: string;
   description?: string;
   rule?: string;
   minimumCost?: string;
