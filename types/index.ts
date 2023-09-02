@@ -12,3 +12,15 @@ export interface Transaction {
   to: string;
   date: string;
 }
+
+export interface FormData {
+  productName?: string;
+  image?: string;
+  description?: string;
+  rule?: string;
+  minimumCost?: string;
+  allocationAddress?: string;
+  allocationPercentage?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
