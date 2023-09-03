@@ -71,6 +71,11 @@ const _abi = [
       {
         components: [
           {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
+          {
             internalType: "address",
             name: "donor",
             type: "address",
@@ -90,9 +95,26 @@ const _abi = [
             name: "status",
             type: "uint8",
           },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "shareHolder",
+                type: "address",
+              },
+              {
+                internalType: "uint8",
+                name: "shareRatio",
+                type: "uint8",
+              },
+            ],
+            internalType: "struct IMonoNFT.ShareOfCommunityToken[]",
+            name: "sharesOfCommunityToken",
+            type: "tuple[]",
+          },
         ],
         indexed: false,
-        internalType: "struct IMonoNFT.monoNFT",
+        internalType: "struct IMonoNFT.MonoNFT",
         name: "_monoNFT",
         type: "tuple",
       },
@@ -230,15 +252,46 @@ const _abi = [
         name: "price",
         type: "uint256",
       },
-      {
-        internalType: "uint256",
-        name: "expires",
-        type: "uint256",
-      },
     ],
     name: "confirmWinner",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getHistoryOfWinners",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "winner",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "uint64",
+            name: "expires",
+            type: "uint64",
+          },
+        ],
+        internalType: "struct IMonoNFT.Winner[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -247,6 +300,11 @@ const _abi = [
     outputs: [
       {
         components: [
+          {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256",
+          },
           {
             internalType: "address",
             name: "donor",
@@ -267,8 +325,25 @@ const _abi = [
             name: "status",
             type: "uint8",
           },
+          {
+            components: [
+              {
+                internalType: "address",
+                name: "shareHolder",
+                type: "address",
+              },
+              {
+                internalType: "uint8",
+                name: "shareRatio",
+                type: "uint8",
+              },
+            ],
+            internalType: "struct IMonoNFT.ShareOfCommunityToken[]",
+            name: "sharesOfCommunityToken",
+            type: "tuple[]",
+          },
         ],
-        internalType: "struct IMonoNFT.monoNFT[]",
+        internalType: "struct IMonoNFT.MonoNFT[]",
         name: "",
         type: "tuple[]",
       },
@@ -359,31 +434,41 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "donor",
+        type: "address",
+      },
+      {
+        internalType: "uint64",
+        name: "expiresDuration",
+        type: "uint64",
+      },
+      {
+        internalType: "string",
+        name: "uri",
+        type: "string",
+      },
+      {
         components: [
           {
             internalType: "address",
-            name: "donor",
+            name: "shareHolder",
             type: "address",
           },
           {
-            internalType: "uint64",
-            name: "expiresDuration",
-            type: "uint64",
-          },
-          {
-            internalType: "string",
-            name: "uri",
-            type: "string",
-          },
-          {
-            internalType: "enum IMonoNFT.MonoNFTStatus",
-            name: "status",
+            internalType: "uint8",
+            name: "shareRatio",
             type: "uint8",
           },
         ],
-        internalType: "struct IMonoNFT.monoNFT",
-        name: "_monoNFT",
-        type: "tuple",
+        internalType: "struct IMonoNFT.ShareOfCommunityToken[]",
+        name: "sharesOfCommunityToken",
+        type: "tuple[]",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
     ],
     name: "register",
@@ -518,9 +603,9 @@ const _abi = [
     name: "userExpires",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "uint64",
         name: "",
-        type: "uint256",
+        type: "uint64",
       },
     ],
     stateMutability: "view",

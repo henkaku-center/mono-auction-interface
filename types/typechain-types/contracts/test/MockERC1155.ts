@@ -23,59 +23,58 @@ import type {
   TypedContractMethod,
 } from "../../common";
 
-export interface MockERC721Interface extends Interface {
+export interface MockERC1155Interface extends Interface {
   getFunction(
     nameOrSignature:
-      | "approve"
       | "balanceOf"
-      | "getApproved"
+      | "balanceOfBatch"
       | "isApprovedForAll"
       | "mint"
-      | "name"
-      | "ownerOf"
-      | "safeTransferFrom(address,address,uint256)"
-      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "safeBatchTransferFrom"
+      | "safeTransferFrom"
       | "setApprovalForAll"
       | "supportsInterface"
-      | "symbol"
       | "tokenIds"
-      | "tokenURI"
-      | "transferFrom"
+      | "uri"
   ): FunctionFragment;
 
   getEvent(
-    nameOrSignatureOrTopic: "Approval" | "ApprovalForAll" | "Transfer"
+    nameOrSignatureOrTopic:
+      | "ApprovalForAll"
+      | "TransferBatch"
+      | "TransferSingle"
+      | "URI"
   ): EventFragment;
 
   encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: "balanceOf",
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "balanceOf",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getApproved",
-    values: [BigNumberish]
+    functionFragment: "balanceOfBatch",
+    values: [AddressLike[], BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [AddressLike, AddressLike]
   ): string;
-  encodeFunctionData(functionFragment: "mint", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "ownerOf",
-    values: [BigNumberish]
+    functionFragment: "mint",
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
-    values: [AddressLike, AddressLike, BigNumberish]
+    functionFragment: "safeBatchTransferFrom",
+    values: [
+      AddressLike,
+      AddressLike,
+      BigNumberish[],
+      BigNumberish[],
+      BytesLike
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
+    functionFragment: "safeTransferFrom",
+    values: [AddressLike, AddressLike, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
@@ -85,21 +84,12 @@ export interface MockERC721Interface extends Interface {
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenIds", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "tokenURI",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getApproved",
+    functionFragment: "balanceOfBatch",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -107,14 +97,12 @@ export interface MockERC721Interface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
+    functionFragment: "safeBatchTransferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    functionFragment: "safeTransferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -125,46 +113,23 @@ export interface MockERC721Interface extends Interface {
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenIds", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-}
-
-export namespace ApprovalEvent {
-  export type InputTuple = [
-    owner: AddressLike,
-    approved: AddressLike,
-    tokenId: BigNumberish
-  ];
-  export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
-  export interface OutputObject {
-    owner: string;
-    approved: string;
-    tokenId: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
 }
 
 export namespace ApprovalForAllEvent {
   export type InputTuple = [
-    owner: AddressLike,
+    account: AddressLike,
     operator: AddressLike,
     approved: boolean
   ];
   export type OutputTuple = [
-    owner: string,
+    account: string,
     operator: string,
     approved: boolean
   ];
   export interface OutputObject {
-    owner: string;
+    account: string;
     operator: string;
     approved: boolean;
   }
@@ -174,17 +139,27 @@ export namespace ApprovalForAllEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace TransferEvent {
+export namespace TransferBatchEvent {
   export type InputTuple = [
+    operator: AddressLike,
     from: AddressLike,
     to: AddressLike,
-    tokenId: BigNumberish
+    ids: BigNumberish[],
+    values: BigNumberish[]
   ];
-  export type OutputTuple = [from: string, to: string, tokenId: bigint];
+  export type OutputTuple = [
+    operator: string,
+    from: string,
+    to: string,
+    ids: bigint[],
+    values: bigint[]
+  ];
   export interface OutputObject {
+    operator: string;
     from: string;
     to: string;
-    tokenId: bigint;
+    ids: bigint[];
+    values: bigint[];
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -192,11 +167,52 @@ export namespace TransferEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export interface MockERC721 extends BaseContract {
-  connect(runner?: ContractRunner | null): MockERC721;
+export namespace TransferSingleEvent {
+  export type InputTuple = [
+    operator: AddressLike,
+    from: AddressLike,
+    to: AddressLike,
+    id: BigNumberish,
+    value: BigNumberish
+  ];
+  export type OutputTuple = [
+    operator: string,
+    from: string,
+    to: string,
+    id: bigint,
+    value: bigint
+  ];
+  export interface OutputObject {
+    operator: string;
+    from: string;
+    to: string;
+    id: bigint;
+    value: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace URIEvent {
+  export type InputTuple = [value: string, id: BigNumberish];
+  export type OutputTuple = [value: string, id: bigint];
+  export interface OutputObject {
+    value: string;
+    id: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export interface MockERC1155 extends BaseContract {
+  connect(runner?: ContractRunner | null): MockERC1155;
   waitForDeployment(): Promise<this>;
 
-  interface: MockERC721Interface;
+  interface: MockERC1155Interface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -235,39 +251,48 @@ export interface MockERC721 extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  approve: TypedContractMethod<
-    [to: AddressLike, tokenId: BigNumberish],
-    [void],
-    "nonpayable"
+  balanceOf: TypedContractMethod<
+    [account: AddressLike, id: BigNumberish],
+    [bigint],
+    "view"
   >;
 
-  balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
-
-  getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  balanceOfBatch: TypedContractMethod<
+    [accounts: AddressLike[], ids: BigNumberish[]],
+    [bigint[]],
+    "view"
+  >;
 
   isApprovedForAll: TypedContractMethod<
-    [owner: AddressLike, operator: AddressLike],
+    [account: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
 
-  mint: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
-
-  name: TypedContractMethod<[], [string], "view">;
-
-  ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-
-  "safeTransferFrom(address,address,uint256)": TypedContractMethod<
-    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
+  mint: TypedContractMethod<
+    [to: AddressLike, id: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  "safeTransferFrom(address,address,uint256,bytes)": TypedContractMethod<
+  safeBatchTransferFrom: TypedContractMethod<
     [
       from: AddressLike,
       to: AddressLike,
-      tokenId: BigNumberish,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+
+  safeTransferFrom: TypedContractMethod<
+    [
+      from: AddressLike,
+      to: AddressLike,
+      id: BigNumberish,
+      amount: BigNumberish,
       data: BytesLike
     ],
     [void],
@@ -286,65 +311,63 @@ export interface MockERC721 extends BaseContract {
     "view"
   >;
 
-  symbol: TypedContractMethod<[], [string], "view">;
-
   tokenIds: TypedContractMethod<[], [bigint], "view">;
 
-  tokenURI: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-
-  transferFrom: TypedContractMethod<
-    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  uri: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
-    nameOrSignature: "approve"
+    nameOrSignature: "balanceOf"
   ): TypedContractMethod<
-    [to: AddressLike, tokenId: BigNumberish],
-    [void],
-    "nonpayable"
+    [account: AddressLike, id: BigNumberish],
+    [bigint],
+    "view"
   >;
   getFunction(
-    nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "getApproved"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: "balanceOfBatch"
+  ): TypedContractMethod<
+    [accounts: AddressLike[], ids: BigNumberish[]],
+    [bigint[]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "isApprovedForAll"
   ): TypedContractMethod<
-    [owner: AddressLike, operator: AddressLike],
+    [account: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
   getFunction(
     nameOrSignature: "mint"
-  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "name"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "ownerOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-  getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256)"
   ): TypedContractMethod<
-    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
+    [to: AddressLike, id: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)"
+    nameOrSignature: "safeBatchTransferFrom"
   ): TypedContractMethod<
     [
       from: AddressLike,
       to: AddressLike,
-      tokenId: BigNumberish,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike
+    ],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "safeTransferFrom"
+  ): TypedContractMethod<
+    [
+      from: AddressLike,
+      to: AddressLike,
+      id: BigNumberish,
+      amount: BigNumberish,
       data: BytesLike
     ],
     [void],
@@ -361,29 +384,12 @@ export interface MockERC721 extends BaseContract {
     nameOrSignature: "supportsInterface"
   ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
   getFunction(
-    nameOrSignature: "symbol"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
     nameOrSignature: "tokenIds"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "tokenURI"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
-  getFunction(
-    nameOrSignature: "transferFrom"
-  ): TypedContractMethod<
-    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: "uri"
+  ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
 
-  getEvent(
-    key: "Approval"
-  ): TypedContractEvent<
-    ApprovalEvent.InputTuple,
-    ApprovalEvent.OutputTuple,
-    ApprovalEvent.OutputObject
-  >;
   getEvent(
     key: "ApprovalForAll"
   ): TypedContractEvent<
@@ -392,25 +398,28 @@ export interface MockERC721 extends BaseContract {
     ApprovalForAllEvent.OutputObject
   >;
   getEvent(
-    key: "Transfer"
+    key: "TransferBatch"
   ): TypedContractEvent<
-    TransferEvent.InputTuple,
-    TransferEvent.OutputTuple,
-    TransferEvent.OutputObject
+    TransferBatchEvent.InputTuple,
+    TransferBatchEvent.OutputTuple,
+    TransferBatchEvent.OutputObject
+  >;
+  getEvent(
+    key: "TransferSingle"
+  ): TypedContractEvent<
+    TransferSingleEvent.InputTuple,
+    TransferSingleEvent.OutputTuple,
+    TransferSingleEvent.OutputObject
+  >;
+  getEvent(
+    key: "URI"
+  ): TypedContractEvent<
+    URIEvent.InputTuple,
+    URIEvent.OutputTuple,
+    URIEvent.OutputObject
   >;
 
   filters: {
-    "Approval(address,address,uint256)": TypedContractEvent<
-      ApprovalEvent.InputTuple,
-      ApprovalEvent.OutputTuple,
-      ApprovalEvent.OutputObject
-    >;
-    Approval: TypedContractEvent<
-      ApprovalEvent.InputTuple,
-      ApprovalEvent.OutputTuple,
-      ApprovalEvent.OutputObject
-    >;
-
     "ApprovalForAll(address,address,bool)": TypedContractEvent<
       ApprovalForAllEvent.InputTuple,
       ApprovalForAllEvent.OutputTuple,
@@ -422,15 +431,37 @@ export interface MockERC721 extends BaseContract {
       ApprovalForAllEvent.OutputObject
     >;
 
-    "Transfer(address,address,uint256)": TypedContractEvent<
-      TransferEvent.InputTuple,
-      TransferEvent.OutputTuple,
-      TransferEvent.OutputObject
+    "TransferBatch(address,address,address,uint256[],uint256[])": TypedContractEvent<
+      TransferBatchEvent.InputTuple,
+      TransferBatchEvent.OutputTuple,
+      TransferBatchEvent.OutputObject
     >;
-    Transfer: TypedContractEvent<
-      TransferEvent.InputTuple,
-      TransferEvent.OutputTuple,
-      TransferEvent.OutputObject
+    TransferBatch: TypedContractEvent<
+      TransferBatchEvent.InputTuple,
+      TransferBatchEvent.OutputTuple,
+      TransferBatchEvent.OutputObject
+    >;
+
+    "TransferSingle(address,address,address,uint256,uint256)": TypedContractEvent<
+      TransferSingleEvent.InputTuple,
+      TransferSingleEvent.OutputTuple,
+      TransferSingleEvent.OutputObject
+    >;
+    TransferSingle: TypedContractEvent<
+      TransferSingleEvent.InputTuple,
+      TransferSingleEvent.OutputTuple,
+      TransferSingleEvent.OutputObject
+    >;
+
+    "URI(string,uint256)": TypedContractEvent<
+      URIEvent.InputTuple,
+      URIEvent.OutputTuple,
+      URIEvent.OutputObject
+    >;
+    URI: TypedContractEvent<
+      URIEvent.InputTuple,
+      URIEvent.OutputTuple,
+      URIEvent.OutputObject
     >;
   };
 }

@@ -24,19 +24,52 @@ import type {
 } from "../../common";
 
 export declare namespace IMonoNFT {
+  export type ShareOfCommunityTokenStruct = {
+    shareHolder: AddressLike;
+    shareRatio: BigNumberish;
+  };
+
+  export type ShareOfCommunityTokenStructOutput = [
+    shareHolder: string,
+    shareRatio: bigint
+  ] & { shareHolder: string; shareRatio: bigint };
+
   export type MonoNFTStruct = {
+    tokenId: BigNumberish;
     donor: AddressLike;
     expiresDuration: BigNumberish;
     uri: string;
     status: BigNumberish;
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[];
   };
 
   export type MonoNFTStructOutput = [
+    tokenId: bigint,
     donor: string,
     expiresDuration: bigint,
     uri: string,
-    status: bigint
-  ] & { donor: string; expiresDuration: bigint; uri: string; status: bigint };
+    status: bigint,
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
+  ] & {
+    tokenId: bigint;
+    donor: string;
+    expiresDuration: bigint;
+    uri: string;
+    status: bigint;
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[];
+  };
+
+  export type WinnerStruct = {
+    winner: AddressLike;
+    price: BigNumberish;
+    expires: BigNumberish;
+  };
+
+  export type WinnerStructOutput = [
+    winner: string,
+    price: bigint,
+    expires: bigint
+  ] & { winner: string; price: bigint; expires: bigint };
 }
 
 export interface IMonoNFTInterface extends Interface {
@@ -44,6 +77,7 @@ export interface IMonoNFTInterface extends Interface {
     nameOrSignature:
       | "claim"
       | "confirmWinner"
+      | "getHistoryOfWinners"
       | "getNFTs"
       | "getRoleAdmin"
       | "grantRole"
@@ -75,7 +109,11 @@ export interface IMonoNFTInterface extends Interface {
   encodeFunctionData(functionFragment: "claim", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "confirmWinner",
-    values: [AddressLike, BigNumberish, BigNumberish, BigNumberish]
+    values: [AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getHistoryOfWinners",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "getNFTs", values?: undefined): string;
   encodeFunctionData(
@@ -96,7 +134,13 @@ export interface IMonoNFTInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "register",
-    values: [IMonoNFT.MonoNFTStruct]
+    values: [
+      AddressLike,
+      BigNumberish,
+      string,
+      IMonoNFT.ShareOfCommunityTokenStruct[],
+      AddressLike
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
@@ -138,6 +182,10 @@ export interface IMonoNFTInterface extends Interface {
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "confirmWinner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getHistoryOfWinners",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getNFTs", data: BytesLike): Result;
@@ -352,14 +400,15 @@ export interface IMonoNFT extends BaseContract {
   claim: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
 
   confirmWinner: TypedContractMethod<
-    [
-      winner: AddressLike,
-      tokenId: BigNumberish,
-      price: BigNumberish,
-      expires: BigNumberish
-    ],
+    [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
     "nonpayable"
+  >;
+
+  getHistoryOfWinners: TypedContractMethod<
+    [tokenId: BigNumberish],
+    [IMonoNFT.WinnerStructOutput[]],
+    "view"
   >;
 
   getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
@@ -381,7 +430,13 @@ export interface IMonoNFT extends BaseContract {
   isExpired: TypedContractMethod<[tokenId: BigNumberish], [boolean], "view">;
 
   register: TypedContractMethod<
-    [_monoNFT: IMonoNFT.MonoNFTStruct],
+    [
+      donor: AddressLike,
+      expiresDuration: BigNumberish,
+      uri: string,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[],
+      owner: AddressLike
+    ],
     [void],
     "nonpayable"
   >;
@@ -438,14 +493,16 @@ export interface IMonoNFT extends BaseContract {
   getFunction(
     nameOrSignature: "confirmWinner"
   ): TypedContractMethod<
-    [
-      winner: AddressLike,
-      tokenId: BigNumberish,
-      price: BigNumberish,
-      expires: BigNumberish
-    ],
+    [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
     "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "getHistoryOfWinners"
+  ): TypedContractMethod<
+    [tokenId: BigNumberish],
+    [IMonoNFT.WinnerStructOutput[]],
+    "view"
   >;
   getFunction(
     nameOrSignature: "getNFTs"
@@ -473,7 +530,13 @@ export interface IMonoNFT extends BaseContract {
   getFunction(
     nameOrSignature: "register"
   ): TypedContractMethod<
-    [_monoNFT: IMonoNFT.MonoNFTStruct],
+    [
+      donor: AddressLike,
+      expiresDuration: BigNumberish,
+      uri: string,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[],
+      owner: AddressLike
+    ],
     [void],
     "nonpayable"
   >;

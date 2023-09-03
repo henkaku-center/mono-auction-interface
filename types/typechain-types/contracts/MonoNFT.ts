@@ -24,34 +24,71 @@ import type {
 } from "../common";
 
 export declare namespace IMonoNFT {
+  export type ShareOfCommunityTokenStruct = {
+    shareHolder: AddressLike;
+    shareRatio: BigNumberish;
+  };
+
+  export type ShareOfCommunityTokenStructOutput = [
+    shareHolder: string,
+    shareRatio: bigint
+  ] & { shareHolder: string; shareRatio: bigint };
+
   export type MonoNFTStruct = {
+    tokenId: BigNumberish;
     donor: AddressLike;
     expiresDuration: BigNumberish;
     uri: string;
     status: BigNumberish;
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[];
   };
 
   export type MonoNFTStructOutput = [
+    tokenId: bigint,
     donor: string,
     expiresDuration: bigint,
     uri: string,
-    status: bigint
-  ] & { donor: string; expiresDuration: bigint; uri: string; status: bigint };
+    status: bigint,
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
+  ] & {
+    tokenId: bigint;
+    donor: string;
+    expiresDuration: bigint;
+    uri: string;
+    status: bigint;
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[];
+  };
+
+  export type WinnerStruct = {
+    winner: AddressLike;
+    price: BigNumberish;
+    expires: BigNumberish;
+  };
+
+  export type WinnerStructOutput = [
+    winner: string,
+    price: bigint,
+    expires: bigint
+  ] & { winner: string; price: bigint; expires: bigint };
 }
 
 export interface MonoNFTInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
-      | "_latestWinners"
+      | "_historyOfWinners"
+      | "_latestWinner"
       | "_monoNFTs"
       | "approve"
+      | "auctionAdminAddress"
       | "auctionDepositContractAddress"
       | "balanceOf"
+      | "changeSharesOfCommunityToken"
       | "claim"
-      | "confirmWinner(address,uint256,uint256,uint256)"
-      | "confirmWinner(address,uint256,uint256)"
+      | "communityTreasuryAddress"
+      | "confirmWinner"
       | "getApproved"
+      | "getHistoryOfWinners"
       | "getNFTs"
       | "getRoleAdmin"
       | "grantRole"
@@ -64,10 +101,13 @@ export interface MonoNFTInterface extends Interface {
       | "register"
       | "renounceRole"
       | "revokeRole"
+      | "rightOf"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setAuctionAdminAddress"
       | "setAuctionDepositAddress"
+      | "setCommunityTreasuryAddress"
       | "setMembershipNFTAddress"
       | "setUser"
       | "submit"
@@ -102,7 +142,11 @@ export interface MonoNFTInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "_latestWinners",
+    functionFragment: "_historyOfWinners",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "_latestWinner",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -114,6 +158,10 @@ export interface MonoNFTInterface extends Interface {
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "auctionAdminAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "auctionDepositContractAddress",
     values?: undefined
   ): string;
@@ -121,17 +169,25 @@ export interface MonoNFTInterface extends Interface {
     functionFragment: "balanceOf",
     values: [AddressLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "changeSharesOfCommunityToken",
+    values: [BigNumberish, IMonoNFT.ShareOfCommunityTokenStruct[]]
+  ): string;
   encodeFunctionData(functionFragment: "claim", values: [BigNumberish]): string;
   encodeFunctionData(
-    functionFragment: "confirmWinner(address,uint256,uint256,uint256)",
-    values: [AddressLike, BigNumberish, BigNumberish, BigNumberish]
+    functionFragment: "communityTreasuryAddress",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "confirmWinner(address,uint256,uint256)",
+    functionFragment: "confirmWinner",
     values: [AddressLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getHistoryOfWinners",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "getNFTs", values?: undefined): string;
@@ -166,7 +222,13 @@ export interface MonoNFTInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "register",
-    values: [IMonoNFT.MonoNFTStruct]
+    values: [
+      AddressLike,
+      BigNumberish,
+      string,
+      IMonoNFT.ShareOfCommunityTokenStruct[],
+      AddressLike
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
@@ -175,6 +237,10 @@ export interface MonoNFTInterface extends Interface {
   encodeFunctionData(
     functionFragment: "revokeRole",
     values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "rightOf",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -189,7 +255,15 @@ export interface MonoNFTInterface extends Interface {
     values: [AddressLike, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "setAuctionAdminAddress",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setAuctionDepositAddress",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setCommunityTreasuryAddress",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
@@ -247,27 +321,43 @@ export interface MonoNFTInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "_latestWinners",
+    functionFragment: "_historyOfWinners",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_latestWinner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "_monoNFTs", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "auctionAdminAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "auctionDepositContractAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "changeSharesOfCommunityToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "confirmWinner(address,uint256,uint256,uint256)",
+    functionFragment: "communityTreasuryAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "confirmWinner(address,uint256,uint256)",
+    functionFragment: "confirmWinner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getHistoryOfWinners",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getNFTs", data: BytesLike): Result;
@@ -294,6 +384,7 @@ export interface MonoNFTInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "rightOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
     data: BytesLike
@@ -307,7 +398,15 @@ export interface MonoNFTInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setAuctionAdminAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setAuctionDepositAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setCommunityTreasuryAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -583,7 +682,19 @@ export interface MonoNFT extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
-  _latestWinners: TypedContractMethod<
+  _historyOfWinners: TypedContractMethod<
+    [arg0: BigNumberish, arg1: BigNumberish],
+    [
+      [string, bigint, bigint] & {
+        winner: string;
+        price: bigint;
+        expires: bigint;
+      }
+    ],
+    "view"
+  >;
+
+  _latestWinner: TypedContractMethod<
     [arg0: BigNumberish],
     [
       [string, bigint, bigint] & {
@@ -598,7 +709,8 @@ export interface MonoNFT extends BaseContract {
   _monoNFTs: TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, bigint, string, bigint] & {
+      [bigint, string, bigint, string, bigint] & {
+        tokenId: bigint;
         donor: string;
         expiresDuration: bigint;
         uri: string;
@@ -614,30 +726,38 @@ export interface MonoNFT extends BaseContract {
     "nonpayable"
   >;
 
+  auctionAdminAddress: TypedContractMethod<[], [string], "view">;
+
   auctionDepositContractAddress: TypedContractMethod<[], [string], "view">;
 
   balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
-  claim: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
-
-  "confirmWinner(address,uint256,uint256,uint256)": TypedContractMethod<
+  changeSharesOfCommunityToken: TypedContractMethod<
     [
-      winner: AddressLike,
       tokenId: BigNumberish,
-      price: BigNumberish,
-      expires: BigNumberish
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
     "nonpayable"
   >;
 
-  "confirmWinner(address,uint256,uint256)": TypedContractMethod<
+  claim: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+
+  communityTreasuryAddress: TypedContractMethod<[], [string], "view">;
+
+  confirmWinner: TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+
+  getHistoryOfWinners: TypedContractMethod<
+    [tokenId: BigNumberish],
+    [IMonoNFT.WinnerStructOutput[]],
+    "view"
+  >;
 
   getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
 
@@ -670,7 +790,13 @@ export interface MonoNFT extends BaseContract {
   ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   register: TypedContractMethod<
-    [_monoNFT: IMonoNFT.MonoNFTStruct],
+    [
+      donor: AddressLike,
+      expiresDuration: BigNumberish,
+      uri: string,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[],
+      owner: AddressLike
+    ],
     [void],
     "nonpayable"
   >;
@@ -686,6 +812,8 @@ export interface MonoNFT extends BaseContract {
     [void],
     "nonpayable"
   >;
+
+  rightOf: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
 
   "safeTransferFrom(address,address,uint256)": TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
@@ -710,8 +838,20 @@ export interface MonoNFT extends BaseContract {
     "nonpayable"
   >;
 
+  setAuctionAdminAddress: TypedContractMethod<
+    [_auctionAdminAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   setAuctionDepositAddress: TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
+  setCommunityTreasuryAddress: TypedContractMethod<
+    [_communityTreasuryAddress: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -774,7 +914,20 @@ export interface MonoNFT extends BaseContract {
     nameOrSignature: "DEFAULT_ADMIN_ROLE"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "_latestWinners"
+    nameOrSignature: "_historyOfWinners"
+  ): TypedContractMethod<
+    [arg0: BigNumberish, arg1: BigNumberish],
+    [
+      [string, bigint, bigint] & {
+        winner: string;
+        price: bigint;
+        expires: bigint;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "_latestWinner"
   ): TypedContractMethod<
     [arg0: BigNumberish],
     [
@@ -791,7 +944,8 @@ export interface MonoNFT extends BaseContract {
   ): TypedContractMethod<
     [arg0: BigNumberish],
     [
-      [string, bigint, string, bigint] & {
+      [bigint, string, bigint, string, bigint] & {
+        tokenId: bigint;
         donor: string;
         expiresDuration: bigint;
         uri: string;
@@ -808,28 +962,32 @@ export interface MonoNFT extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "auctionAdminAddress"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "auctionDepositContractAddress"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "balanceOf"
   ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "claim"
-  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "confirmWinner(address,uint256,uint256,uint256)"
+    nameOrSignature: "changeSharesOfCommunityToken"
   ): TypedContractMethod<
     [
-      winner: AddressLike,
       tokenId: BigNumberish,
-      price: BigNumberish,
-      expires: BigNumberish
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "confirmWinner(address,uint256,uint256)"
+    nameOrSignature: "claim"
+  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "communityTreasuryAddress"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "confirmWinner"
   ): TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
@@ -838,6 +996,13 @@ export interface MonoNFT extends BaseContract {
   getFunction(
     nameOrSignature: "getApproved"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "getHistoryOfWinners"
+  ): TypedContractMethod<
+    [tokenId: BigNumberish],
+    [IMonoNFT.WinnerStructOutput[]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getNFTs"
   ): TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
@@ -880,7 +1045,13 @@ export interface MonoNFT extends BaseContract {
   getFunction(
     nameOrSignature: "register"
   ): TypedContractMethod<
-    [_monoNFT: IMonoNFT.MonoNFTStruct],
+    [
+      donor: AddressLike,
+      expiresDuration: BigNumberish,
+      uri: string,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[],
+      owner: AddressLike
+    ],
     [void],
     "nonpayable"
   >;
@@ -898,6 +1069,9 @@ export interface MonoNFT extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "rightOf"
+  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256)"
   ): TypedContractMethod<
@@ -925,9 +1099,23 @@ export interface MonoNFT extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "setAuctionAdminAddress"
+  ): TypedContractMethod<
+    [_auctionAdminAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
     nameOrSignature: "setAuctionDepositAddress"
   ): TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "setCommunityTreasuryAddress"
+  ): TypedContractMethod<
+    [_communityTreasuryAddress: AddressLike],
     [void],
     "nonpayable"
   >;
