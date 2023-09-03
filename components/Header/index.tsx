@@ -36,7 +36,7 @@ const Header: FC = () => {
                 ホーム
               </Text>
             </NextLink>
-            <NextLink passHref href="/">
+            <NextLink passHref href="/sell">
               <Text fontWeight="bold" fontSize={{ base: 'xs', sm: 'md' }}>
                 商品を出品
               </Text>
