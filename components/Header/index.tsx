@@ -1,9 +1,8 @@
-"use client";
-import { FC } from "react";
-import { default as NextLink } from "next/link";
-import { Box, Flex, Spacer, Stack, Text } from "@/components";
-
-import { Web3Button } from "@web3modal/react";
+'use client'
+import { FC } from 'react'
+import { default as NextLink } from 'next/link'
+import { Box, Flex, Spacer, Stack, Text } from '@/components'
+import { Web3Button } from '@web3modal/react'
 
 const Header: FC = () => {
   return (
@@ -25,7 +24,7 @@ const Header: FC = () => {
               textColor="white"
               py={2}
               px={[4, 6, 8, 10]}
-              fontSize={{ base: "xs", sm: "md" }}
+              fontSize={{ base: 'xs', sm: 'md' }}
             >
               monoNFT Auction
             </Box>
@@ -33,18 +32,18 @@ const Header: FC = () => {
           <Spacer />
           <Stack direction="row" alignItems="center" spacing={5}>
             <NextLink passHref href="/">
-              <Text fontWeight="bold" fontSize={{ base: "xs", sm: "md" }}>
+              <Text fontWeight="bold" fontSize={{ base: 'xs', sm: 'md' }}>
                 ホーム
               </Text>
             </NextLink>
-            <NextLink passHref href="/">
-              <Text fontWeight="bold" fontSize={{ base: "xs", sm: "md" }}>
-                購入した商品
+            <NextLink passHref href="/sell">
+              <Text fontWeight="bold" fontSize={{ base: 'xs', sm: 'md' }}>
+                商品を出品
               </Text>
             </NextLink>
-            <NextLink passHref href="/sell">
-              <Text fontWeight="bold" fontSize={{ base: "xs", sm: "md" }}>
-                商品を出品
+            <NextLink passHref href="/mypage">
+              <Text fontWeight="bold" fontSize={{ base: 'xs', sm: 'md' }}>
+                マイページ
               </Text>
             </NextLink>
             <Web3Button />
@@ -52,7 +51,7 @@ const Header: FC = () => {
         </Flex>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
