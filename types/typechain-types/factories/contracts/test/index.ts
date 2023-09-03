@@ -2,5 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export { MaliciousAttacker__factory } from "./MaliciousAttacker__factory";
+export { MockERC1155__factory } from "./MockERC1155__factory";
 export { MockERC20__factory } from "./MockERC20__factory";
-export { MockERC721__factory } from "./MockERC721__factory";

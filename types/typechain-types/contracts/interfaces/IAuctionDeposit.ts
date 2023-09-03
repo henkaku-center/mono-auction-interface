@@ -32,6 +32,18 @@ export declare namespace IAuctionDeposit {
   };
 }
 
+export declare namespace IMonoNFT {
+  export type ShareOfCommunityTokenStruct = {
+    shareHolder: AddressLike;
+    shareRatio: BigNumberish;
+  };
+
+  export type ShareOfCommunityTokenStructOutput = [
+    shareHolder: string,
+    shareRatio: bigint
+  ] & { shareHolder: string; shareRatio: bigint };
+}
+
 export interface IAuctionDepositInterface extends Interface {
   getFunction(
     nameOrSignature:
@@ -39,8 +51,6 @@ export interface IAuctionDepositInterface extends Interface {
       | "getAllDeposit"
       | "getDepositByAddress"
       | "payForClaim"
-      | "sendToTreasury"
-      | "setTreasuryAddress"
       | "withdraw"
   ): FunctionFragment;
 
@@ -62,15 +72,7 @@ export interface IAuctionDepositInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "payForClaim",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "sendToTreasury",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setTreasuryAddress",
-    values: [AddressLike]
+    values: [AddressLike, BigNumberish, IMonoNFT.ShareOfCommunityTokenStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "withdraw",
@@ -88,14 +90,6 @@ export interface IAuctionDepositInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "payForClaim",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "sendToTreasury",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTreasuryAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
@@ -198,19 +192,11 @@ export interface IAuctionDeposit extends BaseContract {
   >;
 
   payForClaim: TypedContractMethod<
-    [from: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  sendToTreasury: TypedContractMethod<
-    [amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  setTreasuryAddress: TypedContractMethod<
-    [_treasuryAddr: AddressLike],
+    [
+      from: AddressLike,
+      amount: BigNumberish,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+    ],
     [void],
     "nonpayable"
   >;
@@ -241,16 +227,14 @@ export interface IAuctionDeposit extends BaseContract {
   getFunction(
     nameOrSignature: "payForClaim"
   ): TypedContractMethod<
-    [from: AddressLike, amount: BigNumberish],
+    [
+      from: AddressLike,
+      amount: BigNumberish,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+    ],
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "sendToTreasury"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setTreasuryAddress"
-  ): TypedContractMethod<[_treasuryAddr: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "withdraw"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;

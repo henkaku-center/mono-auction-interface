@@ -1,5 +1,5 @@
-"use client";
-import { FC } from "react";
+'use client'
+import { FC, useMemo } from 'react'
 import {
   Tabs,
   TabList,
@@ -7,62 +7,51 @@ import {
   Tab,
   TabPanel,
   SimpleGrid,
-} from "@chakra-ui/react";
-import ProductCard from "../ProductCard";
-import { Product } from "@/types";
+  Spinner,
+} from '@chakra-ui/react'
+import ProductCard from '../ProductCard'
+import { useGetRegisteredMonoNFTs } from '@/hooks/useMonoNFT'
 
 const AuctionSection: FC = () => {
-  const productArray: Product[] = [
-    {
-      id: 1,
-      imageUrl: "https://dummyimage.com/200x200/000/fff/",
-      productTitle: "Product1",
-    },
-    {
-      id: 2,
-      imageUrl: "https://dummyimage.com/200x200/000/fff/",
-      productTitle: "Product2",
-    },
-    {
-      id: 3,
-      imageUrl: "https://dummyimage.com/200x200/000/fff/",
-      productTitle: "Product3",
-    },
-    {
-      id: 4,
-      imageUrl: "https://dummyimage.com/200x200/000/fff/",
-      productTitle: "Product4",
-    },
-    {
-      id: 5,
-      imageUrl: "https://dummyimage.com/200x200/000/fff/",
-      productTitle: "Product5",
-    },
-  ];
+  const { data: monoNFTs, isLoading } = useGetRegisteredMonoNFTs()
+
+  const isReadyMonoNFTs = useMemo(() => {
+    if (monoNFTs) {
+      return monoNFTs.filter((monoNFT) => Number(monoNFT.status) === 0)
+    }
+  }, [monoNFTs])
+
+  const inAuctionMonoNFTs = useMemo(() => {
+    if (monoNFTs) {
+      return monoNFTs.filter((monoNFT) => Number(monoNFT.status) === 1)
+    }
+  }, [monoNFTs])
+
   return (
     <>
+      {isLoading && <Spinner />}
       <Tabs isFitted variant="enclosed" id="1" width="90%">
         <TabList>
           <Tab
             _selected={{
-              bg: "purple.50",
+              bg: 'purple.50',
             }}
           >
-            販売中
+            すべて
           </Tab>
           <Tab
             _selected={{
-              bg: "purple.50",
+              bg: 'purple.50',
             }}
           >
-            販売予定
+            出品中
           </Tab>
           <Tab
             _selected={{
-              bg: "purple.50",
+              bg: 'purple.50',
             }}
           >
-            販売終了
+            準備中
           </Tab>
         </TabList>
         <TabPanels>
@@ -71,26 +60,35 @@ const AuctionSection: FC = () => {
               spacing={4}
               templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
             >
-              {productArray.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  productId={item.id}
-                  imageUrl={item.imageUrl}
-                  productTitle={item.productTitle}
-                />
+              {monoNFTs?.map((item, index) => (
+                <ProductCard key={`all-${index}`} monoNFT={item} />
               ))}
             </SimpleGrid>
           </TabPanel>
           <TabPanel py="10">
-            <p>販売予定</p>
+            <SimpleGrid
+              spacing={4}
+              templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+            >
+              {inAuctionMonoNFTs?.map((item, index) => (
+                <ProductCard key={`inAuction-${index}`} monoNFT={item} />
+              ))}
+            </SimpleGrid>
           </TabPanel>
           <TabPanel py="10">
-            <p>販売終了</p>
+            <SimpleGrid
+              spacing={4}
+              templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+            >
+              {isReadyMonoNFTs?.map((item, index) => (
+                <ProductCard key={`isReady-${index}`} monoNFT={item} />
+              ))}
+            </SimpleGrid>
           </TabPanel>
         </TabPanels>
       </Tabs>
     </>
-  );
-};
+  )
+}
 
-export default AuctionSection;
+export default AuctionSection

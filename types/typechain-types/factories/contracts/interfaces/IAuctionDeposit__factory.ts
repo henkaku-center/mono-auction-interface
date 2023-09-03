@@ -147,34 +147,25 @@ const _abi = [
         name: "amount",
         type: "uint256",
       },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "shareHolder",
+            type: "address",
+          },
+          {
+            internalType: "uint8",
+            name: "shareRatio",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IMonoNFT.ShareOfCommunityToken[]",
+        name: "sharesOfCommunityToken",
+        type: "tuple[]",
+      },
     ],
     name: "payForClaim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "sendToTreasury",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_treasuryAddr",
-        type: "address",
-      },
-    ],
-    name: "setTreasuryAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

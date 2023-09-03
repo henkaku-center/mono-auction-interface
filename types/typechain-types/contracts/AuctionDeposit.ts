@@ -32,9 +32,22 @@ export declare namespace IAuctionDeposit {
   };
 }
 
+export declare namespace IMonoNFT {
+  export type ShareOfCommunityTokenStruct = {
+    shareHolder: AddressLike;
+    shareRatio: BigNumberish;
+  };
+
+  export type ShareOfCommunityTokenStructOutput = [
+    shareHolder: string,
+    shareRatio: bigint
+  ] & { shareHolder: string; shareRatio: bigint };
+}
+
 export interface AuctionDepositInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "auctionAdminAddr"
       | "communityTokenAddr"
       | "deposit"
       | "getAllDeposit"
@@ -42,11 +55,9 @@ export interface AuctionDepositInterface extends Interface {
       | "maxDeposit"
       | "monoNFTAddr"
       | "payForClaim"
-      | "sendToTreasury"
+      | "setAuctionAdminAddress"
       | "setCommunityTokenAddress"
       | "setMonoNFTAddress"
-      | "setTreasuryAddress"
-      | "treasuryAddr"
       | "withdraw"
   ): FunctionFragment;
 
@@ -54,6 +65,10 @@ export interface AuctionDepositInterface extends Interface {
     nameOrSignatureOrTopic: "Deposit" | "SendToTreasury" | "Withdraw"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "auctionAdminAddr",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "communityTokenAddr",
     values?: undefined
@@ -80,11 +95,11 @@ export interface AuctionDepositInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "payForClaim",
-    values: [AddressLike, BigNumberish]
+    values: [AddressLike, BigNumberish, IMonoNFT.ShareOfCommunityTokenStruct[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "sendToTreasury",
-    values: [BigNumberish]
+    functionFragment: "setAuctionAdminAddress",
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setCommunityTokenAddress",
@@ -95,18 +110,14 @@ export interface AuctionDepositInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTreasuryAddress",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "treasuryAddr",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "withdraw",
     values: [BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "auctionAdminAddr",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "communityTokenAddr",
     data: BytesLike
@@ -130,7 +141,7 @@ export interface AuctionDepositInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "sendToTreasury",
+    functionFragment: "setAuctionAdminAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -139,14 +150,6 @@ export interface AuctionDepositInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setMonoNFTAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTreasuryAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "treasuryAddr",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
@@ -234,6 +237,8 @@ export interface AuctionDeposit extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  auctionAdminAddr: TypedContractMethod<[], [string], "view">;
+
   communityTokenAddr: TypedContractMethod<[], [string], "view">;
 
   deposit: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
@@ -255,13 +260,17 @@ export interface AuctionDeposit extends BaseContract {
   monoNFTAddr: TypedContractMethod<[], [string], "view">;
 
   payForClaim: TypedContractMethod<
-    [from: AddressLike, amount: BigNumberish],
+    [
+      from: AddressLike,
+      amount: BigNumberish,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+    ],
     [void],
     "nonpayable"
   >;
 
-  sendToTreasury: TypedContractMethod<
-    [amount: BigNumberish],
+  setAuctionAdminAddress: TypedContractMethod<
+    [_auctionAdminAddr: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -278,20 +287,15 @@ export interface AuctionDeposit extends BaseContract {
     "nonpayable"
   >;
 
-  setTreasuryAddress: TypedContractMethod<
-    [_treasuryAddr: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-
-  treasuryAddr: TypedContractMethod<[], [string], "view">;
-
   withdraw: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "auctionAdminAddr"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "communityTokenAddr"
   ): TypedContractMethod<[], [string], "view">;
@@ -321,13 +325,21 @@ export interface AuctionDeposit extends BaseContract {
   getFunction(
     nameOrSignature: "payForClaim"
   ): TypedContractMethod<
-    [from: AddressLike, amount: BigNumberish],
+    [
+      from: AddressLike,
+      amount: BigNumberish,
+      sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "sendToTreasury"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: "setAuctionAdminAddress"
+  ): TypedContractMethod<
+    [_auctionAdminAddr: AddressLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "setCommunityTokenAddress"
   ): TypedContractMethod<
@@ -338,12 +350,6 @@ export interface AuctionDeposit extends BaseContract {
   getFunction(
     nameOrSignature: "setMonoNFTAddress"
   ): TypedContractMethod<[_monoNFTAddr: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setTreasuryAddress"
-  ): TypedContractMethod<[_treasuryAddr: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "treasuryAddr"
-  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "withdraw"
   ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
