@@ -53,18 +53,18 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
       <HStack w="82%" spacing="5%" mt="40px" align="start">
         <Box w="45%">
           <Stack spacing="0">
-            <ProductDetailCard mb={0}>
-              <Center>
-                {imageURL && (
+            {imageURL && (
+              <ProductDetailCard mb={0}>
+                <Center>
                   <Image
                     src={imageURL}
                     alt={`Product${productId}`}
                     width={300}
                     height={300}
                   />
-                )}
-              </Center>
-            </ProductDetailCard>
+                </Center>
+              </ProductDetailCard>
+            )}
             <ProductDetailCard mb={0}>
               <ProductTxHistoryTable productId={productId} />
             </ProductDetailCard>

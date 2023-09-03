@@ -4,7 +4,11 @@ import {
   useDeposit,
   useWithdraw,
 } from '@/hooks/useAuctionDeposit'
-import { useApproval, useApprove } from '@/hooks/useCommunityToken'
+import {
+  useApproval,
+  useApprove,
+  useBalanceOf,
+} from '@/hooks/useCommunityToken'
 import {
   Box,
   Button,
@@ -69,6 +73,8 @@ const MyPage: NextPage = () => {
     },
   })
 
+  const balance = useBalanceOf()
+
   const { approve } = useApprove(
     process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
     watchApprove('approveAmount')
@@ -105,6 +111,12 @@ const MyPage: NextPage = () => {
       </Heading>
 
       <Box mb={3}>
+        <Text>
+          トークン残高:{' '}
+          <Box as="span" fontWeight="bold">
+            {Number(balance).toLocaleString()} HENKAKU
+          </Box>
+        </Text>
         <Text>
           デポジットコントラクトへのApprove額:{' '}
           <Box as="span" fontWeight="bold">
@@ -167,7 +179,7 @@ const MyPage: NextPage = () => {
 
       <Box borderRadius={5} backgroundColor="red.100" p={5} mb={5}>
         <Text mb={3} fontWeight="bold">
-          デポジットHENKAKUを引き出す
+          デポジットを引き出す
         </Text>
         <form onSubmit={handleWithdraw(submitWithdraw)}>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
