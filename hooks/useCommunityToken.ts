@@ -2,10 +2,30 @@ import { useCallback, useMemo, useState } from 'react'
 import { formatEther, parseEther } from 'viem'
 import {
   erc20ABI,
+  useAccount,
   useContractRead,
   useContractWrite,
   usePrepareContractWrite,
 } from 'wagmi'
+
+export const useBalanceOf = () => {
+  const { address } = useAccount()
+
+  const { data } = useContractRead({
+    address: process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: [address as `0x${string}`],
+    watch: true,
+  })
+
+  const balance = useMemo(() => {
+    if (data === undefined) return 0
+    return formatEther(data)
+  }, [data])
+
+  return balance
+}
 
 export const useApprove = (spender: string, amount: number) => {
   const { config } = usePrepareContractWrite({
