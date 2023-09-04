@@ -2,29 +2,32 @@ import { FC, useEffect } from 'react'
 import {
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Text,
   useDisclosure,
 } from '..'
-import { useNetwork } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 
 export const ChangeNetwork: FC = () => {
+  const { address } = useAccount()
   const { chain } = useNetwork()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
-    if (!chain || chain?.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
+    if (address && chain?.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
       onOpen()
     } else {
       onClose()
     }
-  }, [chain])
+  }, [chain, address])
 
   return (
-    <Modal isOpen={isOpen} onClose={() => {}}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
+        <ModalCloseButton />
         <ModalBody>
           <Text>接続ネットワークをPolygonに変更してください。</Text>
         </ModalBody>
