@@ -16,7 +16,11 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     w3mProvider({ projectId }),
     alchemyProvider({
-      apiKey: `${process.env.NEXT_PUBLIC_MUMBAI_ALCHEMY_KEY}`,
+      apiKey: `${
+        process.env.NEXT_PUBLIC_CHAIN_ID === '137'
+          ? process.env.NEXT_PUBLIC_POLYGON_ALCHEMY_KEY
+          : process.env.NEXT_PUBLIC_MUMBAI_ALCHEMY_KEY
+      }`,
     }),
     publicProvider(),
   ]
