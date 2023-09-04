@@ -100,21 +100,15 @@ export const useWithdraw = (amount: number) => {
 
   const toast = useToast()
   useEffect(() => {
-    if (!error && !prepareError) return
-
-    // skip if error contain Amount should be greater than 0
-    if (
-      (prepareError as any)?.details.includes('Amount should be greater than 0')
-    )
-      return
+    if (!error) return
 
     toast({
       title: 'Deposit Error',
-      description: (prepareError as any)?.details || (error as any)?.details,
+      description: (error as any)?.details,
       status: 'error',
       duration: 2000,
     })
-  }, [error, prepareError])
+  }, [error])
 
   const withdraw = useCallback(async () => {
     try {
