@@ -2,7 +2,7 @@
 import { FC } from 'react'
 import { default as NextLink } from 'next/link'
 import { Box, Flex, Spacer, Stack, Text } from '@/components'
-import { Web3Button } from '@web3modal/react'
+import { ConnectWallet } from '@thirdweb-dev/react'
 
 const Header: FC = () => {
   return (
@@ -46,7 +46,7 @@ const Header: FC = () => {
                 マイページ
               </Text>
             </NextLink>
-            <Web3Button />
+            <ConnectWallet />
           </Stack>
         </Flex>
       </Box>

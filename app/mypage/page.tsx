@@ -1,14 +1,14 @@
 'use client'
-import {
-  useCurrentDeposit,
-  useDeposit,
-  useWithdraw,
-} from '@/hooks/useAuctionDeposit'
-import {
-  useApproval,
-  useApprove,
-  useBalanceOf,
-} from '@/hooks/useCommunityToken'
+// import {
+//   useCurrentDeposit,
+//   useDeposit,
+//   useWithdraw,
+// } from '@/hooks/useAuctionDeposit'
+// import {
+//   useApproval,
+//   useApprove,
+//   useBalanceOf,
+// } from '@/hooks/useCommunityToken'
 import {
   Box,
   Button,
@@ -22,8 +22,8 @@ import {
 import { NextPage } from 'next'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { formatEther } from 'viem'
-import { useAccount } from 'wagmi'
+import { useAddress } from '@thirdweb-dev/react'
+import { formatEther } from 'ethers/lib/utils'
 
 type ApproveFormData = {
   approveAmount: number
@@ -38,7 +38,7 @@ type WithdrawFormData = {
 }
 
 const MyPage: NextPage = () => {
-  const { address } = useAccount()
+  const address = useAddress()
 
   const {
     handleSubmit: handleApprove,
@@ -73,36 +73,36 @@ const MyPage: NextPage = () => {
     },
   })
 
-  const balance = useBalanceOf()
+  // const balance = useBalanceOf()
 
-  const { approve } = useApprove(
-    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
-    watchApprove('approveAmount')
-  )
-  const { allowanceValue } = useApproval(
-    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
-    address
-  )
+  // const { approve } = useApprove(
+  //   process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
+  //   watchApprove('approveAmount')
+  // )
+  // const { allowanceValue } = useApproval(
+  //   process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
+  //   address
+  // )
 
-  const { deposit } = useDeposit(watchDeposit('depositAmount'))
-  const { data } = useCurrentDeposit()
+  // const { deposit } = useDeposit(watchDeposit('depositAmount'))
+  // const { data } = useCurrentDeposit()
 
-  const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
+  // const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
 
-  const submitApprove = useCallback(async () => {
-    await approve()
-    await resetApprove()
-  }, [approve])
+  // const submitApprove = useCallback(async () => {
+  //   await approve()
+  //   await resetApprove()
+  // }, [approve])
 
-  const submitDeposit = useCallback(async () => {
-    await deposit()
-    await resetDeposit()
-  }, [deposit])
+  // const submitDeposit = useCallback(async () => {
+  //   await deposit()
+  //   await resetDeposit()
+  // }, [deposit])
 
-  const submitWithdraw = useCallback(async () => {
-    await withdraw()
-    await resetWithdraw()
-  }, [withdraw])
+  // const submitWithdraw = useCallback(async () => {
+  //   await withdraw()
+  //   await resetWithdraw()
+  // }, [withdraw])
 
   return (
     <Container py={5}>
@@ -114,19 +114,19 @@ const MyPage: NextPage = () => {
         <Text>
           トークン残高:{' '}
           <Box as="span" fontWeight="bold">
-            {Number(balance).toLocaleString()} HENKAKU
+            {/* {Number(balance).toLocaleString()} HENKAKU */}
           </Box>
         </Text>
         <Text>
           デポジットコントラクトへのApprove額:{' '}
           <Box as="span" fontWeight="bold">
-            {Number(allowanceValue).toLocaleString()} HENKAKU
+            {/* {Number(allowanceValue).toLocaleString()} HENKAKU */}
           </Box>
         </Text>
         <Text>
           現在のデポジット額:{' '}
           <Box as="span" fontWeight="bold">
-            {formatEther(data?.amount || BigInt(0)).toLocaleString()} HENKAKU
+            {/* {formatEther(data?.amount || BigInt(0)).toLocaleString()} HENKAKU */}
           </Box>
         </Text>
       </Box>
@@ -135,7 +135,8 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           デポジットコントラクトへのApprove
         </Text>
-        <form onSubmit={handleApprove(submitApprove)}>
+        {/* <form onSubmit={handleApprove(submitApprove)}> */}
+        <form>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlApprove}
@@ -158,7 +159,8 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           追加デポジット
         </Text>
-        <form onSubmit={handleDeposit(submitDeposit)}>
+        {/* <form onSubmit={handleDeposit(submitDeposit)}> */}
+        <form>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlDeposit}
@@ -181,7 +183,8 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           デポジットを引き出す
         </Text>
-        <form onSubmit={handleWithdraw(submitWithdraw)}>
+        {/* <form onSubmit={handleWithdraw(submitWithdraw)}> */}
+        <form>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlWithdraw}
