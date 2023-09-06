@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react'
 import React, { FC } from 'react'
 import { useGetHistoryOfWinner } from '@/hooks/useMonoNFT'
-import { formatEther } from 'viem'
 import dayjs from 'dayjs'
+import { formatEther } from 'ethers/lib/utils'
 
 interface Props {
   productId: number
