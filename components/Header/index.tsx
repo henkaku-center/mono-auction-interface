@@ -3,6 +3,7 @@ import { FC } from 'react'
 import { default as NextLink } from 'next/link'
 import { Box, Flex, Spacer, Stack, Text } from '@/components'
 import { Web3Button } from '@web3modal/react'
+import { SafeConnectButton } from '../Safe/SafeConnectButton'
 
 const Header: FC = () => {
   return (
@@ -47,6 +48,7 @@ const Header: FC = () => {
               </Text>
             </NextLink>
             <Web3Button />
+            <SafeConnectButton />
           </Stack>
         </Flex>
       </Box>
