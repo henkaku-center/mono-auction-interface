@@ -11,7 +11,6 @@ import {
 import {
   Box,
   Button,
-  Center,
   Container,
   Flex,
   FormControl,
@@ -21,14 +20,15 @@ import {
   GridItem,
   Heading,
   Input,
+  Text,
   Textarea,
   VStack,
 } from '@chakra-ui/react'
 import { useUploadImageFile, useUploadMetadataJson } from '@/hooks/usePinata'
 import { MonoNFTRegisterFormData } from '@/types'
+import { useRegisterMonoNFT } from '@/hooks/useMonoNFT'
 
 const SellForm: FC = () => {
-  const [imageIPFSHash, setImageIPFSHash] = useState<string>('')
   const {
     control,
     handleSubmit,
@@ -55,7 +55,8 @@ const SellForm: FC = () => {
   })
 
   const uploadFile = useUploadImageFile()
-  // const uploadMetadata = useUploadMetadataJson();
+  const uploadMetadata = useUploadMetadataJson()
+  const { registerMonoNFT } = useRegisterMonoNFT()
 
   const validateFileSize = (file: File | null, limit: number) => {
     if (!file) return true
@@ -66,8 +67,20 @@ const SellForm: FC = () => {
     try {
       if (data.image) {
         const newImageIPFSHash = await uploadFile(data.image)
-        setImageIPFSHash(newImageIPFSHash)
-        console.log(newImageIPFSHash)
+        const metadata = {
+          name: data.name,
+          description: data.description,
+          image: `ipfs://${newImageIPFSHash}`,
+          rule: data.rule,
+        }
+        const newMetadataIPFSHash = await uploadMetadata(metadata)
+        await registerMonoNFT(
+          data.donor,
+          data.expiresDuration,
+          `ipfs://${newMetadataIPFSHash}`,
+          data.sharesOfCommunityToken,
+          data.owner
+        )
       } else {
         console.warn('No image to upload')
       }
@@ -113,7 +126,7 @@ const SellForm: FC = () => {
             control={control}
             name="image"
             rules={{
-              required: 'REQUIRED_INPUT',
+              required: '必須項目です',
               validate: (v) => validateFileSize(v, 3),
             }}
             render={({ field: { onChange }, fieldState }) => (
@@ -174,7 +187,7 @@ const SellForm: FC = () => {
 
           <Controller
             control={control}
-            name="description"
+            name="rule"
             render={({ field, fieldState: { error } }) => (
               <FormControl isInvalid={!!error} mb={5} isRequired>
                 <Grid templateColumns="repeat(5, 1fr)">
@@ -199,7 +212,7 @@ const SellForm: FC = () => {
 
           <Controller
             control={control}
-            name="name"
+            name="donor"
             render={({ field, fieldState: { error } }) => (
               <FormControl isInvalid={!!error} mb={5} isRequired>
                 <Grid templateColumns="repeat(5, 1fr)">
@@ -224,19 +237,19 @@ const SellForm: FC = () => {
 
           <Controller
             control={control}
-            name="expiresDuration"
+            name="owner"
             render={({ field, fieldState: { error } }) => (
               <FormControl isInvalid={!!error} mb={5} isRequired>
                 <Grid templateColumns="repeat(5, 1fr)">
                   <GridItem colSpan={1.5}>
-                    <FormLabel>使用期限</FormLabel>
+                    <FormLabel>オーナー</FormLabel>
                   </GridItem>
                   <GridItem colSpan={3}>
                     <Input
-                      type="number"
                       onChange={field.onChange}
                       value={field.value}
                       mr={2}
+                      placeholder="0xabc1234..."
                     />
                     {error && (
                       <FormErrorMessage>{error.message}</FormErrorMessage>
@@ -247,6 +260,31 @@ const SellForm: FC = () => {
             )}
           />
 
+          <Controller
+            control={control}
+            name="expiresDuration"
+            render={({ field, fieldState: { error } }) => (
+              <FormControl isInvalid={!!error} mb={5} isRequired>
+                <Grid gridTemplateColumns="auto 1fr" gap={3}>
+                  <GridItem>
+                    <FormLabel>使用期限（日）</FormLabel>
+                  </GridItem>
+                  <GridItem>
+                    <Input
+                      type="number"
+                      onChange={field.onChange}
+                      value={field.value}
+                    />
+                    {error && (
+                      <FormErrorMessage>{error.message}</FormErrorMessage>
+                    )}
+                  </GridItem>
+                </Grid>
+              </FormControl>
+            )}
+          />
+
+          <Text>売上分配</Text>
           {revenueSharingFields.map((field, index) => (
             <Flex justifyContent="flex-end" key={field.id} mb={2}>
               <Controller
@@ -300,6 +338,28 @@ const SellForm: FC = () => {
               />
             </Flex>
           ))}
+
+          <Flex justifyContent="flex-end" gap={2} mb={5}>
+            <Button
+              colorScheme="white"
+              boxShadow="lg"
+              onClick={() => {
+                revenueSharingFields.length > 1 &&
+                  revenueSharingRemove(revenueSharingFields.length - 1)
+              }}
+            >
+              ➖
+            </Button>
+            <Button
+              colorScheme="white"
+              boxShadow="lg"
+              onClick={() =>
+                revenueSharingAppend({ shareHolder: '', shareRatio: 0 })
+              }
+            >
+              ➕
+            </Button>
+          </Flex>
 
           <Button width="full" type="submit">
             出品する

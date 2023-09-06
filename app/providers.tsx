@@ -20,7 +20,6 @@ const activeChain =
 export function Providers({ children }: { children: React.ReactNode }) {
   const safeWalletConfig = useMemo(() => {
     const s_config = safeWallet()
-    s_config.meta.iconURL = '/images/safe_black.png'
     return s_config
   }, [])
 

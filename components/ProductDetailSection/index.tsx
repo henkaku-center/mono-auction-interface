@@ -77,7 +77,16 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
           <Stack spacing="7">
             <Text fontSize="3xl">{metadata?.name}</Text>
             <Text fontSize="lg">Donated by {monoNFT?.[1]}</Text>
-            <Text fontSize="lg">{metadata?.description}</Text>
+            <Text fontSize="lg">
+              説明
+              <br />
+              {metadata?.description}
+            </Text>
+            <Text fontSize="lg">
+              ルール
+              <br />
+              {metadata?.rule}
+            </Text>
           </Stack>
 
           <WinnerMenu tokenId={productId} status={Number(monoNFT?.[4])} />
