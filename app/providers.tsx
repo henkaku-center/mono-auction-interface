@@ -8,6 +8,7 @@ import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import { localhost, polygon, polygonMumbai } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
+import { SafeConnector } from 'wagmi/connectors/safe'
 
 const projectId = 'daac6c3634ec5751d068a4ac96dbefcf'
 
@@ -16,19 +17,27 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     w3mProvider({ projectId }),
     alchemyProvider({
-      apiKey: `${
-        process.env.NEXT_PUBLIC_CHAIN_ID === '137'
-          ? process.env.NEXT_PUBLIC_POLYGON_ALCHEMY_KEY
-          : process.env.NEXT_PUBLIC_MUMBAI_ALCHEMY_KEY
-      }`,
+      apiKey: `${process.env.NEXT_PUBLIC_CHAIN_ID === '137'
+        ? process.env.NEXT_PUBLIC_POLYGON_ALCHEMY_KEY
+        : process.env.NEXT_PUBLIC_MUMBAI_ALCHEMY_KEY
+        }`,
     }),
     publicProvider(),
   ]
 )
 
 const config = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
+  autoConnect: false,
+  connectors: [
+    ...w3mConnectors({ projectId, chains }),
+    new SafeConnector({
+      chains,
+      options: {
+        allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/],
+        debug: false,
+      },
+    }),
+  ],
   publicClient,
   webSocketPublicClient,
 })
