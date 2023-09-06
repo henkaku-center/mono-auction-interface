@@ -60,7 +60,7 @@ export const SellInput: FC<InputProps> = ({
   };
 
   return (
-    <FormControl isInvalid={!!error} mb={5}>
+    <FormControl isInvalid={!!error} mb={5} isRequired>
       <Grid templateColumns="repeat(5, 1fr)">
         <GridItem colSpan={1.5}>
           <FormLabel htmlFor={id} id={`${id}-label`}>
@@ -134,7 +134,7 @@ export const SellTextarea: FC<TextareaProps> = ({
   };
 
   return (
-    <FormControl isInvalid={!!error} mb={5}>
+    <FormControl isInvalid={!!error} mb={5} isRequired>
       <Grid templateColumns="repeat(5, 1fr)">
         <GridItem colSpan={1}>
           <FormLabel htmlFor={id} id={`${id}-label`}>

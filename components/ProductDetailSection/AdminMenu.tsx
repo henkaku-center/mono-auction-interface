@@ -9,8 +9,8 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { Controller, useForm } from 'react-hook-form'
-import { useConfirmWinner, useUpdateStatus } from '@/hooks/useAdmin'
-import { parseEther } from 'viem'
+import { useConfirmWinner, useUpdateStatus } from '@/hooks/useMonoNFT'
+import { parseEther } from 'ethers/lib/utils'
 
 type Props = {
   tokenId: number
@@ -34,7 +34,7 @@ export const ProductDetailAdminMenu: FC<Props> = ({ tokenId, status }) => {
   const { confirmWinner } = useConfirmWinner(
     watchConfirm('winner'),
     tokenId,
-    parseEther(watchConfirm('price'))
+    parseEther('0')
   )
 
   const submitStatus = useCallback(async () => {

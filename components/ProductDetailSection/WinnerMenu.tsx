@@ -1,9 +1,9 @@
 import { useClaimMonoNFT, useLatestWinner } from '@/hooks/useMonoNFT'
 import { FC, useMemo } from 'react'
-import { useAccount } from 'wagmi'
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react'
-import { formatEther } from 'viem'
 import dayjs from 'dayjs'
+import { useAddress } from '@thirdweb-dev/react'
+import { formatEther } from 'ethers/lib/utils'
 
 type Props = {
   tokenId: number
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const WinnerMenu: FC<Props> = ({ tokenId, status }) => {
-  const { address } = useAccount()
+  const address = useAddress()
   const { data: latestWinner, isLoading } = useLatestWinner(tokenId)
 
   const isWinner = useMemo(() => {
