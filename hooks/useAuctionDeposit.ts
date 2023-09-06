@@ -12,7 +12,8 @@ import { parseEther } from 'ethers/lib/utils'
 
 const useAuctionDepositContract = () => {
   const { contract } = useContract(
-    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`
+    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
+    auctionDepositABI.abi
   )
 
   return { contract }

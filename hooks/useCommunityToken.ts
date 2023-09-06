@@ -1,3 +1,4 @@
+import erc20ABI from '@/abi/ERC20.json'
 import {
   useAddress,
   useContract,
@@ -9,7 +10,8 @@ import { useCallback, useMemo } from 'react'
 
 const useCommunityTokenContract = () => {
   const { contract } = useContract(
-    process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`
+    process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
+    erc20ABI.abi
   )
 
   return { contract }
