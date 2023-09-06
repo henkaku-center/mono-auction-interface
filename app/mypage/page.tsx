@@ -1,14 +1,14 @@
 'use client'
-// import {
-//   useCurrentDeposit,
-//   useDeposit,
-//   useWithdraw,
-// } from '@/hooks/useAuctionDeposit'
-// import {
-//   useApproval,
-//   useApprove,
-//   useBalanceOf,
-// } from '@/hooks/useCommunityToken'
+import {
+  useCurrentDeposit,
+  useDeposit,
+  useWithdraw,
+} from '@/hooks/useAuctionDeposit'
+import {
+  useApproval,
+  useApprove,
+  useBalanceOf,
+} from '@/hooks/useCommunityToken'
 import {
   Box,
   Button,
@@ -73,36 +73,36 @@ const MyPage: NextPage = () => {
     },
   })
 
-  // const balance = useBalanceOf()
+  const balance = useBalanceOf()
 
-  // const { approve } = useApprove(
-  //   process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
-  //   watchApprove('approveAmount')
-  // )
-  // const { allowanceValue } = useApproval(
-  //   process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
-  //   address
-  // )
+  const { approve } = useApprove(
+    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
+    watchApprove('approveAmount')
+  )
+  const { allowanceValue } = useApproval(
+    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
+    address
+  )
 
-  // const { deposit } = useDeposit(watchDeposit('depositAmount'))
-  // const { data } = useCurrentDeposit()
+  const { deposit } = useDeposit(watchDeposit('depositAmount'))
+  const { data } = useCurrentDeposit()
 
-  // const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
+  const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
 
-  // const submitApprove = useCallback(async () => {
-  //   await approve()
-  //   await resetApprove()
-  // }, [approve])
+  const submitApprove = useCallback(async () => {
+    await approve()
+    await resetApprove()
+  }, [approve])
 
-  // const submitDeposit = useCallback(async () => {
-  //   await deposit()
-  //   await resetDeposit()
-  // }, [deposit])
+  const submitDeposit = useCallback(async () => {
+    await deposit()
+    await resetDeposit()
+  }, [deposit])
 
-  // const submitWithdraw = useCallback(async () => {
-  //   await withdraw()
-  //   await resetWithdraw()
-  // }, [withdraw])
+  const submitWithdraw = useCallback(async () => {
+    await withdraw()
+    await resetWithdraw()
+  }, [withdraw])
 
   return (
     <Container py={5}>
@@ -114,19 +114,19 @@ const MyPage: NextPage = () => {
         <Text>
           トークン残高:{' '}
           <Box as="span" fontWeight="bold">
-            {/* {Number(balance).toLocaleString()} HENKAKU */}
+            {Number(balance).toLocaleString()} HENKAKU
           </Box>
         </Text>
         <Text>
           デポジットコントラクトへのApprove額:{' '}
           <Box as="span" fontWeight="bold">
-            {/* {Number(allowanceValue).toLocaleString()} HENKAKU */}
+            {Number(allowanceValue).toLocaleString()} HENKAKU
           </Box>
         </Text>
         <Text>
           現在のデポジット額:{' '}
           <Box as="span" fontWeight="bold">
-            {/* {formatEther(data?.amount || BigInt(0)).toLocaleString()} HENKAKU */}
+            {formatEther(data?.amount || BigInt(0)).toLocaleString()} HENKAKU
           </Box>
         </Text>
       </Box>
@@ -135,8 +135,7 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           デポジットコントラクトへのApprove
         </Text>
-        {/* <form onSubmit={handleApprove(submitApprove)}> */}
-        <form>
+        <form onSubmit={handleApprove(submitApprove)}>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlApprove}
@@ -159,8 +158,7 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           追加デポジット
         </Text>
-        {/* <form onSubmit={handleDeposit(submitDeposit)}> */}
-        <form>
+        <form onSubmit={handleDeposit(submitDeposit)}>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlDeposit}
@@ -183,8 +181,7 @@ const MyPage: NextPage = () => {
         <Text mb={3} fontWeight="bold">
           デポジットを引き出す
         </Text>
-        {/* <form onSubmit={handleWithdraw(submitWithdraw)}> */}
-        <form>
+        <form onSubmit={handleWithdraw(submitWithdraw)}>
           <Grid gap={4} gridTemplateColumns="1fr 0.5fr">
             <Controller
               control={controlWithdraw}

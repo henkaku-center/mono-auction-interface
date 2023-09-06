@@ -1,121 +1,130 @@
-// import auctionDepositABI from '@/abi/AuctionDeposit.json'
-// import { IAuctionDeposit } from '@/types/typechain-types'
-// import { useCallback, useEffect } from 'react'
-// import { useToast } from '@chakra-ui/react'
+import auctionDepositABI from '@/abi/AuctionDeposit.json'
+import { IAuctionDeposit } from '@/types/typechain-types'
+import { useCallback, useEffect } from 'react'
+import { useToast } from '@chakra-ui/react'
+import {
+  useContract,
+  useContractRead,
+  useContractWrite,
+  useAddress,
+} from '@thirdweb-dev/react'
+import { parseEther } from 'ethers/lib/utils'
 
-// export const useAuctionDepositContractRead = (
-//   functionName: string,
-//   args?: any[]
-// ) => {
-//   const readResult = useContractRead({
-//     abi: auctionDepositABI.abi,
-//     address: process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
-//     functionName,
-//     args,
-//     watch: true,
-//   })
+const useAuctionDepositContract = () => {
+  const { contract } = useContract(
+    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
+    auctionDepositABI.abi
+  )
 
-//   return readResult
-// }
+  return { contract }
+}
 
-// export const useAuctionDepositContractWrite = (
-//   functionName: string,
-//   args?: any[]
-// ) => {
-//   const config = usePrepareContractWrite({
-//     abi: auctionDepositABI.abi,
-//     address: process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
-//     functionName,
-//     args,
-//   })
+export const useAuctionDepositContractRead = (
+  functionName: string,
+  args?: any[]
+) => {
+  const { contract } = useAuctionDepositContract()
 
-//   return config
-// }
+  const { data, isLoading, error } = useContractRead(
+    contract,
+    functionName,
+    args
+  )
 
-// export const useCurrentDeposit = () => {
-//   const { address } = useAccount()
-//   const { data, error, isLoading } = useAuctionDepositContractRead(
-//     'getDepositByAddress',
-//     [address]
-//   )
+  return { data, isLoading, error }
+}
 
-//   return {
-//     data: data as IAuctionDeposit.DepositInfoStructOutput,
-//     error,
-//     isLoading,
-//   }
-// }
+export const useAuctionDepositContractWrite = (functionName: string) => {
+  const { contract } = useAuctionDepositContract()
 
-// export const useDeposit = (amount: number) => {
-//   const { config, error: prepareError } = useAuctionDepositContractWrite(
-//     'deposit',
-//     [parseEther(amount.toString())]
-//   )
+  const { mutateAsync, isLoading, error } = useContractWrite(
+    contract,
+    functionName
+  )
 
-//   const { writeAsync, isLoading, error, data } = useContractWrite(config)
+  return { mutateAsync, isLoading, error }
+}
 
-//   const toast = useToast()
-//   useEffect(() => {
-//     if (!error) return
+export const useCurrentDeposit = () => {
+  const address = useAddress()
+  const { data, error, isLoading } = useAuctionDepositContractRead(
+    'getDepositByAddress',
+    [address]
+  )
 
-//     toast({
-//       title: 'Deposit Error',
-//       description: (error as any)?.details,
-//       status: 'error',
-//       duration: 2000,
-//     })
-//   }, [error])
+  return {
+    data: data as IAuctionDeposit.DepositInfoStructOutput,
+    error,
+    isLoading,
+  }
+}
 
-//   const deposit = useCallback(async () => {
-//     try {
-//       if (!writeAsync) return
-//       await writeAsync()
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }, [amount, writeAsync])
+export const useDeposit = (amount: number) => {
+  const { mutateAsync, isLoading, error } =
+    useAuctionDepositContractWrite('deposit')
 
-//   return {
-//     deposit,
-//     data,
-//     error,
-//     isLoading,
-//   }
-// }
+  const toast = useToast()
+  useEffect(() => {
+    if (!error) return
 
-// export const useWithdraw = (amount: number) => {
-//   const { config, error: prepareError } = useAuctionDepositContractWrite(
-//     'withdraw',
-//     [parseEther(amount.toString())]
-//   )
+    toast({
+      title: 'Deposit Error',
+      description: (error as any)?.details,
+      status: 'error',
+      duration: 2000,
+    })
+  }, [error])
 
-//   const { writeAsync, isLoading, error, data } = useContractWrite(config)
+  const deposit = useCallback(async () => {
+    try {
+      if (!mutateAsync) return
+      await mutateAsync({
+        args: [parseEther(amount.toString())],
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [amount, mutateAsync])
 
-//   const toast = useToast()
-//   useEffect(() => {
-//     if (!error) return
+  return {
+    deposit,
+    mutateAsync,
+    error,
+    isLoading,
+  }
+}
 
-//     toast({
-//       title: 'Deposit Error',
-//       description: (error as any)?.details,
-//       status: 'error',
-//       duration: 2000,
-//     })
-//   }, [error])
+export const useWithdraw = (amount: number) => {
+  const { mutateAsync, isLoading, error } =
+    useAuctionDepositContractWrite('withdraw')
 
-//   const withdraw = useCallback(async () => {
-//     try {
-//       if (!writeAsync) return
-//       await writeAsync()
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }, [amount, writeAsync])
+  const toast = useToast()
+  useEffect(() => {
+    if (!error) return
 
-//   return {
-//     withdraw,
-//     data,
-//     error,
-//     isLoading,
-//   }
-// }
+    toast({
+      title: 'Deposit Error',
+      description: (error as any)?.details,
+      status: 'error',
+      duration: 2000,
+    })
+  }, [error])
+
+  const withdraw = useCallback(async () => {
+    try {
+      if (!mutateAsync) return
+      await mutateAsync({
+        args: [parseEther(amount.toString())],
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [amount, mutateAsync])
+
+  return {
+    withdraw,
+    mutateAsync,
+    error,
+    isLoading,
+  }
+}
