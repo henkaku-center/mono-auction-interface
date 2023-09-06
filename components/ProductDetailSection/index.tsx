@@ -17,7 +17,7 @@ import {
   useMonoNFTMetadata,
   useMonoNFTStatusLabel,
 } from '@/hooks/useMonoNFT'
-import { useIsAdmin } from '@/hooks/useAdmin'
+import { useIsAdmin } from '@/hooks/useMonoNFT'
 import { ProductDetailAdminMenu } from './AdminMenu'
 import { WinnerMenu } from './WinnerMenu'
 
@@ -31,6 +31,8 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
   const { data: isAdmin } = useIsAdmin()
 
   const label = useMonoNFTStatusLabel(Number(monoNFT?.[4]))
+
+  console.log(monoNFT)
 
   const ProductDetailCard = ({
     children,

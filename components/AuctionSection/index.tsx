@@ -10,22 +10,26 @@ import {
   Spinner,
 } from '@chakra-ui/react'
 import ProductCard from '../ProductCard'
+import { useGetRegisteredMonoNFTs } from '@/hooks/useMonoNFT'
 
 const AuctionSection: FC = () => {
-  // useMonoNFT.tsをやったあとにこのへん
-  const monoNFTs: any[] = []
+  const { data: monoNFTs, isLoading } = useGetRegisteredMonoNFTs()
 
   const isReadyMonoNFTs = useMemo(() => {
-    return []
-  }, [])
+    if (monoNFTs) {
+      return monoNFTs.filter((monoNFT) => Number(monoNFT.status) === 0)
+    }
+  }, [monoNFTs])
 
   const inAuctionMonoNFTs = useMemo(() => {
-    return []
-  }, [])
+    if (monoNFTs) {
+      return monoNFTs.filter((monoNFT) => Number(monoNFT.status) === 1)
+    }
+  }, [monoNFTs])
 
   return (
     <>
-      {/* {isLoading && <Spinner />} */}
+      {isLoading && <Spinner />}
       <Tabs isFitted variant="enclosed" id="1" width="90%">
         <TabList>
           <Tab
