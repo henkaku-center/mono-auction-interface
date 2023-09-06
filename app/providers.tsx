@@ -31,9 +31,9 @@ const config = createConfig({
   connectors: [
     ...w3mConnectors({ projectId, chains }),
     new SafeConnector({
-      chains,
+      chains: [polygon],
       options: {
-        allowedDomains: [/gnosis-safe.io$/, /app.safe.global$/],
+        allowedDomains: [/app.safe.global$/],
         debug: false,
       },
     }),
