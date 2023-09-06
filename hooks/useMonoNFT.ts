@@ -199,3 +199,39 @@ export const useConfirmWinner = (
     isLoading,
   }
 }
+
+export const useRegisterMonoNFT = () => {
+  const { mutateAsync, isLoading } = useMonoNFTContractWrite('register')
+
+  const registerMonoNFT = useCallback(
+    async (
+      donor: string,
+      expiresDuration: number,
+      uri: string,
+      sharesOfCommunityToken: { shareHolder: string; shareRatio: number }[],
+      owner: string
+    ) => {
+      if (!mutateAsync) return
+      try {
+        const tx = await mutateAsync({
+          args: [
+            donor,
+            expiresDuration * 24 * 60 * 60 * 1000,
+            uri,
+            sharesOfCommunityToken,
+            owner,
+          ],
+        })
+        return tx
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    []
+  )
+
+  return {
+    registerMonoNFT,
+    isLoading,
+  }
+}
