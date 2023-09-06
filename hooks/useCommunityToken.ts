@@ -5,7 +5,7 @@ import {
   useContractRead,
   useContractWrite,
 } from '@thirdweb-dev/react'
-import { formatEther } from 'ethers/lib/utils'
+import { formatEther, parseEther } from 'ethers/lib/utils'
 import { useCallback, useMemo } from 'react'
 
 const useCommunityTokenContract = () => {
@@ -22,7 +22,7 @@ export const useBalanceOf = () => {
   const { contract } = useCommunityTokenContract()
 
   const { data, isLoading, error } = useContractRead(contract, 'balanceOf', [
-    [address as `0x${string}`],
+    address,
   ])
 
   const balance = useMemo(() => {
@@ -43,8 +43,10 @@ export const useApprove = (spender: string, amount: number) => {
 
   const approve = useCallback(async () => {
     if (!mutateAsync) return
-    await mutateAsync({ args: [spender as `0x${string}`] })
-  }, [mutateAsync])
+    await mutateAsync({
+      args: [spender as `0x${string}`, parseEther(String(amount))],
+    })
+  }, [mutateAsync, amount, spender])
 
   return { approve, error, isLoading }
 }

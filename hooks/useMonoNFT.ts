@@ -235,3 +235,24 @@ export const useRegisterMonoNFT = () => {
     isLoading,
   }
 }
+
+export const useRightOf = (tokenId: number) => {
+  const { data, isLoading } = useMonoNFTContractRead('rightOf', [tokenId])
+
+  const right = useMemo(() => {
+    console.log(data)
+    switch (data) {
+      case 0:
+        return '所有権'
+      case 1:
+        return '使用権'
+      default:
+        break
+    }
+  }, [data])
+
+  return {
+    data: right,
+    isLoading,
+  }
+}

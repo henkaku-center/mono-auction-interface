@@ -91,17 +91,17 @@ const MyPage: NextPage = () => {
 
   const submitApprove = useCallback(async () => {
     await approve()
-    await resetApprove()
+    resetApprove()
   }, [approve])
 
   const submitDeposit = useCallback(async () => {
     await deposit()
-    await resetDeposit()
+    resetDeposit()
   }, [deposit])
 
   const submitWithdraw = useCallback(async () => {
     await withdraw()
-    await resetWithdraw()
+    resetWithdraw()
   }, [withdraw])
 
   return (
