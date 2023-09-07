@@ -40,7 +40,7 @@ const ProductTxHistoryTable: FC<Props> = ({ productId }) => {
                   </Td>
                   <Td p={1}>{formatEther(winner.price)} HENKAKU</Td>
                   <Td p={1}>
-                    {dayjs(Number(winner.expires)).format('YYYY/MM/DD')}
+                    {dayjs(Number(winner.expires) * 1000).format('YYYY/MM/DD')}
                   </Td>
                 </Tr>
               ))}

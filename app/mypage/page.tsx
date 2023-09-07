@@ -75,7 +75,7 @@ const MyPage: NextPage = () => {
 
   const balance = useBalanceOf()
 
-  const { approve } = useApprove(
+  const { approve, isLoading: isApproving } = useApprove(
     process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
     watchApprove('approveAmount')
   )
@@ -84,10 +84,14 @@ const MyPage: NextPage = () => {
     address
   )
 
-  const { deposit } = useDeposit(watchDeposit('depositAmount'))
+  const { deposit, isLoading: isDepositing } = useDeposit(
+    watchDeposit('depositAmount')
+  )
   const { data } = useCurrentDeposit()
 
-  const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
+  const { withdraw, isLoading: isWithdrawing } = useWithdraw(
+    watchWithdraw('withdrawAmount')
+  )
 
   const submitApprove = useCallback(async () => {
     await approve()
@@ -149,7 +153,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Approve</Button>
+            <Button
+              type="submit"
+              isLoading={isApproving}
+              disabled={isApproving}
+            >
+              Approve
+            </Button>
           </Grid>
         </form>
 
@@ -172,7 +182,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Deposit</Button>
+            <Button
+              type="submit"
+              isLoading={isDepositing}
+              disabled={isDepositing}
+            >
+              Deposit
+            </Button>
           </Grid>
         </form>
       </Box>
@@ -195,7 +211,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Withdraw</Button>
+            <Button
+              type="submit"
+              isLoading={isWithdrawing}
+              disabled={isWithdrawing}
+            >
+              Withdraw
+            </Button>
           </Grid>
         </form>
       </Box>

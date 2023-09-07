@@ -7,6 +7,7 @@ import {
 } from '@thirdweb-dev/react'
 import { formatEther, parseEther } from 'ethers/lib/utils'
 import { useCallback, useMemo } from 'react'
+import { useToastTransactionHash } from './useTransaction'
 
 const useCommunityTokenContract = () => {
   const { contract } = useContract(
@@ -35,6 +36,7 @@ export const useBalanceOf = () => {
 
 export const useApprove = (spender: string, amount: number) => {
   const { contract } = useCommunityTokenContract()
+  const toastTransactionHash = useToastTransactionHash()
 
   const { mutateAsync, isLoading, error } = useContractWrite(
     contract,
@@ -43,9 +45,10 @@ export const useApprove = (spender: string, amount: number) => {
 
   const approve = useCallback(async () => {
     if (!mutateAsync) return
-    await mutateAsync({
+    const tx = await mutateAsync({
       args: [spender as `0x${string}`, parseEther(String(amount))],
     })
+    toastTransactionHash(tx.receipt.transactionHash)
   }, [mutateAsync, amount, spender])
 
   return { approve, error, isLoading }

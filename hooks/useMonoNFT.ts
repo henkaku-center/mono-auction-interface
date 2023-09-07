@@ -10,6 +10,7 @@ import { useIPFS2Pinata } from './usePinata'
 import { use, useCallback, useEffect, useMemo, useState } from 'react'
 import { NFTMetadata } from '@/types'
 import { BigNumber } from 'ethers'
+import { useToastTransactionHash } from './useTransaction'
 
 export const useMonoNFTContract = () => {
   const { contract } = useContract(
@@ -126,19 +127,21 @@ export const useLatestWinner = (tokenId: number) => {
 }
 
 export const useClaimMonoNFT = (tokenId: number) => {
-  const { mutateAsync } = useMonoNFTContractWrite('claim')
+  const { mutateAsync, isLoading } = useMonoNFTContractWrite('claim')
+  const toastTransactionHash = useToastTransactionHash()
 
   const claim = useCallback(async () => {
     if (!mutateAsync) return
     try {
       const tx = await mutateAsync({ args: [tokenId] })
+      toastTransactionHash(tx.receipt.transactionHash)
       return tx
     } catch (error) {
       console.log(error)
     }
   }, [tokenId])
 
-  return { claim }
+  return { claim, isLoading }
 }
 
 export const useIsAdmin = () => {
@@ -159,11 +162,13 @@ export const useUpdateStatus = (tokenId: number, status: number) => {
   const { mutateAsync, isLoading, error } = useMonoNFTContractWrite(
     'updateMonoNFTStatus'
   )
+  const toastTransactionHash = useToastTransactionHash()
 
   const updateStatus = useCallback(async () => {
     if (!mutateAsync) return
     try {
       const tx = await mutateAsync({ args: [tokenId, status] })
+      toastTransactionHash(tx.receipt.transactionHash)
       return tx
     } catch (error) {
       console.log(error)
@@ -182,12 +187,13 @@ export const useConfirmWinner = (
   price: BigNumber
 ) => {
   const { mutateAsync, isLoading } = useMonoNFTContractWrite('confirmWinner')
+  const toastTransactionHash = useToastTransactionHash()
 
   const confirmWinner = useCallback(async () => {
     if (!mutateAsync) return
     try {
       const tx = await mutateAsync({ args: [winner, tokenId, price] })
-
+      toastTransactionHash(tx.receipt.transactionHash)
       return tx
     } catch (error) {
       console.log(error)
@@ -202,6 +208,7 @@ export const useConfirmWinner = (
 
 export const useRegisterMonoNFT = () => {
   const { mutateAsync, isLoading } = useMonoNFTContractWrite('register')
+  const toastTransactionHash = useToastTransactionHash()
 
   const registerMonoNFT = useCallback(
     async (
@@ -216,12 +223,13 @@ export const useRegisterMonoNFT = () => {
         const tx = await mutateAsync({
           args: [
             donor,
-            expiresDuration * 24 * 60 * 60 * 1000,
+            Math.ceil(expiresDuration * 24 * 60 * 60),
             uri,
             sharesOfCommunityToken,
             owner,
           ],
         })
+        toastTransactionHash(tx.receipt.transactionHash)
         return tx
       } catch (error) {
         console.log(error)

@@ -32,7 +32,7 @@ const SellForm: FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<MonoNFTRegisterFormData>({
     defaultValues: {
       name: '',
@@ -56,7 +56,7 @@ const SellForm: FC = () => {
 
   const uploadFile = useUploadImageFile()
   const uploadMetadata = useUploadMetadataJson()
-  const { registerMonoNFT } = useRegisterMonoNFT()
+  const { registerMonoNFT, isLoading: isRegistering } = useRegisterMonoNFT()
 
   const validateFileSize = (file: File | null, limit: number) => {
     if (!file) return true
@@ -361,7 +361,12 @@ const SellForm: FC = () => {
             </Button>
           </Flex>
 
-          <Button width="full" type="submit">
+          <Button
+            width="full"
+            type="submit"
+            isLoading={isSubmitting || isRegistering}
+            disabled={isSubmitting || isRegistering}
+          >
             出品する
           </Button>
         </form>

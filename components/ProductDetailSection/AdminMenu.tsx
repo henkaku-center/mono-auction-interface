@@ -22,19 +22,21 @@ export const ProductDetailAdminMenu: FC<Props> = ({ tokenId, status }) => {
     control: statusControl,
     handleSubmit: handleStatusSubmit,
     watch: watchStatus,
+    formState: statusFormState,
   } = useForm({ defaultValues: { status: status } })
 
   const {
     control: confirmControl,
     handleSubmit: handleConfirmSubmit,
     watch: watchConfirm,
-  } = useForm({ defaultValues: { winner: '', price: '' } })
+    formState: confirmFormState,
+  } = useForm({ defaultValues: { winner: '', price: 0 } })
 
   const { updateStatus } = useUpdateStatus(tokenId, watchStatus('status'))
   const { confirmWinner } = useConfirmWinner(
     watchConfirm('winner'),
     tokenId,
-    parseEther('0')
+    parseEther(watchConfirm('price').toString())
   )
 
   const submitStatus = useCallback(async () => {
@@ -75,7 +77,13 @@ export const ProductDetailAdminMenu: FC<Props> = ({ tokenId, status }) => {
                 </Select>
               )}
             />
-            <Button type="submit">更新</Button>
+            <Button
+              type="submit"
+              isLoading={statusFormState.isSubmitting}
+              disabled={statusFormState.isSubmitting}
+            >
+              更新
+            </Button>
           </Grid>
         </form>
       </Box>
@@ -114,7 +122,12 @@ export const ProductDetailAdminMenu: FC<Props> = ({ tokenId, status }) => {
                 )}
               />
 
-              <Button type="submit" width="full">
+              <Button
+                type="submit"
+                width="full"
+                isLoading={confirmFormState.isSubmitting}
+                disabled={confirmFormState.isSubmitting}
+              >
                 落札者確定
               </Button>
             </Grid>

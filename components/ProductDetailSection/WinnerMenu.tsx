@@ -12,14 +12,15 @@ type Props = {
 
 export const WinnerMenu: FC<Props> = ({ tokenId, status }) => {
   const address = useAddress()
-  const { data: latestWinner, isLoading } = useLatestWinner(tokenId)
+  const { data: latestWinner, isLoading: isLoadingWinner } =
+    useLatestWinner(tokenId)
 
   const isWinner = useMemo(() => {
-    if (isLoading) return false
+    if (isLoadingWinner) return false
     return address === latestWinner?.[0]
   }, [latestWinner, address])
 
-  const { claim } = useClaimMonoNFT(tokenId)
+  const { claim, isLoading } = useClaimMonoNFT(tokenId)
 
   return (
     <>
@@ -35,11 +36,16 @@ export const WinnerMenu: FC<Props> = ({ tokenId, status }) => {
               <Text>落札額: {formatEther(latestWinner[1])}HENKAKU</Text>
               <Text>
                 使用権有効期限:
-                {dayjs(Number(latestWinner[2])).format('YYYY年MM月DD日')}
+                {dayjs(Number(latestWinner[2] * 1000)).format('YYYY年MM月DD日')}
               </Text>
             </Box>
             <Flex alignItems="flex-end">
-              <Button width="full" onClick={() => claim()}>
+              <Button
+                width="full"
+                onClick={() => claim()}
+                disabled={isLoading}
+                isLoading={isLoading}
+              >
                 支払い
               </Button>
             </Flex>

@@ -9,6 +9,7 @@ import {
   useAddress,
 } from '@thirdweb-dev/react'
 import { parseEther } from 'ethers/lib/utils'
+import { useToastTransactionHash } from './useTransaction'
 
 const useAuctionDepositContract = () => {
   const { contract } = useContract(
@@ -62,6 +63,7 @@ export const useCurrentDeposit = () => {
 export const useDeposit = (amount: number) => {
   const { mutateAsync, isLoading, error } =
     useAuctionDepositContractWrite('deposit')
+  const toastTransactionHash = useToastTransactionHash()
 
   const toast = useToast()
   useEffect(() => {
@@ -78,9 +80,11 @@ export const useDeposit = (amount: number) => {
   const deposit = useCallback(async () => {
     try {
       if (!mutateAsync) return
-      await mutateAsync({
+
+      const tx = await mutateAsync({
         args: [parseEther(amount.toString())],
       })
+      toastTransactionHash(tx.receipt.transactionHash)
     } catch (error) {
       console.log(error)
     }
@@ -97,6 +101,7 @@ export const useDeposit = (amount: number) => {
 export const useWithdraw = (amount: number) => {
   const { mutateAsync, isLoading, error } =
     useAuctionDepositContractWrite('withdraw')
+  const toastTransactionHash = useToastTransactionHash()
 
   const toast = useToast()
   useEffect(() => {
@@ -113,9 +118,11 @@ export const useWithdraw = (amount: number) => {
   const withdraw = useCallback(async () => {
     try {
       if (!mutateAsync) return
-      await mutateAsync({
+
+      const tx = await mutateAsync({
         args: [parseEther(amount.toString())],
       })
+      toastTransactionHash(tx.receipt.transactionHash)
     } catch (error) {
       console.log(error)
     }
