@@ -11,106 +11,100 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
   TypedEventLog,
   TypedListener,
   TypedContractMethod,
-} from "../../common";
+} from '../../common'
 
 export interface MaliciousAttackerInterface extends Interface {
   getFunction(
-    nameOrSignature: "attack" | "stolenFunds" | "victimContract"
-  ): FunctionFragment;
+    nameOrSignature: 'attack' | 'stolenFunds' | 'victimContract'
+  ): FunctionFragment
 
+  encodeFunctionData(functionFragment: 'attack', values: [BigNumberish]): string
   encodeFunctionData(
-    functionFragment: "attack",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "stolenFunds",
+    functionFragment: 'stolenFunds',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "victimContract",
+    functionFragment: 'victimContract',
     values?: undefined
-  ): string;
+  ): string
 
-  decodeFunctionResult(functionFragment: "attack", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'attack', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'stolenFunds', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "stolenFunds",
+    functionFragment: 'victimContract',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "victimContract",
-    data: BytesLike
-  ): Result;
+  ): Result
 }
 
 export interface MaliciousAttacker extends BaseContract {
-  connect(runner?: ContractRunner | null): MaliciousAttacker;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): MaliciousAttacker
+  waitForDeployment(): Promise<this>
 
-  interface: MaliciousAttackerInterface;
+  interface: MaliciousAttackerInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
-  attack: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  attack: TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
 
-  stolenFunds: TypedContractMethod<[], [bigint], "view">;
+  stolenFunds: TypedContractMethod<[], [bigint], 'view'>
 
-  victimContract: TypedContractMethod<[], [string], "view">;
+  victimContract: TypedContractMethod<[], [string], 'view'>
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "attack"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'attack'
+  ): TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "stolenFunds"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'stolenFunds'
+  ): TypedContractMethod<[], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "victimContract"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'victimContract'
+  ): TypedContractMethod<[], [string], 'view'>
 
-  filters: {};
+  filters: {}
 }

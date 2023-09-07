@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,27 +21,27 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "../../common";
+} from '../../common'
 
 export declare namespace IMonoNFT {
   export type ShareOfCommunityTokenStruct = {
-    shareHolder: AddressLike;
-    shareRatio: BigNumberish;
-  };
+    shareHolder: AddressLike
+    shareRatio: BigNumberish
+  }
 
   export type ShareOfCommunityTokenStructOutput = [
     shareHolder: string,
     shareRatio: bigint
-  ] & { shareHolder: string; shareRatio: bigint };
+  ] & { shareHolder: string; shareRatio: bigint }
 
   export type MonoNFTStruct = {
-    tokenId: BigNumberish;
-    donor: AddressLike;
-    expiresDuration: BigNumberish;
-    uri: string;
-    status: BigNumberish;
-    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[];
-  };
+    tokenId: BigNumberish
+    donor: AddressLike
+    expiresDuration: BigNumberish
+    uri: string
+    status: BigNumberish
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+  }
 
   export type MonoNFTStructOutput = [
     tokenId: bigint,
@@ -51,89 +51,99 @@ export declare namespace IMonoNFT {
     status: bigint,
     sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
   ] & {
-    tokenId: bigint;
-    donor: string;
-    expiresDuration: bigint;
-    uri: string;
-    status: bigint;
-    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[];
-  };
+    tokenId: bigint
+    donor: string
+    expiresDuration: bigint
+    uri: string
+    status: bigint
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
+  }
 
   export type WinnerStruct = {
-    winner: AddressLike;
-    price: BigNumberish;
-    expires: BigNumberish;
-  };
+    winner: AddressLike
+    price: BigNumberish
+    expires: BigNumberish
+  }
 
   export type WinnerStructOutput = [
     winner: string,
     price: bigint,
     expires: bigint
-  ] & { winner: string; price: bigint; expires: bigint };
+  ] & { winner: string; price: bigint; expires: bigint }
 }
 
 export interface IMonoNFTInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "claim"
-      | "confirmWinner"
-      | "getHistoryOfWinners"
-      | "getNFTs"
-      | "getRoleAdmin"
-      | "grantRole"
-      | "hasRole"
-      | "isExpired"
-      | "register"
-      | "renounceRole"
-      | "revokeRole"
-      | "setAuctionDepositAddress"
-      | "setMembershipNFTAddress"
-      | "setUser"
-      | "submit"
-      | "updateMonoNFTStatus"
-      | "userExpires"
-      | "userOf"
-  ): FunctionFragment;
+      | 'claim'
+      | 'confirmWinner'
+      | 'confirmedMonosOf'
+      | 'getHistoryOfWinners'
+      | 'getNFTs'
+      | 'getRoleAdmin'
+      | 'grantRole'
+      | 'hasRole'
+      | 'isExpired'
+      | 'maxConfirmedMonosOf'
+      | 'register'
+      | 'renounceRole'
+      | 'revokeRole'
+      | 'setAuctionDepositAddress'
+      | 'setMembershipNFTAddress'
+      | 'setUser'
+      | 'submit'
+      | 'updateMonoNFTStatus'
+      | 'userExpires'
+      | 'userOf'
+  ): FunctionFragment
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "Claim"
-      | "ConfirmWinner"
-      | "Register"
-      | "RoleAdminChanged"
-      | "RoleGranted"
-      | "RoleRevoked"
-      | "UpdateUser"
-  ): EventFragment;
+      | 'Claim'
+      | 'ConfirmWinner'
+      | 'Register'
+      | 'RoleAdminChanged'
+      | 'RoleGranted'
+      | 'RoleRevoked'
+      | 'UpdateUser'
+  ): EventFragment
 
-  encodeFunctionData(functionFragment: "claim", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: 'claim', values: [BigNumberish]): string
   encodeFunctionData(
-    functionFragment: "confirmWinner",
+    functionFragment: 'confirmWinner',
     values: [AddressLike, BigNumberish, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "getHistoryOfWinners",
+    functionFragment: 'confirmedMonosOf',
+    values: [AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'getHistoryOfWinners',
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "getNFTs", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'getNFTs', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
+    functionFragment: 'getRoleAdmin',
     values: [BytesLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "grantRole",
+    functionFragment: 'grantRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "hasRole",
+    functionFragment: 'hasRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "isExpired",
+    functionFragment: 'isExpired',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "register",
+    functionFragment: 'maxConfirmedMonosOf',
+    values: [AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'register',
     values: [
       AddressLike,
       BigNumberish,
@@ -141,86 +151,85 @@ export interface IMonoNFTInterface extends Interface {
       IMonoNFT.ShareOfCommunityTokenStruct[],
       AddressLike
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "renounceRole",
+    functionFragment: 'renounceRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "revokeRole",
+    functionFragment: 'revokeRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setAuctionDepositAddress",
+    functionFragment: 'setAuctionDepositAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setMembershipNFTAddress",
+    functionFragment: 'setMembershipNFTAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setUser",
+    functionFragment: 'setUser',
     values: [BigNumberish, AddressLike, BigNumberish]
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'submit', values: [BigNumberish]): string
   encodeFunctionData(
-    functionFragment: "submit",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateMonoNFTStatus",
+    functionFragment: 'updateMonoNFTStatus',
     values: [BigNumberish, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "userExpires",
+    functionFragment: 'userExpires',
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "userOf",
-    values: [BigNumberish]
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'userOf', values: [BigNumberish]): string
 
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "confirmWinner",
+    functionFragment: 'confirmWinner',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "getHistoryOfWinners",
+    functionFragment: 'confirmedMonosOf',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getNFTs", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: 'getHistoryOfWinners',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isExpired", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'getNFTs', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "renounceRole",
+    functionFragment: 'getRoleAdmin',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'isExpired', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "setAuctionDepositAddress",
+    functionFragment: 'maxConfirmedMonosOf',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'register', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "setMembershipNFTAddress",
+    functionFragment: 'renounceRole',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setUser", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "submit", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "updateMonoNFTStatus",
+    functionFragment: 'setAuctionDepositAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "userExpires",
+    functionFragment: 'setMembershipNFTAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "userOf", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'setUser', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'submit', data: BytesLike): Result
+  decodeFunctionResult(
+    functionFragment: 'updateMonoNFTStatus',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(functionFragment: 'userExpires', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'userOf', data: BytesLike): Result
 }
 
 export namespace ClaimEvent {
@@ -228,17 +237,17 @@ export namespace ClaimEvent {
     tokenId: BigNumberish,
     user: AddressLike,
     price: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, user: string, price: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, user: string, price: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    user: string;
-    price: bigint;
+    tokenId: bigint
+    user: string
+    price: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ConfirmWinnerEvent {
@@ -246,36 +255,36 @@ export namespace ConfirmWinnerEvent {
     tokenId: BigNumberish,
     winner: AddressLike,
     price: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, winner: string, price: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, winner: string, price: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    winner: string;
-    price: bigint;
+    tokenId: bigint
+    winner: string
+    price: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RegisterEvent {
   export type InputTuple = [
     tokenId: BigNumberish,
     _monoNFT: IMonoNFT.MonoNFTStruct
-  ];
+  ]
   export type OutputTuple = [
     tokenId: bigint,
     _monoNFT: IMonoNFT.MonoNFTStructOutput
-  ];
+  ]
   export interface OutputObject {
-    tokenId: bigint;
-    _monoNFT: IMonoNFT.MonoNFTStructOutput;
+    tokenId: bigint
+    _monoNFT: IMonoNFT.MonoNFTStructOutput
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleAdminChangedEvent {
@@ -283,21 +292,21 @@ export namespace RoleAdminChangedEvent {
     role: BytesLike,
     previousAdminRole: BytesLike,
     newAdminRole: BytesLike
-  ];
+  ]
   export type OutputTuple = [
     role: string,
     previousAdminRole: string,
     newAdminRole: string
-  ];
+  ]
   export interface OutputObject {
-    role: string;
-    previousAdminRole: string;
-    newAdminRole: string;
+    role: string
+    previousAdminRole: string
+    newAdminRole: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleGrantedEvent {
@@ -305,17 +314,17 @@ export namespace RoleGrantedEvent {
     role: BytesLike,
     account: AddressLike,
     sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  ]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleRevokedEvent {
@@ -323,17 +332,17 @@ export namespace RoleRevokedEvent {
     role: BytesLike,
     account: AddressLike,
     sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  ]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace UpdateUserEvent {
@@ -341,93 +350,101 @@ export namespace UpdateUserEvent {
     tokenId: BigNumberish,
     user: AddressLike,
     expires: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    user: string;
-    expires: bigint;
+    tokenId: bigint
+    user: string
+    expires: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IMonoNFT extends BaseContract {
-  connect(runner?: ContractRunner | null): IMonoNFT;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IMonoNFT
+  waitForDeployment(): Promise<this>
 
-  interface: IMonoNFTInterface;
+  interface: IMonoNFTInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
-  claim: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+  claim: TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
 
   confirmWinner: TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+
+  confirmedMonosOf: TypedContractMethod<[user: AddressLike], [bigint], 'view'>
 
   getHistoryOfWinners: TypedContractMethod<
     [tokenId: BigNumberish],
     [IMonoNFT.WinnerStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
 
-  getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
+  getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], 'view'>
 
-  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], 'view'>
 
   grantRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   hasRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
 
-  isExpired: TypedContractMethod<[tokenId: BigNumberish], [boolean], "view">;
+  isExpired: TypedContractMethod<[tokenId: BigNumberish], [boolean], 'view'>
+
+  maxConfirmedMonosOf: TypedContractMethod<
+    [user: AddressLike],
+    [bigint],
+    'view'
+  >
 
   register: TypedContractMethod<
     [
@@ -438,97 +455,103 @@ export interface IMonoNFT extends BaseContract {
       owner: AddressLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   renounceRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   revokeRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setAuctionDepositAddress: TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setMembershipNFTAddress: TypedContractMethod<
     [_membershipNFTAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setUser: TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  submit: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+  submit: TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
 
   updateMonoNFTStatus: TypedContractMethod<
     [tokenId: BigNumberish, status: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
 
-  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "claim"
-  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'claim'
+  ): TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "confirmWinner"
+    nameOrSignature: 'confirmWinner'
   ): TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "getHistoryOfWinners"
+    nameOrSignature: 'confirmedMonosOf'
+  ): TypedContractMethod<[user: AddressLike], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'getHistoryOfWinners'
   ): TypedContractMethod<
     [tokenId: BigNumberish],
     [IMonoNFT.WinnerStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "getNFTs"
-  ): TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
+    nameOrSignature: 'getNFTs'
+  ): TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], 'view'>
   getFunction(
-    nameOrSignature: "getRoleAdmin"
-  ): TypedContractMethod<[role: BytesLike], [string], "view">;
+    nameOrSignature: 'getRoleAdmin'
+  ): TypedContractMethod<[role: BytesLike], [string], 'view'>
   getFunction(
-    nameOrSignature: "grantRole"
+    nameOrSignature: 'grantRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "hasRole"
+    nameOrSignature: 'hasRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "isExpired"
-  ): TypedContractMethod<[tokenId: BigNumberish], [boolean], "view">;
+    nameOrSignature: 'isExpired'
+  ): TypedContractMethod<[tokenId: BigNumberish], [boolean], 'view'>
   getFunction(
-    nameOrSignature: "register"
+    nameOrSignature: 'maxConfirmedMonosOf'
+  ): TypedContractMethod<[user: AddressLike], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'register'
   ): TypedContractMethod<
     [
       donor: AddressLike,
@@ -538,186 +561,186 @@ export interface IMonoNFT extends BaseContract {
       owner: AddressLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "renounceRole"
+    nameOrSignature: 'renounceRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "revokeRole"
+    nameOrSignature: 'revokeRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setAuctionDepositAddress"
+    nameOrSignature: 'setAuctionDepositAddress'
   ): TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setMembershipNFTAddress"
+    nameOrSignature: 'setMembershipNFTAddress'
   ): TypedContractMethod<
     [_membershipNFTAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setUser"
+    nameOrSignature: 'setUser'
   ): TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "submit"
-  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'submit'
+  ): TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "updateMonoNFTStatus"
+    nameOrSignature: 'updateMonoNFTStatus'
   ): TypedContractMethod<
     [tokenId: BigNumberish, status: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "userExpires"
-  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+    nameOrSignature: 'userExpires'
+  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "userOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'userOf'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getEvent(
-    key: "Claim"
+    key: 'Claim'
   ): TypedContractEvent<
     ClaimEvent.InputTuple,
     ClaimEvent.OutputTuple,
     ClaimEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "ConfirmWinner"
+    key: 'ConfirmWinner'
   ): TypedContractEvent<
     ConfirmWinnerEvent.InputTuple,
     ConfirmWinnerEvent.OutputTuple,
     ConfirmWinnerEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Register"
+    key: 'Register'
   ): TypedContractEvent<
     RegisterEvent.InputTuple,
     RegisterEvent.OutputTuple,
     RegisterEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleAdminChanged"
+    key: 'RoleAdminChanged'
   ): TypedContractEvent<
     RoleAdminChangedEvent.InputTuple,
     RoleAdminChangedEvent.OutputTuple,
     RoleAdminChangedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleGranted"
+    key: 'RoleGranted'
   ): TypedContractEvent<
     RoleGrantedEvent.InputTuple,
     RoleGrantedEvent.OutputTuple,
     RoleGrantedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleRevoked"
+    key: 'RoleRevoked'
   ): TypedContractEvent<
     RoleRevokedEvent.InputTuple,
     RoleRevokedEvent.OutputTuple,
     RoleRevokedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "UpdateUser"
+    key: 'UpdateUser'
   ): TypedContractEvent<
     UpdateUserEvent.InputTuple,
     UpdateUserEvent.OutputTuple,
     UpdateUserEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "Claim(uint256,address,uint256)": TypedContractEvent<
+    'Claim(uint256,address,uint256)': TypedContractEvent<
       ClaimEvent.InputTuple,
       ClaimEvent.OutputTuple,
       ClaimEvent.OutputObject
-    >;
+    >
     Claim: TypedContractEvent<
       ClaimEvent.InputTuple,
       ClaimEvent.OutputTuple,
       ClaimEvent.OutputObject
-    >;
+    >
 
-    "ConfirmWinner(uint256,address,uint256)": TypedContractEvent<
+    'ConfirmWinner(uint256,address,uint256)': TypedContractEvent<
       ConfirmWinnerEvent.InputTuple,
       ConfirmWinnerEvent.OutputTuple,
       ConfirmWinnerEvent.OutputObject
-    >;
+    >
     ConfirmWinner: TypedContractEvent<
       ConfirmWinnerEvent.InputTuple,
       ConfirmWinnerEvent.OutputTuple,
       ConfirmWinnerEvent.OutputObject
-    >;
+    >
 
-    "Register(uint256,tuple)": TypedContractEvent<
+    'Register(uint256,tuple)': TypedContractEvent<
       RegisterEvent.InputTuple,
       RegisterEvent.OutputTuple,
       RegisterEvent.OutputObject
-    >;
+    >
     Register: TypedContractEvent<
       RegisterEvent.InputTuple,
       RegisterEvent.OutputTuple,
       RegisterEvent.OutputObject
-    >;
+    >
 
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
+    'RoleAdminChanged(bytes32,bytes32,bytes32)': TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
     RoleAdminChanged: TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
 
-    "RoleGranted(bytes32,address,address)": TypedContractEvent<
+    'RoleGranted(bytes32,address,address)': TypedContractEvent<
       RoleGrantedEvent.InputTuple,
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
-    >;
+    >
     RoleGranted: TypedContractEvent<
       RoleGrantedEvent.InputTuple,
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
-    >;
+    >
 
-    "RoleRevoked(bytes32,address,address)": TypedContractEvent<
+    'RoleRevoked(bytes32,address,address)': TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
-    >;
+    >
     RoleRevoked: TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
-    >;
+    >
 
-    "UpdateUser(uint256,address,uint64)": TypedContractEvent<
+    'UpdateUser(uint256,address,uint64)': TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
+    >
     UpdateUser: TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
-  };
+    >
+  }
 }
