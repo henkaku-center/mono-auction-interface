@@ -1,23 +1,30 @@
-import { useCallback, useMemo, useState } from 'react'
-import { formatEther, parseEther } from 'viem'
+import erc20ABI from '@/abi/ERC20.json'
 import {
-  erc20ABI,
-  useAccount,
+  useAddress,
+  useContract,
   useContractRead,
   useContractWrite,
-  usePrepareContractWrite,
-} from 'wagmi'
+} from '@thirdweb-dev/react'
+import { formatEther, parseEther } from 'ethers/lib/utils'
+import { useCallback, useMemo } from 'react'
+import { useToastTransactionHash } from './useTransaction'
+
+const useCommunityTokenContract = () => {
+  const { contract } = useContract(
+    process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
+    erc20ABI.abi
+  )
+
+  return { contract }
+}
 
 export const useBalanceOf = () => {
-  const { address } = useAccount()
+  const address = useAddress()
+  const { contract } = useCommunityTokenContract()
 
-  const { data } = useContractRead({
-    address: process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
-    abi: erc20ABI,
-    functionName: 'balanceOf',
-    args: [address as `0x${string}`],
-    watch: true,
-  })
+  const { data, isLoading, error } = useContractRead(contract, 'balanceOf', [
+    address,
+  ])
 
   const balance = useMemo(() => {
     if (data === undefined) return 0
@@ -28,19 +35,21 @@ export const useBalanceOf = () => {
 }
 
 export const useApprove = (spender: string, amount: number) => {
-  const { config } = usePrepareContractWrite({
-    address: process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
-    abi: erc20ABI,
-    functionName: 'approve',
-    args: [spender as `0x${string}`, parseEther(amount.toString())],
-  })
+  const { contract } = useCommunityTokenContract()
+  const toastTransactionHash = useToastTransactionHash()
 
-  const { writeAsync, error, isLoading } = useContractWrite(config)
+  const { mutateAsync, isLoading, error } = useContractWrite(
+    contract,
+    'approve'
+  )
 
   const approve = useCallback(async () => {
-    if (!writeAsync) return
-    await writeAsync()
-  }, [writeAsync])
+    if (!mutateAsync) return
+    const tx = await mutateAsync({
+      args: [spender as `0x${string}`, parseEther(String(amount))],
+    })
+    toastTransactionHash(tx.receipt.transactionHash)
+  }, [mutateAsync, amount, spender])
 
   return { approve, error, isLoading }
 }
@@ -50,13 +59,12 @@ export const useApproval = (
   address: string | undefined,
   comparedValue?: number
 ) => {
-  const { data } = useContractRead({
-    address: process.env.NEXT_PUBLIC_COMMUNITY_TOKEN_ADDRESS! as `0x${string}`,
-    abi: erc20ABI,
-    functionName: 'allowance',
-    args: [address as `0x${string}`, spenderAddress as `0x${string}`],
-    watch: true,
-  })
+  const { contract } = useCommunityTokenContract()
+
+  const { data, isLoading, error } = useContractRead(contract, 'allowance', [
+    address as `0x${string}`,
+    spenderAddress as `0x${string}`,
+  ])
 
   const allowanceValue = useMemo(() => {
     if (data === undefined) return 0

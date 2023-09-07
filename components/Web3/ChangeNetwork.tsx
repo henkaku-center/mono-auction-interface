@@ -8,15 +8,18 @@ import {
   Text,
   useDisclosure,
 } from '..'
-import { useAccount, useNetwork } from 'wagmi'
+import { useAddress, useChain } from '@thirdweb-dev/react'
 
 export const ChangeNetwork: FC = () => {
-  const { address } = useAccount()
-  const { chain } = useNetwork()
+  const address = useAddress()
+  const chain = useChain()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   useEffect(() => {
-    if (address && chain?.id !== Number(process.env.NEXT_PUBLIC_CHAIN_ID)) {
+    if (
+      address &&
+      chain?.chainId !== Number(process.env.NEXT_PUBLIC_CHAIN_ID)
+    ) {
       onOpen()
     } else {
       onClose()

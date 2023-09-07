@@ -13,21 +13,23 @@ export interface Transaction {
   date: string
 }
 
-export interface FormData {
-  productName?: string
-  image?: File
-  imageIPFSHash?: string
-  description?: string
-  rule?: string
-  minimumCost?: string
-  allocationAddress?: string
-  allocationPercentage?: string
-  startDate?: Date
-  endDate?: Date
+export interface MonoNFTRegisterFormData {
+  name: string
+  description: string
+  rule: string
+  image: File | null
+  donor: string
+  expiresDuration: number
+  sharesOfCommunityToken: {
+    shareHolder: string
+    shareRatio: number
+  }[]
+  owner: string
 }
 
 export interface NFTMetadata {
   name: string
   description: string
   image: string
+  rule: string
 }

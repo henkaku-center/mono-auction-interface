@@ -1,43 +1,45 @@
+import monoNFTABI from '@/abi/MonoNFT.json'
 import {
   useContractRead,
+  useContract,
   useContractWrite,
-  usePrepareContractWrite,
-} from 'wagmi'
-import monoNFTABI from '@/abi/MonoNFT.json'
+  useAddress,
+} from '@thirdweb-dev/react'
 import { IMonoNFT } from '@/types/typechain-types'
 import { useIPFS2Pinata } from './usePinata'
 import { use, useCallback, useEffect, useMemo, useState } from 'react'
 import { NFTMetadata } from '@/types'
+import { BigNumber } from 'ethers'
+import { useToastTransactionHash } from './useTransaction'
 
-export const useMonoNFTContractRead = (
-  functionName: string,
-  args?: any[],
-  watch?: boolean
-) => {
-  const readResult = useContractRead({
-    abi: monoNFTABI.abi,
-    address: process.env.NEXT_PUBLIC_MONO_NFT_ADDRESS! as `0x${string}`,
-    functionName,
-    args,
-    watch: watch ? true : false,
-  })
+export const useMonoNFTContract = () => {
+  const { contract } = useContract(
+    process.env.NEXT_PUBLIC_MONO_NFT_ADDRESS!,
+    monoNFTABI.abi
+  )
+  return contract
+}
+
+export const useMonoNFTContractRead = (functionName: string, args?: any[]) => {
+  const contract = useMonoNFTContract()
+  const readResult = useContractRead(contract, functionName, args)
 
   return readResult
 }
 
-export const useMonoNFTContractWrite = (functionName: string, args?: any[]) => {
-  const config = usePrepareContractWrite({
-    abi: monoNFTABI.abi,
-    address: process.env.NEXT_PUBLIC_MONO_NFT_ADDRESS! as `0x${string}`,
-    functionName,
-    args,
-  })
+export const useMonoNFTContractWrite = (functionName: string) => {
+  const contract = useMonoNFTContract()
+  const { mutateAsync, isLoading, error } = useContractWrite(
+    contract,
+    functionName
+  )
 
-  return config
+  return { mutateAsync, isLoading, error }
 }
 
 export const useGetRegisteredMonoNFTs = () => {
-  const { data, error, isLoading } = useMonoNFTContractRead('getNFTs')
+  const contract = useMonoNFTContract()
+  const { data, error, isLoading } = useContractRead(contract, 'getNFTs')
 
   return {
     data: data as IMonoNFT.MonoNFTStructOutput[],
@@ -125,19 +127,140 @@ export const useLatestWinner = (tokenId: number) => {
 }
 
 export const useClaimMonoNFT = (tokenId: number) => {
-  const { config } = useMonoNFTContractWrite('claim', [tokenId])
-
-  const { writeAsync } = useContractWrite(config)
+  const { mutateAsync, isLoading } = useMonoNFTContractWrite('claim')
+  const toastTransactionHash = useToastTransactionHash()
 
   const claim = useCallback(async () => {
-    if (!writeAsync) return
+    if (!mutateAsync) return
     try {
-      const tx = await writeAsync()
+      const tx = await mutateAsync({ args: [tokenId] })
+      toastTransactionHash(tx.receipt.transactionHash)
       return tx
     } catch (error) {
       console.log(error)
     }
-  }, [writeAsync])
+  }, [tokenId])
 
-  return { claim }
+  return { claim, isLoading }
+}
+
+export const useIsAdmin = () => {
+  const address = useAddress()
+
+  const { data, isLoading } = useMonoNFTContractRead('hasRole', [
+    '0x0000000000000000000000000000000000000000000000000000000000000000',
+    address,
+  ])
+
+  return {
+    data: data as boolean,
+    isLoading,
+  }
+}
+
+export const useUpdateStatus = (tokenId: number, status: number) => {
+  const { mutateAsync, isLoading, error } = useMonoNFTContractWrite(
+    'updateMonoNFTStatus'
+  )
+  const toastTransactionHash = useToastTransactionHash()
+
+  const updateStatus = useCallback(async () => {
+    if (!mutateAsync) return
+    try {
+      const tx = await mutateAsync({ args: [tokenId, status] })
+      toastTransactionHash(tx.receipt.transactionHash)
+      return tx
+    } catch (error) {
+      console.log(error)
+    }
+  }, [mutateAsync, tokenId, status])
+
+  return {
+    updateStatus,
+    isLoading,
+  }
+}
+
+export const useConfirmWinner = (
+  winner: string,
+  tokenId: number,
+  price: BigNumber
+) => {
+  const { mutateAsync, isLoading } = useMonoNFTContractWrite('confirmWinner')
+  const toastTransactionHash = useToastTransactionHash()
+
+  const confirmWinner = useCallback(async () => {
+    if (!mutateAsync) return
+    try {
+      const tx = await mutateAsync({ args: [winner, tokenId, price] })
+      toastTransactionHash(tx.receipt.transactionHash)
+      return tx
+    } catch (error) {
+      console.log(error)
+    }
+  }, [mutateAsync, winner, tokenId, price])
+
+  return {
+    confirmWinner,
+    isLoading,
+  }
+}
+
+export const useRegisterMonoNFT = () => {
+  const { mutateAsync, isLoading } = useMonoNFTContractWrite('register')
+  const toastTransactionHash = useToastTransactionHash()
+
+  const registerMonoNFT = useCallback(
+    async (
+      donor: string,
+      expiresDuration: number,
+      uri: string,
+      sharesOfCommunityToken: { shareHolder: string; shareRatio: number }[],
+      owner: string
+    ) => {
+      if (!mutateAsync) return
+      try {
+        const tx = await mutateAsync({
+          args: [
+            donor,
+            Math.ceil(expiresDuration * 24 * 60 * 60),
+            uri,
+            sharesOfCommunityToken,
+            owner,
+          ],
+        })
+        toastTransactionHash(tx.receipt.transactionHash)
+        return tx
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    []
+  )
+
+  return {
+    registerMonoNFT,
+    isLoading,
+  }
+}
+
+export const useRightOf = (tokenId: number) => {
+  const { data, isLoading } = useMonoNFTContractRead('rightOf', [tokenId])
+
+  const right = useMemo(() => {
+    console.log(data)
+    switch (data) {
+      case 0:
+        return '所有権'
+      case 1:
+        return '使用権'
+      default:
+        break
+    }
+  }, [data])
+
+  return {
+    data: right,
+    isLoading,
+  }
 }

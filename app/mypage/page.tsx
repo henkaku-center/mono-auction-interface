@@ -22,8 +22,8 @@ import {
 import { NextPage } from 'next'
 import { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { formatEther } from 'viem'
-import { useAccount } from 'wagmi'
+import { useAddress } from '@thirdweb-dev/react'
+import { formatEther } from 'ethers/lib/utils'
 
 type ApproveFormData = {
   approveAmount: number
@@ -38,7 +38,7 @@ type WithdrawFormData = {
 }
 
 const MyPage: NextPage = () => {
-  const { address } = useAccount()
+  const address = useAddress()
 
   const {
     handleSubmit: handleApprove,
@@ -75,7 +75,7 @@ const MyPage: NextPage = () => {
 
   const balance = useBalanceOf()
 
-  const { approve } = useApprove(
+  const { approve, isLoading: isApproving } = useApprove(
     process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS!,
     watchApprove('approveAmount')
   )
@@ -84,24 +84,28 @@ const MyPage: NextPage = () => {
     address
   )
 
-  const { deposit } = useDeposit(watchDeposit('depositAmount'))
+  const { deposit, isLoading: isDepositing } = useDeposit(
+    watchDeposit('depositAmount')
+  )
   const { data } = useCurrentDeposit()
 
-  const { withdraw } = useWithdraw(watchWithdraw('withdrawAmount'))
+  const { withdraw, isLoading: isWithdrawing } = useWithdraw(
+    watchWithdraw('withdrawAmount')
+  )
 
   const submitApprove = useCallback(async () => {
     await approve()
-    await resetApprove()
+    resetApprove()
   }, [approve])
 
   const submitDeposit = useCallback(async () => {
     await deposit()
-    await resetDeposit()
+    resetDeposit()
   }, [deposit])
 
   const submitWithdraw = useCallback(async () => {
     await withdraw()
-    await resetWithdraw()
+    resetWithdraw()
   }, [withdraw])
 
   return (
@@ -149,7 +153,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Approve</Button>
+            <Button
+              type="submit"
+              isLoading={isApproving}
+              disabled={isApproving}
+            >
+              Approve
+            </Button>
           </Grid>
         </form>
 
@@ -172,7 +182,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Deposit</Button>
+            <Button
+              type="submit"
+              isLoading={isDepositing}
+              disabled={isDepositing}
+            >
+              Deposit
+            </Button>
           </Grid>
         </form>
       </Box>
@@ -195,7 +211,13 @@ const MyPage: NextPage = () => {
                 />
               )}
             />
-            <Button type="submit">Withdraw</Button>
+            <Button
+              type="submit"
+              isLoading={isWithdrawing}
+              disabled={isWithdrawing}
+            >
+              Withdraw
+            </Button>
           </Grid>
         </form>
       </Box>

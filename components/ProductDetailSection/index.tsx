@@ -16,8 +16,9 @@ import {
   useGetMonoNFT,
   useMonoNFTMetadata,
   useMonoNFTStatusLabel,
+  useRightOf,
 } from '@/hooks/useMonoNFT'
-import { useIsAdmin } from '@/hooks/useAdmin'
+import { useIsAdmin } from '@/hooks/useMonoNFT'
 import { ProductDetailAdminMenu } from './AdminMenu'
 import { WinnerMenu } from './WinnerMenu'
 
@@ -31,6 +32,7 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
   const { data: isAdmin } = useIsAdmin()
 
   const label = useMonoNFTStatusLabel(Number(monoNFT?.[4]))
+  const { data: right } = useRightOf(productId)
 
   const ProductDetailCard = ({
     children,
@@ -72,10 +74,20 @@ const ProductDetailSection: FC<ProductDetailSectionProps> = ({ productId }) => {
         </Box>
         <Box w="50%">
           <Badge>{label || ''}</Badge>
+          <Badge ml={2}>{right || ''}</Badge>
           <Stack spacing="7">
             <Text fontSize="3xl">{metadata?.name}</Text>
             <Text fontSize="lg">Donated by {monoNFT?.[1]}</Text>
-            <Text fontSize="lg">{metadata?.description}</Text>
+            <Text fontSize="lg">
+              説明
+              <br />
+              {metadata?.description}
+            </Text>
+            <Text fontSize="lg">
+              ルール
+              <br />
+              {metadata?.rule}
+            </Text>
           </Stack>
 
           <WinnerMenu tokenId={productId} status={Number(monoNFT?.[4])} />

@@ -1,46 +1,53 @@
-import {
-  useAccount,
-  useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-} from 'wagmi'
 import auctionDepositABI from '@/abi/AuctionDeposit.json'
 import { IAuctionDeposit } from '@/types/typechain-types'
 import { useCallback, useEffect } from 'react'
-import { parseEther } from 'viem'
 import { useToast } from '@chakra-ui/react'
+import {
+  useContract,
+  useContractRead,
+  useContractWrite,
+  useAddress,
+} from '@thirdweb-dev/react'
+import { parseEther } from 'ethers/lib/utils'
+import { useToastTransactionHash } from './useTransaction'
+
+const useAuctionDepositContract = () => {
+  const { contract } = useContract(
+    process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
+    auctionDepositABI.abi
+  )
+
+  return { contract }
+}
 
 export const useAuctionDepositContractRead = (
   functionName: string,
   args?: any[]
 ) => {
-  const readResult = useContractRead({
-    abi: auctionDepositABI.abi,
-    address: process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
-    functionName,
-    args,
-    watch: true,
-  })
+  const { contract } = useAuctionDepositContract()
 
-  return readResult
+  const { data, isLoading, error } = useContractRead(
+    contract,
+    functionName,
+    args
+  )
+
+  return { data, isLoading, error }
 }
 
-export const useAuctionDepositContractWrite = (
-  functionName: string,
-  args?: any[]
-) => {
-  const config = usePrepareContractWrite({
-    abi: auctionDepositABI.abi,
-    address: process.env.NEXT_PUBLIC_AUCTION_DEPOSIT_ADDRESS! as `0x${string}`,
-    functionName,
-    args,
-  })
+export const useAuctionDepositContractWrite = (functionName: string) => {
+  const { contract } = useAuctionDepositContract()
 
-  return config
+  const { mutateAsync, isLoading, error } = useContractWrite(
+    contract,
+    functionName
+  )
+
+  return { mutateAsync, isLoading, error }
 }
 
 export const useCurrentDeposit = () => {
-  const { address } = useAccount()
+  const address = useAddress()
   const { data, error, isLoading } = useAuctionDepositContractRead(
     'getDepositByAddress',
     [address]
@@ -54,12 +61,9 @@ export const useCurrentDeposit = () => {
 }
 
 export const useDeposit = (amount: number) => {
-  const { config, error: prepareError } = useAuctionDepositContractWrite(
-    'deposit',
-    [parseEther(amount.toString())]
-  )
-
-  const { writeAsync, isLoading, error, data } = useContractWrite(config)
+  const { mutateAsync, isLoading, error } =
+    useAuctionDepositContractWrite('deposit')
+  const toastTransactionHash = useToastTransactionHash()
 
   const toast = useToast()
   useEffect(() => {
@@ -75,28 +79,29 @@ export const useDeposit = (amount: number) => {
 
   const deposit = useCallback(async () => {
     try {
-      if (!writeAsync) return
-      await writeAsync()
+      if (!mutateAsync) return
+
+      const tx = await mutateAsync({
+        args: [parseEther(amount.toString())],
+      })
+      toastTransactionHash(tx.receipt.transactionHash)
     } catch (error) {
       console.log(error)
     }
-  }, [amount, writeAsync])
+  }, [amount, mutateAsync])
 
   return {
     deposit,
-    data,
+    mutateAsync,
     error,
     isLoading,
   }
 }
 
 export const useWithdraw = (amount: number) => {
-  const { config, error: prepareError } = useAuctionDepositContractWrite(
-    'withdraw',
-    [parseEther(amount.toString())]
-  )
-
-  const { writeAsync, isLoading, error, data } = useContractWrite(config)
+  const { mutateAsync, isLoading, error } =
+    useAuctionDepositContractWrite('withdraw')
+  const toastTransactionHash = useToastTransactionHash()
 
   const toast = useToast()
   useEffect(() => {
@@ -112,16 +117,20 @@ export const useWithdraw = (amount: number) => {
 
   const withdraw = useCallback(async () => {
     try {
-      if (!writeAsync) return
-      await writeAsync()
+      if (!mutateAsync) return
+
+      const tx = await mutateAsync({
+        args: [parseEther(amount.toString())],
+      })
+      toastTransactionHash(tx.receipt.transactionHash)
     } catch (error) {
       console.log(error)
     }
-  }, [amount, writeAsync])
+  }, [amount, mutateAsync])
 
   return {
     withdraw,
-    data,
+    mutateAsync,
     error,
     isLoading,
   }
