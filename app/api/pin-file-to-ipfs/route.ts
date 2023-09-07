@@ -3,14 +3,6 @@ import axios from 'axios'
 import { Readable } from 'stream'
 import FormData from 'form-data'
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '6mb',
-    },
-  },
-}
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()

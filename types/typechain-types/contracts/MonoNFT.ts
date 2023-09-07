@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,27 +21,27 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "../common";
+} from '../common'
 
 export declare namespace IMonoNFT {
   export type ShareOfCommunityTokenStruct = {
-    shareHolder: AddressLike;
-    shareRatio: BigNumberish;
-  };
+    shareHolder: AddressLike
+    shareRatio: BigNumberish
+  }
 
   export type ShareOfCommunityTokenStructOutput = [
     shareHolder: string,
     shareRatio: bigint
-  ] & { shareHolder: string; shareRatio: bigint };
+  ] & { shareHolder: string; shareRatio: bigint }
 
   export type MonoNFTStruct = {
-    tokenId: BigNumberish;
-    donor: AddressLike;
-    expiresDuration: BigNumberish;
-    uri: string;
-    status: BigNumberish;
-    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[];
-  };
+    tokenId: BigNumberish
+    donor: AddressLike
+    expiresDuration: BigNumberish
+    uri: string
+    status: BigNumberish
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
+  }
 
   export type MonoNFTStructOutput = [
     tokenId: bigint,
@@ -51,177 +51,207 @@ export declare namespace IMonoNFT {
     status: bigint,
     sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
   ] & {
-    tokenId: bigint;
-    donor: string;
-    expiresDuration: bigint;
-    uri: string;
-    status: bigint;
-    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[];
-  };
+    tokenId: bigint
+    donor: string
+    expiresDuration: bigint
+    uri: string
+    status: bigint
+    sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStructOutput[]
+  }
 
   export type WinnerStruct = {
-    winner: AddressLike;
-    price: BigNumberish;
-    expires: BigNumberish;
-  };
+    winner: AddressLike
+    price: BigNumberish
+    expires: BigNumberish
+  }
 
   export type WinnerStructOutput = [
     winner: string,
     price: bigint,
     expires: bigint
-  ] & { winner: string; price: bigint; expires: bigint };
+  ] & { winner: string; price: bigint; expires: bigint }
 }
 
 export interface MonoNFTInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "DEFAULT_ADMIN_ROLE"
-      | "_historyOfWinners"
-      | "_latestWinner"
-      | "_monoNFTs"
-      | "approve"
-      | "auctionAdminAddress"
-      | "auctionDepositContractAddress"
-      | "balanceOf"
-      | "changeSharesOfCommunityToken"
-      | "claim"
-      | "communityTreasuryAddress"
-      | "confirmWinner"
-      | "getApproved"
-      | "getHistoryOfWinners"
-      | "getNFTs"
-      | "getRoleAdmin"
-      | "grantRole"
-      | "hasRole"
-      | "isApprovedForAll"
-      | "isExpired"
-      | "membershipNFTAddress"
-      | "name"
-      | "ownerOf"
-      | "register"
-      | "renounceRole"
-      | "revokeRole"
-      | "rightOf"
-      | "safeTransferFrom(address,address,uint256)"
-      | "safeTransferFrom(address,address,uint256,bytes)"
-      | "setApprovalForAll"
-      | "setAuctionAdminAddress"
-      | "setAuctionDepositAddress"
-      | "setCommunityTreasuryAddress"
-      | "setMembershipNFTAddress"
-      | "setUser"
-      | "submit"
-      | "supportsInterface"
-      | "symbol"
-      | "tokenByIndex"
-      | "tokenOfOwnerByIndex"
-      | "tokenURI"
-      | "totalSupply"
-      | "transferFrom"
-      | "updateMonoNFTStatus"
-      | "userExpires"
-      | "userOf"
-  ): FunctionFragment;
+      | 'DEFAULT_ADMIN_ROLE'
+      | '_historyOfWinners'
+      | '_latestWinner'
+      | '_monoNFTs'
+      | 'approve'
+      | 'auctionAdminAddress'
+      | 'auctionDepositContractAddress'
+      | 'balanceOf'
+      | 'basicMembershipTokenId'
+      | 'changeSharesOfCommunityToken'
+      | 'claim'
+      | 'communityTreasuryAddress'
+      | 'confirmWinner'
+      | 'confirmedMonosOf'
+      | 'getApproved'
+      | 'getHistoryOfWinners'
+      | 'getNFTs'
+      | 'getRoleAdmin'
+      | 'goldMembershipTokenId'
+      | 'grantRole'
+      | 'hasRole'
+      | 'initialize'
+      | 'isApprovedForAll'
+      | 'isExpired'
+      | 'maxConfirmedMonosOf'
+      | 'membershipNFTAddress'
+      | 'name'
+      | 'ownerOf'
+      | 'register'
+      | 'renounceRole'
+      | 'revokeRole'
+      | 'rightOf'
+      | 'safeTransferFrom(address,address,uint256)'
+      | 'safeTransferFrom(address,address,uint256,bytes)'
+      | 'setApprovalForAll'
+      | 'setAuctionAdminAddress'
+      | 'setAuctionDepositAddress'
+      | 'setBasicMembershipTokenId'
+      | 'setCommunityTreasuryAddress'
+      | 'setGoldMembershipTokenId'
+      | 'setMembershipNFTAddress'
+      | 'setSilverMembershipTokenId'
+      | 'setUser'
+      | 'silverMembershipTokenId'
+      | 'submit'
+      | 'supportsInterface'
+      | 'symbol'
+      | 'tokenByIndex'
+      | 'tokenOfOwnerByIndex'
+      | 'tokenURI'
+      | 'totalSupply'
+      | 'transferFrom'
+      | 'updateMonoNFTStatus'
+      | 'userExpires'
+      | 'userOf'
+  ): FunctionFragment
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "Approval"
-      | "ApprovalForAll"
-      | "Claim"
-      | "ConfirmWinner"
-      | "Register"
-      | "RoleAdminChanged"
-      | "RoleGranted"
-      | "RoleRevoked"
-      | "Transfer"
-      | "UpdateUser"
-  ): EventFragment;
+      | 'Approval'
+      | 'ApprovalForAll'
+      | 'Claim'
+      | 'ConfirmWinner'
+      | 'Initialized'
+      | 'Register'
+      | 'RoleAdminChanged'
+      | 'RoleGranted'
+      | 'RoleRevoked'
+      | 'Transfer'
+      | 'UpdateUser'
+  ): EventFragment
 
   encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
+    functionFragment: 'DEFAULT_ADMIN_ROLE',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "_historyOfWinners",
+    functionFragment: '_historyOfWinners',
     values: [BigNumberish, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "_latestWinner",
+    functionFragment: '_latestWinner',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "_monoNFTs",
+    functionFragment: '_monoNFTs',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: 'approve',
     values: [AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "auctionAdminAddress",
+    functionFragment: 'auctionAdminAddress',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "auctionDepositContractAddress",
+    functionFragment: 'auctionDepositContractAddress',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "balanceOf",
+    functionFragment: 'balanceOf',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "changeSharesOfCommunityToken",
+    functionFragment: 'basicMembershipTokenId',
+    values?: undefined
+  ): string
+  encodeFunctionData(
+    functionFragment: 'changeSharesOfCommunityToken',
     values: [BigNumberish, IMonoNFT.ShareOfCommunityTokenStruct[]]
-  ): string;
-  encodeFunctionData(functionFragment: "claim", values: [BigNumberish]): string;
+  ): string
+  encodeFunctionData(functionFragment: 'claim', values: [BigNumberish]): string
   encodeFunctionData(
-    functionFragment: "communityTreasuryAddress",
+    functionFragment: 'communityTreasuryAddress',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "confirmWinner",
+    functionFragment: 'confirmWinner',
     values: [AddressLike, BigNumberish, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "getApproved",
+    functionFragment: 'confirmedMonosOf',
+    values: [AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'getApproved',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "getHistoryOfWinners",
+    functionFragment: 'getHistoryOfWinners',
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "getNFTs", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'getNFTs', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "getRoleAdmin",
+    functionFragment: 'getRoleAdmin',
     values: [BytesLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedForAll",
-    values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isExpired",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "membershipNFTAddress",
+    functionFragment: 'goldMembershipTokenId',
     values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "ownerOf",
+    functionFragment: 'grantRole',
+    values: [BytesLike, AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'hasRole',
+    values: [BytesLike, AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'initialize',
+    values: [string, string]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'isApprovedForAll',
+    values: [AddressLike, AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'isExpired',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "register",
+    functionFragment: 'maxConfirmedMonosOf',
+    values: [AddressLike]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'membershipNFTAddress',
+    values?: undefined
+  ): string
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'ownerOf',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'register',
     values: [
       AddressLike,
       BigNumberish,
@@ -229,223 +259,257 @@ export interface MonoNFTInterface extends Interface {
       IMonoNFT.ShareOfCommunityTokenStruct[],
       AddressLike
     ]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "renounceRole",
+    functionFragment: 'renounceRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "revokeRole",
+    functionFragment: 'revokeRole',
     values: [BytesLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "rightOf",
+    functionFragment: 'rightOf',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
+    functionFragment: 'safeTransferFrom(address,address,uint256)',
     values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    functionFragment: 'safeTransferFrom(address,address,uint256,bytes)',
     values: [AddressLike, AddressLike, BigNumberish, BytesLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setApprovalForAll",
+    functionFragment: 'setApprovalForAll',
     values: [AddressLike, boolean]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setAuctionAdminAddress",
+    functionFragment: 'setAuctionAdminAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setAuctionDepositAddress",
+    functionFragment: 'setAuctionDepositAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setCommunityTreasuryAddress",
+    functionFragment: 'setBasicMembershipTokenId',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'setCommunityTreasuryAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setMembershipNFTAddress",
+    functionFragment: 'setGoldMembershipTokenId',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'setMembershipNFTAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setUser",
+    functionFragment: 'setSilverMembershipTokenId',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'setUser',
     values: [BigNumberish, AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "submit",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "tokenByIndex",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokenOfOwnerByIndex",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokenURI",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalSupply",
+    functionFragment: 'silverMembershipTokenId',
     values?: undefined
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'submit', values: [BigNumberish]): string
   encodeFunctionData(
-    functionFragment: "transferFrom",
+    functionFragment: 'supportsInterface',
+    values: [BytesLike]
+  ): string
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'tokenByIndex',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'tokenOfOwnerByIndex',
+    values: [AddressLike, BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'tokenURI',
+    values: [BigNumberish]
+  ): string
+  encodeFunctionData(
+    functionFragment: 'totalSupply',
+    values?: undefined
+  ): string
+  encodeFunctionData(
+    functionFragment: 'transferFrom',
     values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "updateMonoNFTStatus",
+    functionFragment: 'updateMonoNFTStatus',
     values: [BigNumberish, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "userExpires",
+    functionFragment: 'userExpires',
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "userOf",
-    values: [BigNumberish]
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'userOf', values: [BigNumberish]): string
 
   decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
+    functionFragment: 'DEFAULT_ADMIN_ROLE',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "_historyOfWinners",
+    functionFragment: '_historyOfWinners',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "_latestWinner",
+    functionFragment: '_latestWinner',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "_monoNFTs", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: '_monoNFTs', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "auctionAdminAddress",
+    functionFragment: 'auctionAdminAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "auctionDepositContractAddress",
+    functionFragment: 'auctionDepositContractAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "changeSharesOfCommunityToken",
+    functionFragment: 'basicMembershipTokenId',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "communityTreasuryAddress",
+    functionFragment: 'changeSharesOfCommunityToken',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "confirmWinner",
+    functionFragment: 'communityTreasuryAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "getApproved",
+    functionFragment: 'confirmWinner',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "getHistoryOfWinners",
+    functionFragment: 'confirmedMonosOf',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getNFTs", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'getApproved', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
+    functionFragment: 'getHistoryOfWinners',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'getNFTs', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "isApprovedForAll",
+    functionFragment: 'getRoleAdmin',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "isExpired", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "membershipNFTAddress",
+    functionFragment: 'goldMembershipTokenId',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "register", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "renounceRole",
+    functionFragment: 'isApprovedForAll',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "rightOf", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'isExpired', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256)",
+    functionFragment: 'maxConfirmedMonosOf',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    functionFragment: 'membershipNFTAddress',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'ownerOf', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'register', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
+    functionFragment: 'renounceRole',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'rightOf', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "setAuctionAdminAddress",
+    functionFragment: 'safeTransferFrom(address,address,uint256)',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "setAuctionDepositAddress",
+    functionFragment: 'safeTransferFrom(address,address,uint256,bytes)',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "setCommunityTreasuryAddress",
+    functionFragment: 'setApprovalForAll',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "setMembershipNFTAddress",
+    functionFragment: 'setAuctionAdminAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setUser", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "submit", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "supportsInterface",
+    functionFragment: 'setAuctionDepositAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "tokenByIndex",
+    functionFragment: 'setBasicMembershipTokenId',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "tokenOfOwnerByIndex",
+    functionFragment: 'setCommunityTreasuryAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "totalSupply",
+    functionFragment: 'setGoldMembershipTokenId',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "transferFrom",
+    functionFragment: 'setMembershipNFTAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "updateMonoNFTStatus",
+    functionFragment: 'setSilverMembershipTokenId',
     data: BytesLike
-  ): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'setUser', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "userExpires",
+    functionFragment: 'silverMembershipTokenId',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "userOf", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'submit', data: BytesLike): Result
+  decodeFunctionResult(
+    functionFragment: 'supportsInterface',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result
+  decodeFunctionResult(
+    functionFragment: 'tokenByIndex',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(
+    functionFragment: 'tokenOfOwnerByIndex',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(functionFragment: 'tokenURI', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalSupply', data: BytesLike): Result
+  decodeFunctionResult(
+    functionFragment: 'transferFrom',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(
+    functionFragment: 'updateMonoNFTStatus',
+    data: BytesLike
+  ): Result
+  decodeFunctionResult(functionFragment: 'userExpires', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'userOf', data: BytesLike): Result
 }
 
 export namespace ApprovalEvent {
@@ -453,17 +517,17 @@ export namespace ApprovalEvent {
     owner: AddressLike,
     approved: AddressLike,
     tokenId: BigNumberish
-  ];
-  export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
+  ]
+  export type OutputTuple = [owner: string, approved: string, tokenId: bigint]
   export interface OutputObject {
-    owner: string;
-    approved: string;
-    tokenId: bigint;
+    owner: string
+    approved: string
+    tokenId: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ApprovalForAllEvent {
@@ -471,21 +535,17 @@ export namespace ApprovalForAllEvent {
     owner: AddressLike,
     operator: AddressLike,
     approved: boolean
-  ];
-  export type OutputTuple = [
-    owner: string,
-    operator: string,
-    approved: boolean
-  ];
+  ]
+  export type OutputTuple = [owner: string, operator: string, approved: boolean]
   export interface OutputObject {
-    owner: string;
-    operator: string;
-    approved: boolean;
+    owner: string
+    operator: string
+    approved: boolean
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ClaimEvent {
@@ -493,17 +553,17 @@ export namespace ClaimEvent {
     tokenId: BigNumberish,
     user: AddressLike,
     price: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, user: string, price: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, user: string, price: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    user: string;
-    price: bigint;
+    tokenId: bigint
+    user: string
+    price: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ConfirmWinnerEvent {
@@ -511,36 +571,48 @@ export namespace ConfirmWinnerEvent {
     tokenId: BigNumberish,
     winner: AddressLike,
     price: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, winner: string, price: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, winner: string, price: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    winner: string;
-    price: bigint;
+    tokenId: bigint
+    winner: string
+    price: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
+}
+
+export namespace InitializedEvent {
+  export type InputTuple = [version: BigNumberish]
+  export type OutputTuple = [version: bigint]
+  export interface OutputObject {
+    version: bigint
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RegisterEvent {
   export type InputTuple = [
     tokenId: BigNumberish,
     _monoNFT: IMonoNFT.MonoNFTStruct
-  ];
+  ]
   export type OutputTuple = [
     tokenId: bigint,
     _monoNFT: IMonoNFT.MonoNFTStructOutput
-  ];
+  ]
   export interface OutputObject {
-    tokenId: bigint;
-    _monoNFT: IMonoNFT.MonoNFTStructOutput;
+    tokenId: bigint
+    _monoNFT: IMonoNFT.MonoNFTStructOutput
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleAdminChangedEvent {
@@ -548,21 +620,21 @@ export namespace RoleAdminChangedEvent {
     role: BytesLike,
     previousAdminRole: BytesLike,
     newAdminRole: BytesLike
-  ];
+  ]
   export type OutputTuple = [
     role: string,
     previousAdminRole: string,
     newAdminRole: string
-  ];
+  ]
   export interface OutputObject {
-    role: string;
-    previousAdminRole: string;
-    newAdminRole: string;
+    role: string
+    previousAdminRole: string
+    newAdminRole: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleGrantedEvent {
@@ -570,17 +642,17 @@ export namespace RoleGrantedEvent {
     role: BytesLike,
     account: AddressLike,
     sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  ]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleRevokedEvent {
@@ -588,17 +660,17 @@ export namespace RoleRevokedEvent {
     role: BytesLike,
     account: AddressLike,
     sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  ]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace TransferEvent {
@@ -606,17 +678,17 @@ export namespace TransferEvent {
     from: AddressLike,
     to: AddressLike,
     tokenId: BigNumberish
-  ];
-  export type OutputTuple = [from: string, to: string, tokenId: bigint];
+  ]
+  export type OutputTuple = [from: string, to: string, tokenId: bigint]
   export interface OutputObject {
-    from: string;
-    to: string;
-    tokenId: bigint;
+    from: string
+    to: string
+    tokenId: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace UpdateUserEvent {
@@ -624,113 +696,115 @@ export namespace UpdateUserEvent {
     tokenId: BigNumberish,
     user: AddressLike,
     expires: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    user: string;
-    expires: bigint;
+    tokenId: bigint
+    user: string
+    expires: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface MonoNFT extends BaseContract {
-  connect(runner?: ContractRunner | null): MonoNFT;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): MonoNFT
+  waitForDeployment(): Promise<this>
 
-  interface: MonoNFTInterface;
+  interface: MonoNFTInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
-  DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
+  DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], 'view'>
 
   _historyOfWinners: TypedContractMethod<
     [arg0: BigNumberish, arg1: BigNumberish],
     [
       [string, bigint, bigint] & {
-        winner: string;
-        price: bigint;
-        expires: bigint;
+        winner: string
+        price: bigint
+        expires: bigint
       }
     ],
-    "view"
-  >;
+    'view'
+  >
 
   _latestWinner: TypedContractMethod<
     [arg0: BigNumberish],
     [
       [string, bigint, bigint] & {
-        winner: string;
-        price: bigint;
-        expires: bigint;
+        winner: string
+        price: bigint
+        expires: bigint
       }
     ],
-    "view"
-  >;
+    'view'
+  >
 
   _monoNFTs: TypedContractMethod<
     [arg0: BigNumberish],
     [
       [bigint, string, bigint, string, bigint] & {
-        tokenId: bigint;
-        donor: string;
-        expiresDuration: bigint;
-        uri: string;
-        status: bigint;
+        tokenId: bigint
+        donor: string
+        expiresDuration: bigint
+        uri: string
+        status: bigint
       }
     ],
-    "view"
-  >;
+    'view'
+  >
 
   approve: TypedContractMethod<
     [to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  auctionAdminAddress: TypedContractMethod<[], [string], "view">;
+  auctionAdminAddress: TypedContractMethod<[], [string], 'view'>
 
-  auctionDepositContractAddress: TypedContractMethod<[], [string], "view">;
+  auctionDepositContractAddress: TypedContractMethod<[], [string], 'view'>
 
-  balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
+  balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], 'view'>
+
+  basicMembershipTokenId: TypedContractMethod<[], [bigint], 'view'>
 
   changeSharesOfCommunityToken: TypedContractMethod<
     [
@@ -738,56 +812,72 @@ export interface MonoNFT extends BaseContract {
       sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  claim: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+  claim: TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
 
-  communityTreasuryAddress: TypedContractMethod<[], [string], "view">;
+  communityTreasuryAddress: TypedContractMethod<[], [string], 'view'>
 
   confirmWinner: TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  confirmedMonosOf: TypedContractMethod<[user: AddressLike], [bigint], 'view'>
+
+  getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getHistoryOfWinners: TypedContractMethod<
     [tokenId: BigNumberish],
     [IMonoNFT.WinnerStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
 
-  getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
+  getNFTs: TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], 'view'>
 
-  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], 'view'>
+
+  goldMembershipTokenId: TypedContractMethod<[], [bigint], 'view'>
 
   grantRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   hasRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
+
+  initialize: TypedContractMethod<
+    [_name: string, _symbol: string],
+    [void],
+    'nonpayable'
+  >
 
   isApprovedForAll: TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
 
-  isExpired: TypedContractMethod<[tokenId: BigNumberish], [boolean], "view">;
+  isExpired: TypedContractMethod<[tokenId: BigNumberish], [boolean], 'view'>
 
-  membershipNFTAddress: TypedContractMethod<[], [string], "view">;
+  maxConfirmedMonosOf: TypedContractMethod<
+    [user: AddressLike],
+    [bigint],
+    'view'
+  >
 
-  name: TypedContractMethod<[], [string], "view">;
+  membershipNFTAddress: TypedContractMethod<[], [string], 'view'>
 
-  ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  name: TypedContractMethod<[], [string], 'view'>
+
+  ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   register: TypedContractMethod<
     [
@@ -798,30 +888,30 @@ export interface MonoNFT extends BaseContract {
       owner: AddressLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   renounceRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   revokeRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  rightOf: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+  rightOf: TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
 
-  "safeTransferFrom(address,address,uint256)": TypedContractMethod<
+  'safeTransferFrom(address,address,uint256)': TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  "safeTransferFrom(address,address,uint256,bytes)": TypedContractMethod<
+  'safeTransferFrom(address,address,uint256,bytes)': TypedContractMethod<
     [
       from: AddressLike,
       to: AddressLike,
@@ -829,221 +919,250 @@ export interface MonoNFT extends BaseContract {
       data: BytesLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setApprovalForAll: TypedContractMethod<
     [operator: AddressLike, approved: boolean],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setAuctionAdminAddress: TypedContractMethod<
     [_auctionAdminAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setAuctionDepositAddress: TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+
+  setBasicMembershipTokenId: TypedContractMethod<
+    [_basicMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
 
   setCommunityTreasuryAddress: TypedContractMethod<
     [_communityTreasuryAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+
+  setGoldMembershipTokenId: TypedContractMethod<
+    [_goldMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
 
   setMembershipNFTAddress: TypedContractMethod<
     [_membershipNFTAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+
+  setSilverMembershipTokenId: TypedContractMethod<
+    [_silverMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
 
   setUser: TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  submit: TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+  silverMembershipTokenId: TypedContractMethod<[], [bigint], 'view'>
+
+  submit: TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
 
   supportsInterface: TypedContractMethod<
     [interfaceId: BytesLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
 
-  symbol: TypedContractMethod<[], [string], "view">;
+  symbol: TypedContractMethod<[], [string], 'view'>
 
-  tokenByIndex: TypedContractMethod<[index: BigNumberish], [bigint], "view">;
+  tokenByIndex: TypedContractMethod<[index: BigNumberish], [bigint], 'view'>
 
   tokenOfOwnerByIndex: TypedContractMethod<
     [owner: AddressLike, index: BigNumberish],
     [bigint],
-    "view"
-  >;
+    'view'
+  >
 
-  tokenURI: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  tokenURI: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
-  totalSupply: TypedContractMethod<[], [bigint], "view">;
+  totalSupply: TypedContractMethod<[], [bigint], 'view'>
 
   transferFrom: TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   updateMonoNFTStatus: TypedContractMethod<
     [tokenId: BigNumberish, status: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
 
-  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "DEFAULT_ADMIN_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "_historyOfWinners"
-  ): TypedContractMethod<
+    nameOrSignature: 'DEFAULT_ADMIN_ROLE'
+  ): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: '_historyOfWinners'): TypedContractMethod<
     [arg0: BigNumberish, arg1: BigNumberish],
     [
       [string, bigint, bigint] & {
-        winner: string;
-        price: bigint;
-        expires: bigint;
+        winner: string
+        price: bigint
+        expires: bigint
       }
     ],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "_latestWinner"
-  ): TypedContractMethod<
+    'view'
+  >
+  getFunction(nameOrSignature: '_latestWinner'): TypedContractMethod<
     [arg0: BigNumberish],
     [
       [string, bigint, bigint] & {
-        winner: string;
-        price: bigint;
-        expires: bigint;
+        winner: string
+        price: bigint
+        expires: bigint
       }
     ],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "_monoNFTs"
-  ): TypedContractMethod<
+    'view'
+  >
+  getFunction(nameOrSignature: '_monoNFTs'): TypedContractMethod<
     [arg0: BigNumberish],
     [
       [bigint, string, bigint, string, bigint] & {
-        tokenId: bigint;
-        donor: string;
-        expiresDuration: bigint;
-        uri: string;
-        status: bigint;
+        tokenId: bigint
+        donor: string
+        expiresDuration: bigint
+        uri: string
+        status: bigint
       }
     ],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "approve"
+    nameOrSignature: 'approve'
   ): TypedContractMethod<
     [to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "auctionAdminAddress"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'auctionAdminAddress'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "auctionDepositContractAddress"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'auctionDepositContractAddress'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
+    nameOrSignature: 'balanceOf'
+  ): TypedContractMethod<[owner: AddressLike], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "changeSharesOfCommunityToken"
+    nameOrSignature: 'basicMembershipTokenId'
+  ): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'changeSharesOfCommunityToken'
   ): TypedContractMethod<
     [
       tokenId: BigNumberish,
       sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "claim"
-  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'claim'
+  ): TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "communityTreasuryAddress"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'communityTreasuryAddress'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "confirmWinner"
+    nameOrSignature: 'confirmWinner'
   ): TypedContractMethod<
     [winner: AddressLike, tokenId: BigNumberish, price: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "getApproved"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'confirmedMonosOf'
+  ): TypedContractMethod<[user: AddressLike], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "getHistoryOfWinners"
+    nameOrSignature: 'getApproved'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
+  getFunction(
+    nameOrSignature: 'getHistoryOfWinners'
   ): TypedContractMethod<
     [tokenId: BigNumberish],
     [IMonoNFT.WinnerStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "getNFTs"
-  ): TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], "view">;
+    nameOrSignature: 'getNFTs'
+  ): TypedContractMethod<[], [IMonoNFT.MonoNFTStructOutput[]], 'view'>
   getFunction(
-    nameOrSignature: "getRoleAdmin"
-  ): TypedContractMethod<[role: BytesLike], [string], "view">;
+    nameOrSignature: 'getRoleAdmin'
+  ): TypedContractMethod<[role: BytesLike], [string], 'view'>
   getFunction(
-    nameOrSignature: "grantRole"
+    nameOrSignature: 'goldMembershipTokenId'
+  ): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'grantRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "hasRole"
+    nameOrSignature: 'hasRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "isApprovedForAll"
+    nameOrSignature: 'initialize'
+  ): TypedContractMethod<[_name: string, _symbol: string], [void], 'nonpayable'>
+  getFunction(
+    nameOrSignature: 'isApprovedForAll'
   ): TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
     [boolean],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "isExpired"
-  ): TypedContractMethod<[tokenId: BigNumberish], [boolean], "view">;
+    nameOrSignature: 'isExpired'
+  ): TypedContractMethod<[tokenId: BigNumberish], [boolean], 'view'>
   getFunction(
-    nameOrSignature: "membershipNFTAddress"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'maxConfirmedMonosOf'
+  ): TypedContractMethod<[user: AddressLike], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "name"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'membershipNFTAddress'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "ownerOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'name'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "register"
+    nameOrSignature: 'ownerOf'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
+  getFunction(
+    nameOrSignature: 'register'
   ): TypedContractMethod<
     [
       donor: AddressLike,
@@ -1053,34 +1172,34 @@ export interface MonoNFT extends BaseContract {
       owner: AddressLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "renounceRole"
+    nameOrSignature: 'renounceRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "revokeRole"
+    nameOrSignature: 'revokeRole'
   ): TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "rightOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+    nameOrSignature: 'rightOf'
+  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256)"
+    nameOrSignature: 'safeTransferFrom(address,address,uint256)'
   ): TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)"
+    nameOrSignature: 'safeTransferFrom(address,address,uint256,bytes)'
   ): TypedContractMethod<
     [
       from: AddressLike,
@@ -1089,276 +1208,318 @@ export interface MonoNFT extends BaseContract {
       data: BytesLike
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setApprovalForAll"
+    nameOrSignature: 'setApprovalForAll'
   ): TypedContractMethod<
     [operator: AddressLike, approved: boolean],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setAuctionAdminAddress"
+    nameOrSignature: 'setAuctionAdminAddress'
   ): TypedContractMethod<
     [_auctionAdminAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setAuctionDepositAddress"
+    nameOrSignature: 'setAuctionDepositAddress'
   ): TypedContractMethod<
     [_auctionDepositContractAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setCommunityTreasuryAddress"
+    nameOrSignature: 'setBasicMembershipTokenId'
+  ): TypedContractMethod<
+    [_basicMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
+  getFunction(
+    nameOrSignature: 'setCommunityTreasuryAddress'
   ): TypedContractMethod<
     [_communityTreasuryAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setMembershipNFTAddress"
+    nameOrSignature: 'setGoldMembershipTokenId'
+  ): TypedContractMethod<
+    [_goldMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
+  getFunction(
+    nameOrSignature: 'setMembershipNFTAddress'
   ): TypedContractMethod<
     [_membershipNFTAddress: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setUser"
+    nameOrSignature: 'setSilverMembershipTokenId'
+  ): TypedContractMethod<
+    [_silverMembershipTokenId: BigNumberish],
+    [void],
+    'nonpayable'
+  >
+  getFunction(
+    nameOrSignature: 'setUser'
   ): TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "submit"
-  ): TypedContractMethod<[tokenId: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'silverMembershipTokenId'
+  ): TypedContractMethod<[], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "supportsInterface"
-  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+    nameOrSignature: 'submit'
+  ): TypedContractMethod<[tokenId: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "symbol"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'supportsInterface'
+  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], 'view'>
   getFunction(
-    nameOrSignature: "tokenByIndex"
-  ): TypedContractMethod<[index: BigNumberish], [bigint], "view">;
+    nameOrSignature: 'symbol'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "tokenOfOwnerByIndex"
+    nameOrSignature: 'tokenByIndex'
+  ): TypedContractMethod<[index: BigNumberish], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'tokenOfOwnerByIndex'
   ): TypedContractMethod<
     [owner: AddressLike, index: BigNumberish],
     [bigint],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "tokenURI"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'tokenURI'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
   getFunction(
-    nameOrSignature: "totalSupply"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'totalSupply'
+  ): TypedContractMethod<[], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "transferFrom"
+    nameOrSignature: 'transferFrom'
   ): TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "updateMonoNFTStatus"
+    nameOrSignature: 'updateMonoNFTStatus'
   ): TypedContractMethod<
     [tokenId: BigNumberish, status: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "userExpires"
-  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+    nameOrSignature: 'userExpires'
+  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "userOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'userOf'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getEvent(
-    key: "Approval"
+    key: 'Approval'
   ): TypedContractEvent<
     ApprovalEvent.InputTuple,
     ApprovalEvent.OutputTuple,
     ApprovalEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "ApprovalForAll"
+    key: 'ApprovalForAll'
   ): TypedContractEvent<
     ApprovalForAllEvent.InputTuple,
     ApprovalForAllEvent.OutputTuple,
     ApprovalForAllEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Claim"
+    key: 'Claim'
   ): TypedContractEvent<
     ClaimEvent.InputTuple,
     ClaimEvent.OutputTuple,
     ClaimEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "ConfirmWinner"
+    key: 'ConfirmWinner'
   ): TypedContractEvent<
     ConfirmWinnerEvent.InputTuple,
     ConfirmWinnerEvent.OutputTuple,
     ConfirmWinnerEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Register"
+    key: 'Initialized'
+  ): TypedContractEvent<
+    InitializedEvent.InputTuple,
+    InitializedEvent.OutputTuple,
+    InitializedEvent.OutputObject
+  >
+  getEvent(
+    key: 'Register'
   ): TypedContractEvent<
     RegisterEvent.InputTuple,
     RegisterEvent.OutputTuple,
     RegisterEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleAdminChanged"
+    key: 'RoleAdminChanged'
   ): TypedContractEvent<
     RoleAdminChangedEvent.InputTuple,
     RoleAdminChangedEvent.OutputTuple,
     RoleAdminChangedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleGranted"
+    key: 'RoleGranted'
   ): TypedContractEvent<
     RoleGrantedEvent.InputTuple,
     RoleGrantedEvent.OutputTuple,
     RoleGrantedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RoleRevoked"
+    key: 'RoleRevoked'
   ): TypedContractEvent<
     RoleRevokedEvent.InputTuple,
     RoleRevokedEvent.OutputTuple,
     RoleRevokedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Transfer"
+    key: 'Transfer'
   ): TypedContractEvent<
     TransferEvent.InputTuple,
     TransferEvent.OutputTuple,
     TransferEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "UpdateUser"
+    key: 'UpdateUser'
   ): TypedContractEvent<
     UpdateUserEvent.InputTuple,
     UpdateUserEvent.OutputTuple,
     UpdateUserEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "Approval(address,address,uint256)": TypedContractEvent<
+    'Approval(address,address,uint256)': TypedContractEvent<
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
       ApprovalEvent.OutputObject
-    >;
+    >
     Approval: TypedContractEvent<
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
       ApprovalEvent.OutputObject
-    >;
+    >
 
-    "ApprovalForAll(address,address,bool)": TypedContractEvent<
+    'ApprovalForAll(address,address,bool)': TypedContractEvent<
       ApprovalForAllEvent.InputTuple,
       ApprovalForAllEvent.OutputTuple,
       ApprovalForAllEvent.OutputObject
-    >;
+    >
     ApprovalForAll: TypedContractEvent<
       ApprovalForAllEvent.InputTuple,
       ApprovalForAllEvent.OutputTuple,
       ApprovalForAllEvent.OutputObject
-    >;
+    >
 
-    "Claim(uint256,address,uint256)": TypedContractEvent<
+    'Claim(uint256,address,uint256)': TypedContractEvent<
       ClaimEvent.InputTuple,
       ClaimEvent.OutputTuple,
       ClaimEvent.OutputObject
-    >;
+    >
     Claim: TypedContractEvent<
       ClaimEvent.InputTuple,
       ClaimEvent.OutputTuple,
       ClaimEvent.OutputObject
-    >;
+    >
 
-    "ConfirmWinner(uint256,address,uint256)": TypedContractEvent<
+    'ConfirmWinner(uint256,address,uint256)': TypedContractEvent<
       ConfirmWinnerEvent.InputTuple,
       ConfirmWinnerEvent.OutputTuple,
       ConfirmWinnerEvent.OutputObject
-    >;
+    >
     ConfirmWinner: TypedContractEvent<
       ConfirmWinnerEvent.InputTuple,
       ConfirmWinnerEvent.OutputTuple,
       ConfirmWinnerEvent.OutputObject
-    >;
+    >
 
-    "Register(uint256,tuple)": TypedContractEvent<
+    'Initialized(uint8)': TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >
+    Initialized: TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >
+
+    'Register(uint256,tuple)': TypedContractEvent<
       RegisterEvent.InputTuple,
       RegisterEvent.OutputTuple,
       RegisterEvent.OutputObject
-    >;
+    >
     Register: TypedContractEvent<
       RegisterEvent.InputTuple,
       RegisterEvent.OutputTuple,
       RegisterEvent.OutputObject
-    >;
+    >
 
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
+    'RoleAdminChanged(bytes32,bytes32,bytes32)': TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
     RoleAdminChanged: TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
 
-    "RoleGranted(bytes32,address,address)": TypedContractEvent<
+    'RoleGranted(bytes32,address,address)': TypedContractEvent<
       RoleGrantedEvent.InputTuple,
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
-    >;
+    >
     RoleGranted: TypedContractEvent<
       RoleGrantedEvent.InputTuple,
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
-    >;
+    >
 
-    "RoleRevoked(bytes32,address,address)": TypedContractEvent<
+    'RoleRevoked(bytes32,address,address)': TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
-    >;
+    >
     RoleRevoked: TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
-    >;
+    >
 
-    "Transfer(address,address,uint256)": TypedContractEvent<
+    'Transfer(address,address,uint256)': TypedContractEvent<
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
-    >;
+    >
     Transfer: TypedContractEvent<
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
-    >;
+    >
 
-    "UpdateUser(uint256,address,uint64)": TypedContractEvent<
+    'UpdateUser(uint256,address,uint64)': TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
+    >
     UpdateUser: TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
-  };
+    >
+  }
 }

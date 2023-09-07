@@ -11,7 +11,7 @@ import type {
   EventLog,
   TransactionRequest,
   LogDescription,
-} from "ethers";
+} from 'ethers6'
 
 export interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent>
   extends DeferredTopicFilter {}
@@ -23,10 +23,10 @@ export interface TypedContractEvent<
 > {
   (...args: Partial<InputTuple>): TypedDeferredTopicFilter<
     TypedContractEvent<InputTuple, OutputTuple, OutputObject>
-  >;
-  name: string;
-  fragment: EventFragment;
-  getFragment(...args: Partial<InputTuple>): EventFragment;
+  >
+  name: string
+  fragment: EventFragment
+  getFragment(...args: Partial<InputTuple>): EventFragment
 }
 
 type __TypechainAOutputTuple<T> = T extends TypedContractEvent<
@@ -34,23 +34,23 @@ type __TypechainAOutputTuple<T> = T extends TypedContractEvent<
   infer W
 >
   ? W
-  : never;
+  : never
 type __TypechainOutputObject<T> = T extends TypedContractEvent<
   infer _U,
   infer _W,
   infer V
 >
   ? V
-  : never;
+  : never
 
 export interface TypedEventLog<TCEvent extends TypedContractEvent>
-  extends Omit<EventLog, "args"> {
-  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>;
+  extends Omit<EventLog, 'args'> {
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>
 }
 
 export interface TypedLogDescription<TCEvent extends TypedContractEvent>
-  extends Omit<LogDescription, "args"> {
-  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>;
+  extends Omit<LogDescription, 'args'> {
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>
 }
 
 export type TypedListener<TCEvent extends TypedContractEvent> = (
@@ -59,71 +59,71 @@ export type TypedListener<TCEvent extends TypedContractEvent> = (
     TypedEventLog<TCEvent>,
     ...undefined[]
   ]
-) => void;
+) => void
 
 export type MinEthersFactory<C, ARGS> = {
-  deploy(...a: ARGS[]): Promise<C>;
-};
+  deploy(...a: ARGS[]): Promise<C>
+}
 
 export type GetContractTypeFromFactory<F> = F extends MinEthersFactory<
   infer C,
   any
 >
   ? C
-  : never;
+  : never
 export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any>
-  ? Parameters<F["deploy"]>
-  : never;
+  ? Parameters<F['deploy']>
+  : never
 
-export type StateMutability = "nonpayable" | "payable" | "view";
+export type StateMutability = 'nonpayable' | 'payable' | 'view'
 
-export type BaseOverrides = Omit<TransactionRequest, "to" | "data">;
+export type BaseOverrides = Omit<TransactionRequest, 'to' | 'data'>
 export type NonPayableOverrides = Omit<
   BaseOverrides,
-  "value" | "blockTag" | "enableCcipRead"
->;
+  'value' | 'blockTag' | 'enableCcipRead'
+>
 export type PayableOverrides = Omit<
   BaseOverrides,
-  "blockTag" | "enableCcipRead"
->;
-export type ViewOverrides = Omit<TransactionRequest, "to" | "data">;
-export type Overrides<S extends StateMutability> = S extends "nonpayable"
+  'blockTag' | 'enableCcipRead'
+>
+export type ViewOverrides = Omit<TransactionRequest, 'to' | 'data'>
+export type Overrides<S extends StateMutability> = S extends 'nonpayable'
   ? NonPayableOverrides
-  : S extends "payable"
+  : S extends 'payable'
   ? PayableOverrides
-  : ViewOverrides;
+  : ViewOverrides
 
 export type PostfixOverrides<A extends Array<any>, S extends StateMutability> =
   | A
-  | [...A, Overrides<S>];
+  | [...A, Overrides<S>]
 export type ContractMethodArgs<
   A extends Array<any>,
   S extends StateMutability
-> = PostfixOverrides<{ [I in keyof A]-?: A[I] | Typed }, S>;
+> = PostfixOverrides<{ [I in keyof A]-?: A[I] | Typed }, S>
 
-export type DefaultReturnType<R> = R extends Array<any> ? R[0] : R;
+export type DefaultReturnType<R> = R extends Array<any> ? R[0] : R
 
 // export interface ContractMethod<A extends Array<any> = Array<any>, R = any, D extends R | ContractTransactionResponse = R | ContractTransactionResponse> {
 export interface TypedContractMethod<
   A extends Array<any> = Array<any>,
   R = any,
-  S extends StateMutability = "payable"
+  S extends StateMutability = 'payable'
 > {
-  (...args: ContractMethodArgs<A, S>): S extends "view"
+  (...args: ContractMethodArgs<A, S>): S extends 'view'
     ? Promise<DefaultReturnType<R>>
-    : Promise<ContractTransactionResponse>;
+    : Promise<ContractTransactionResponse>
 
-  name: string;
+  name: string
 
-  fragment: FunctionFragment;
+  fragment: FunctionFragment
 
-  getFragment(...args: ContractMethodArgs<A, S>): FunctionFragment;
+  getFragment(...args: ContractMethodArgs<A, S>): FunctionFragment
 
   populateTransaction(
     ...args: ContractMethodArgs<A, S>
-  ): Promise<ContractTransaction>;
-  staticCall(...args: ContractMethodArgs<A, S>): Promise<DefaultReturnType<R>>;
-  send(...args: ContractMethodArgs<A, S>): Promise<ContractTransactionResponse>;
-  estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
-  staticCallResult(...args: ContractMethodArgs<A, S>): Promise<R>;
+  ): Promise<ContractTransaction>
+  staticCall(...args: ContractMethodArgs<A, S>): Promise<DefaultReturnType<R>>
+  send(...args: ContractMethodArgs<A, S>): Promise<ContractTransactionResponse>
+  estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>
+  staticCallResult(...args: ContractMethodArgs<A, S>): Promise<R>
 }

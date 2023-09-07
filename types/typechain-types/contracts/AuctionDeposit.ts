@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,243 +21,275 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "../common";
+} from '../common'
 
 export declare namespace IAuctionDeposit {
-  export type DepositInfoStruct = { user: AddressLike; amount: BigNumberish };
+  export type DepositInfoStruct = { user: AddressLike; amount: BigNumberish }
 
   export type DepositInfoStructOutput = [user: string, amount: bigint] & {
-    user: string;
-    amount: bigint;
-  };
+    user: string
+    amount: bigint
+  }
 }
 
 export declare namespace IMonoNFT {
   export type ShareOfCommunityTokenStruct = {
-    shareHolder: AddressLike;
-    shareRatio: BigNumberish;
-  };
+    shareHolder: AddressLike
+    shareRatio: BigNumberish
+  }
 
   export type ShareOfCommunityTokenStructOutput = [
     shareHolder: string,
     shareRatio: bigint
-  ] & { shareHolder: string; shareRatio: bigint };
+  ] & { shareHolder: string; shareRatio: bigint }
 }
 
 export interface AuctionDepositInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "auctionAdminAddr"
-      | "communityTokenAddr"
-      | "deposit"
-      | "getAllDeposit"
-      | "getDepositByAddress"
-      | "maxDeposit"
-      | "monoNFTAddr"
-      | "payForClaim"
-      | "setAuctionAdminAddress"
-      | "setCommunityTokenAddress"
-      | "setMonoNFTAddress"
-      | "withdraw"
-  ): FunctionFragment;
+      | 'auctionAdminAddr'
+      | 'communityTokenAddr'
+      | 'deposit'
+      | 'getAllDeposit'
+      | 'getDepositByAddress'
+      | 'initialize'
+      | 'lock'
+      | 'locked'
+      | 'maxDeposit'
+      | 'monoNFTAddr'
+      | 'payForClaim'
+      | 'setAuctionAdminAddress'
+      | 'setCommunityTokenAddress'
+      | 'setMonoNFTAddress'
+      | 'unlock'
+      | 'withdraw'
+  ): FunctionFragment
 
   getEvent(
-    nameOrSignatureOrTopic: "Deposit" | "SendToTreasury" | "Withdraw"
-  ): EventFragment;
+    nameOrSignatureOrTopic:
+      | 'Deposit'
+      | 'Initialized'
+      | 'SendToTreasury'
+      | 'Withdraw'
+  ): EventFragment
 
   encodeFunctionData(
-    functionFragment: "auctionAdminAddr",
+    functionFragment: 'auctionAdminAddr',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "communityTokenAddr",
+    functionFragment: 'communityTokenAddr',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "deposit",
+    functionFragment: 'deposit',
     values: [BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "getAllDeposit",
+    functionFragment: 'getAllDeposit',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "getDepositByAddress",
+    functionFragment: 'getDepositByAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "maxDeposit",
+    functionFragment: 'initialize',
+    values: [AddressLike]
+  ): string
+  encodeFunctionData(functionFragment: 'lock', values?: undefined): string
+  encodeFunctionData(functionFragment: 'locked', values?: undefined): string
+  encodeFunctionData(functionFragment: 'maxDeposit', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'monoNFTAddr',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "monoNFTAddr",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "payForClaim",
+    functionFragment: 'payForClaim',
     values: [AddressLike, BigNumberish, IMonoNFT.ShareOfCommunityTokenStruct[]]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setAuctionAdminAddress",
+    functionFragment: 'setAuctionAdminAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setCommunityTokenAddress",
+    functionFragment: 'setCommunityTokenAddress',
     values: [AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "setMonoNFTAddress",
+    functionFragment: 'setMonoNFTAddress',
     values: [AddressLike]
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'unlock', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "withdraw",
+    functionFragment: 'withdraw',
     values: [BigNumberish]
-  ): string;
+  ): string
 
   decodeFunctionResult(
-    functionFragment: "auctionAdminAddr",
+    functionFragment: 'auctionAdminAddr',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "communityTokenAddr",
+    functionFragment: 'communityTokenAddr',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "getAllDeposit",
+    functionFragment: 'getAllDeposit',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "getDepositByAddress",
+    functionFragment: 'getDepositByAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "maxDeposit", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'lock', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'locked', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'maxDeposit', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'monoNFTAddr', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'payForClaim', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "monoNFTAddr",
+    functionFragment: 'setAuctionAdminAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "payForClaim",
+    functionFragment: 'setCommunityTokenAddress',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "setAuctionAdminAddress",
+    functionFragment: 'setMonoNFTAddress',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setCommunityTokenAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setMonoNFTAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'unlock', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdraw', data: BytesLike): Result
 }
 
 export namespace DepositEvent {
-  export type InputTuple = [user: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [user: string, amount: bigint];
+  export type InputTuple = [user: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [user: string, amount: bigint]
   export interface OutputObject {
-    user: string;
-    amount: bigint;
+    user: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
+}
+
+export namespace InitializedEvent {
+  export type InputTuple = [version: BigNumberish]
+  export type OutputTuple = [version: bigint]
+  export interface OutputObject {
+    version: bigint
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SendToTreasuryEvent {
-  export type InputTuple = [user: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [user: string, amount: bigint];
+  export type InputTuple = [user: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [user: string, amount: bigint]
   export interface OutputObject {
-    user: string;
-    amount: bigint;
+    user: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace WithdrawEvent {
-  export type InputTuple = [user: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [user: string, amount: bigint];
+  export type InputTuple = [user: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [user: string, amount: bigint]
   export interface OutputObject {
-    user: string;
-    amount: bigint;
+    user: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface AuctionDeposit extends BaseContract {
-  connect(runner?: ContractRunner | null): AuctionDeposit;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): AuctionDeposit
+  waitForDeployment(): Promise<this>
 
-  interface: AuctionDepositInterface;
+  interface: AuctionDepositInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
-  auctionAdminAddr: TypedContractMethod<[], [string], "view">;
+  auctionAdminAddr: TypedContractMethod<[], [string], 'view'>
 
-  communityTokenAddr: TypedContractMethod<[], [string], "view">;
+  communityTokenAddr: TypedContractMethod<[], [string], 'view'>
 
-  deposit: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  deposit: TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
 
   getAllDeposit: TypedContractMethod<
     [],
     [IAuctionDeposit.DepositInfoStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
 
   getDepositByAddress: TypedContractMethod<
     [user: AddressLike],
     [IAuctionDeposit.DepositInfoStructOutput],
-    "view"
-  >;
+    'view'
+  >
 
-  maxDeposit: TypedContractMethod<[], [bigint], "view">;
+  initialize: TypedContractMethod<
+    [_monoNFTAddr: AddressLike],
+    [void],
+    'nonpayable'
+  >
 
-  monoNFTAddr: TypedContractMethod<[], [string], "view">;
+  lock: TypedContractMethod<[], [void], 'nonpayable'>
+
+  locked: TypedContractMethod<[], [boolean], 'view'>
+
+  maxDeposit: TypedContractMethod<[], [bigint], 'view'>
+
+  monoNFTAddr: TypedContractMethod<[], [string], 'view'>
 
   payForClaim: TypedContractMethod<
     [
@@ -266,64 +298,75 @@ export interface AuctionDeposit extends BaseContract {
       sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setAuctionAdminAddress: TypedContractMethod<
     [_auctionAdminAddr: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setCommunityTokenAddress: TypedContractMethod<
     [_communityTokenAddr: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   setMonoNFTAddress: TypedContractMethod<
     [_monoNFTAddr: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  withdraw: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+  unlock: TypedContractMethod<[], [void], 'nonpayable'>
+
+  withdraw: TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "auctionAdminAddr"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'auctionAdminAddr'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "communityTokenAddr"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'communityTokenAddr'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "deposit"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'deposit'
+  ): TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "getAllDeposit"
+    nameOrSignature: 'getAllDeposit'
   ): TypedContractMethod<
     [],
     [IAuctionDeposit.DepositInfoStructOutput[]],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "getDepositByAddress"
+    nameOrSignature: 'getDepositByAddress'
   ): TypedContractMethod<
     [user: AddressLike],
     [IAuctionDeposit.DepositInfoStructOutput],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "maxDeposit"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'initialize'
+  ): TypedContractMethod<[_monoNFTAddr: AddressLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "monoNFTAddr"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'lock'
+  ): TypedContractMethod<[], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "payForClaim"
+    nameOrSignature: 'locked'
+  ): TypedContractMethod<[], [boolean], 'view'>
+  getFunction(
+    nameOrSignature: 'maxDeposit'
+  ): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'monoNFTAddr'
+  ): TypedContractMethod<[], [string], 'view'>
+  getFunction(
+    nameOrSignature: 'payForClaim'
   ): TypedContractMethod<
     [
       from: AddressLike,
@@ -331,83 +374,100 @@ export interface AuctionDeposit extends BaseContract {
       sharesOfCommunityToken: IMonoNFT.ShareOfCommunityTokenStruct[]
     ],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setAuctionAdminAddress"
-  ): TypedContractMethod<
-    [_auctionAdminAddr: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+    nameOrSignature: 'setAuctionAdminAddress'
+  ): TypedContractMethod<[_auctionAdminAddr: AddressLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "setCommunityTokenAddress"
+    nameOrSignature: 'setCommunityTokenAddress'
   ): TypedContractMethod<
     [_communityTokenAddr: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "setMonoNFTAddress"
-  ): TypedContractMethod<[_monoNFTAddr: AddressLike], [void], "nonpayable">;
+    nameOrSignature: 'setMonoNFTAddress'
+  ): TypedContractMethod<[_monoNFTAddr: AddressLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "withdraw"
-  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'unlock'
+  ): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(
+    nameOrSignature: 'withdraw'
+  ): TypedContractMethod<[amount: BigNumberish], [void], 'nonpayable'>
 
   getEvent(
-    key: "Deposit"
+    key: 'Deposit'
   ): TypedContractEvent<
     DepositEvent.InputTuple,
     DepositEvent.OutputTuple,
     DepositEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "SendToTreasury"
+    key: 'Initialized'
+  ): TypedContractEvent<
+    InitializedEvent.InputTuple,
+    InitializedEvent.OutputTuple,
+    InitializedEvent.OutputObject
+  >
+  getEvent(
+    key: 'SendToTreasury'
   ): TypedContractEvent<
     SendToTreasuryEvent.InputTuple,
     SendToTreasuryEvent.OutputTuple,
     SendToTreasuryEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Withdraw"
+    key: 'Withdraw'
   ): TypedContractEvent<
     WithdrawEvent.InputTuple,
     WithdrawEvent.OutputTuple,
     WithdrawEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "Deposit(address,uint256)": TypedContractEvent<
+    'Deposit(address,uint256)': TypedContractEvent<
       DepositEvent.InputTuple,
       DepositEvent.OutputTuple,
       DepositEvent.OutputObject
-    >;
+    >
     Deposit: TypedContractEvent<
       DepositEvent.InputTuple,
       DepositEvent.OutputTuple,
       DepositEvent.OutputObject
-    >;
+    >
 
-    "SendToTreasury(address,uint256)": TypedContractEvent<
+    'Initialized(uint8)': TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >
+    Initialized: TypedContractEvent<
+      InitializedEvent.InputTuple,
+      InitializedEvent.OutputTuple,
+      InitializedEvent.OutputObject
+    >
+
+    'SendToTreasury(address,uint256)': TypedContractEvent<
       SendToTreasuryEvent.InputTuple,
       SendToTreasuryEvent.OutputTuple,
       SendToTreasuryEvent.OutputObject
-    >;
+    >
     SendToTreasury: TypedContractEvent<
       SendToTreasuryEvent.InputTuple,
       SendToTreasuryEvent.OutputTuple,
       SendToTreasuryEvent.OutputObject
-    >;
+    >
 
-    "Withdraw(address,uint256)": TypedContractEvent<
+    'Withdraw(address,uint256)': TypedContractEvent<
       WithdrawEvent.InputTuple,
       WithdrawEvent.OutputTuple,
       WithdrawEvent.OutputObject
-    >;
+    >
     Withdraw: TypedContractEvent<
       WithdrawEvent.InputTuple,
       WithdrawEvent.OutputTuple,
       WithdrawEvent.OutputObject
-    >;
-  };
+    >
+  }
 }

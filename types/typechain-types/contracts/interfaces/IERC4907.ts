@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,34 +21,28 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "../../common";
+} from '../../common'
 
 export interface IERC4907Interface extends Interface {
   getFunction(
-    nameOrSignature: "setUser" | "userExpires" | "userOf"
-  ): FunctionFragment;
+    nameOrSignature: 'setUser' | 'userExpires' | 'userOf'
+  ): FunctionFragment
 
-  getEvent(nameOrSignatureOrTopic: "UpdateUser"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'UpdateUser'): EventFragment
 
   encodeFunctionData(
-    functionFragment: "setUser",
+    functionFragment: 'setUser',
     values: [BigNumberish, AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "userExpires",
+    functionFragment: 'userExpires',
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "userOf",
-    values: [BigNumberish]
-  ): string;
+  ): string
+  encodeFunctionData(functionFragment: 'userOf', values: [BigNumberish]): string
 
-  decodeFunctionResult(functionFragment: "setUser", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "userExpires",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "userOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setUser', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'userExpires', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'userOf', data: BytesLike): Result
 }
 
 export namespace UpdateUserEvent {
@@ -56,108 +50,108 @@ export namespace UpdateUserEvent {
     tokenId: BigNumberish,
     user: AddressLike,
     expires: BigNumberish
-  ];
-  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint];
+  ]
+  export type OutputTuple = [tokenId: bigint, user: string, expires: bigint]
   export interface OutputObject {
-    tokenId: bigint;
-    user: string;
-    expires: bigint;
+    tokenId: bigint
+    user: string
+    expires: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IERC4907 extends BaseContract {
-  connect(runner?: ContractRunner | null): IERC4907;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IERC4907
+  waitForDeployment(): Promise<this>
 
-  interface: IERC4907Interface;
+  interface: IERC4907Interface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
   setUser: TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+  userExpires: TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
 
-  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  userOf: TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "setUser"
+    nameOrSignature: 'setUser'
   ): TypedContractMethod<
     [tokenId: BigNumberish, user: AddressLike, expires: BigNumberish],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "userExpires"
-  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], "view">;
+    nameOrSignature: 'userExpires'
+  ): TypedContractMethod<[tokenId: BigNumberish], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "userOf"
-  ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+    nameOrSignature: 'userOf'
+  ): TypedContractMethod<[tokenId: BigNumberish], [string], 'view'>
 
   getEvent(
-    key: "UpdateUser"
+    key: 'UpdateUser'
   ): TypedContractEvent<
     UpdateUserEvent.InputTuple,
     UpdateUserEvent.OutputTuple,
     UpdateUserEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "UpdateUser(uint256,address,uint64)": TypedContractEvent<
+    'UpdateUser(uint256,address,uint64)': TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
+    >
     UpdateUser: TypedContractEvent<
       UpdateUserEvent.InputTuple,
       UpdateUserEvent.OutputTuple,
       UpdateUserEvent.OutputObject
-    >;
-  };
+    >
+  }
 }

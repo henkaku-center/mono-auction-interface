@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers6'
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,85 +21,88 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "../../common";
+} from '../../common'
 
 export interface MockERC20Interface extends Interface {
   getFunction(
     nameOrSignature:
-      | "allowance"
-      | "approve"
-      | "balanceOf"
-      | "decimals"
-      | "decreaseAllowance"
-      | "increaseAllowance"
-      | "name"
-      | "symbol"
-      | "totalSupply"
-      | "transfer"
-      | "transferFrom"
-  ): FunctionFragment;
+      | 'allowance'
+      | 'approve'
+      | 'balanceOf'
+      | 'decimals'
+      | 'decreaseAllowance'
+      | 'increaseAllowance'
+      | 'mint'
+      | 'name'
+      | 'symbol'
+      | 'totalSupply'
+      | 'transfer'
+      | 'transferFrom'
+  ): FunctionFragment
 
-  getEvent(nameOrSignatureOrTopic: "Approval" | "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'Approval' | 'Transfer'): EventFragment
 
   encodeFunctionData(
-    functionFragment: "allowance",
+    functionFragment: 'allowance',
     values: [AddressLike, AddressLike]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "approve",
+    functionFragment: 'approve',
     values: [AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "balanceOf",
+    functionFragment: 'balanceOf',
     values: [AddressLike]
-  ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  ): string
+  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string
   encodeFunctionData(
-    functionFragment: "decreaseAllowance",
+    functionFragment: 'decreaseAllowance',
     values: [AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "increaseAllowance",
+    functionFragment: 'increaseAllowance',
     values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "totalSupply",
+    functionFragment: 'mint',
+    values: [AddressLike, BigNumberish]
+  ): string
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'totalSupply',
     values?: undefined
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "transfer",
+    functionFragment: 'transfer',
     values: [AddressLike, BigNumberish]
-  ): string;
+  ): string
   encodeFunctionData(
-    functionFragment: "transferFrom",
+    functionFragment: 'transferFrom',
     values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
+  ): string
 
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "decreaseAllowance",
+    functionFragment: 'decreaseAllowance',
     data: BytesLike
-  ): Result;
+  ): Result
   decodeFunctionResult(
-    functionFragment: "increaseAllowance",
+    functionFragment: 'increaseAllowance',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  ): Result
+  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalSupply', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result
   decodeFunctionResult(
-    functionFragment: "totalSupply",
+    functionFragment: 'transferFrom',
     data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
+  ): Result
 }
 
 export namespace ApprovalEvent {
@@ -107,17 +110,17 @@ export namespace ApprovalEvent {
     owner: AddressLike,
     spender: AddressLike,
     value: BigNumberish
-  ];
-  export type OutputTuple = [owner: string, spender: string, value: bigint];
+  ]
+  export type OutputTuple = [owner: string, spender: string, value: bigint]
   export interface OutputObject {
-    owner: string;
-    spender: string;
-    value: bigint;
+    owner: string
+    spender: string
+    value: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace TransferEvent {
@@ -125,206 +128,219 @@ export namespace TransferEvent {
     from: AddressLike,
     to: AddressLike,
     value: BigNumberish
-  ];
-  export type OutputTuple = [from: string, to: string, value: bigint];
+  ]
+  export type OutputTuple = [from: string, to: string, value: bigint]
   export interface OutputObject {
-    from: string;
-    to: string;
-    value: bigint;
+    from: string
+    to: string
+    value: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface MockERC20 extends BaseContract {
-  connect(runner?: ContractRunner | null): MockERC20;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): MockERC20
+  waitForDeployment(): Promise<this>
 
-  interface: MockERC20Interface;
+  interface: MockERC20Interface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  ): Promise<this>
 
   listeners<TCEvent extends TypedContractEvent>(
     event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
+  ): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
   removeAllListeners<TCEvent extends TypedContractEvent>(
     event?: TCEvent
-  ): Promise<this>;
+  ): Promise<this>
 
   allowance: TypedContractMethod<
     [owner: AddressLike, spender: AddressLike],
     [bigint],
-    "view"
-  >;
+    'view'
+  >
 
   approve: TypedContractMethod<
     [spender: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
+  balanceOf: TypedContractMethod<[account: AddressLike], [bigint], 'view'>
 
-  decimals: TypedContractMethod<[], [bigint], "view">;
+  decimals: TypedContractMethod<[], [bigint], 'view'>
 
   decreaseAllowance: TypedContractMethod<
     [spender: AddressLike, subtractedValue: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   increaseAllowance: TypedContractMethod<
     [spender: AddressLike, addedValue: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  name: TypedContractMethod<[], [string], "view">;
+  mint: TypedContractMethod<
+    [to: AddressLike, supply: BigNumberish],
+    [void],
+    'nonpayable'
+  >
 
-  symbol: TypedContractMethod<[], [string], "view">;
+  name: TypedContractMethod<[], [string], 'view'>
 
-  totalSupply: TypedContractMethod<[], [bigint], "view">;
+  symbol: TypedContractMethod<[], [string], 'view'>
+
+  totalSupply: TypedContractMethod<[], [bigint], 'view'>
 
   transfer: TypedContractMethod<
     [to: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   transferFrom: TypedContractMethod<
     [from: AddressLike, to: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
-  ): T;
+  ): T
 
   getFunction(
-    nameOrSignature: "allowance"
+    nameOrSignature: 'allowance'
   ): TypedContractMethod<
     [owner: AddressLike, spender: AddressLike],
     [bigint],
-    "view"
-  >;
+    'view'
+  >
   getFunction(
-    nameOrSignature: "approve"
+    nameOrSignature: 'approve'
   ): TypedContractMethod<
     [spender: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
+    nameOrSignature: 'balanceOf'
+  ): TypedContractMethod<[account: AddressLike], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "decimals"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'decimals'
+  ): TypedContractMethod<[], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "decreaseAllowance"
+    nameOrSignature: 'decreaseAllowance'
   ): TypedContractMethod<
     [spender: AddressLike, subtractedValue: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "increaseAllowance"
+    nameOrSignature: 'increaseAllowance'
   ): TypedContractMethod<
     [spender: AddressLike, addedValue: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "name"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'mint'
+  ): TypedContractMethod<
+    [to: AddressLike, supply: BigNumberish],
+    [void],
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "symbol"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'name'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "totalSupply"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'symbol'
+  ): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "transfer"
+    nameOrSignature: 'totalSupply'
+  ): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(
+    nameOrSignature: 'transfer'
   ): TypedContractMethod<
     [to: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
   getFunction(
-    nameOrSignature: "transferFrom"
+    nameOrSignature: 'transferFrom'
   ): TypedContractMethod<
     [from: AddressLike, to: AddressLike, amount: BigNumberish],
     [boolean],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
   getEvent(
-    key: "Approval"
+    key: 'Approval'
   ): TypedContractEvent<
     ApprovalEvent.InputTuple,
     ApprovalEvent.OutputTuple,
     ApprovalEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "Transfer"
+    key: 'Transfer'
   ): TypedContractEvent<
     TransferEvent.InputTuple,
     TransferEvent.OutputTuple,
     TransferEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "Approval(address,address,uint256)": TypedContractEvent<
+    'Approval(address,address,uint256)': TypedContractEvent<
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
       ApprovalEvent.OutputObject
-    >;
+    >
     Approval: TypedContractEvent<
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
       ApprovalEvent.OutputObject
-    >;
+    >
 
-    "Transfer(address,address,uint256)": TypedContractEvent<
+    'Transfer(address,address,uint256)': TypedContractEvent<
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
-    >;
+    >
     Transfer: TypedContractEvent<
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
-    >;
-  };
+    >
+  }
 }
